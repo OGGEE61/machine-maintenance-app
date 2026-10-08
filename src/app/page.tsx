@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { QrCode, ArrowRight, Wrench, Package, ChevronRight } from 'lucide-react';
+import { QrCode, Wrench, Package, ChevronRight } from 'lucide-react';
 import { machines } from '@/data/machines';
 
 const availabilityColor: Record<string, string> = {
@@ -106,13 +106,13 @@ export default function Home() {
               {/* Filter */}
               <div className="flex bg-[#e0e0e0] p-1 rounded-lg">
                 {[
-                  { id: 'all', label: 'All Machines' },
-                  { id: 'shredder', label: 'Shredders' },
-                  { id: 'briquetting', label: 'Briquetting Presses' }
+                  { id: 'all' as const, label: 'All Machines' },
+                  { id: 'shredder' as const, label: 'Shredders' },
+                  { id: 'briquetting' as const, label: 'Briquetting Presses' },
                 ].map((f) => (
                   <button
                     key={f.id}
-                    onClick={() => setFilter(f.id as any)}
+                    onClick={() => setFilter(f.id)}
                     className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
                       filter === f.id 
                         ? 'bg-white text-[#0063ff] shadow-sm' 

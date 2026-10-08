@@ -1,4 +1,4 @@
-import { Machine, Module } from '@/types';
+import { Machine } from '@/types';
 
 export const machines: Machine[] = [
   {

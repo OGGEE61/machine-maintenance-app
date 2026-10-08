@@ -6,8 +6,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Package, Cpu, Eye, EyeOff, LogOut, Download,
   ChevronDown, CheckCircle, Clock, Truck, XCircle, QrCode,
-  Pencil, X, Save, Loader2,
+  Pencil, X, Save, Loader2, Copy, Check, ExternalLink, Printer,
 } from 'lucide-react';
+import QRCode from 'qrcode';
 import { machines } from '@/data/machines';
 
 type OrderStatus = 'new' | 'processing' | 'shipped' | 'cancelled';
@@ -57,6 +58,12 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [newMachine, setNewMachine] = useState({ serialNumber: '', machineTypeId: machines[0].id, clientName: '', clientEmail: '', clientAddress: '', clientPhone: '' });
   const [registerMsg, setRegisterMsg] = useState('');
+
+  // QR preview modal state
+  const [viewingQRMachine, setViewingQRMachine] = useState<RegisteredMachine | null>(null);
+  const [qrModalDataUrl, setQrModalDataUrl] = useState<string>('');
+  const [qrCopied, setQrCopied] = useState(false);
+  const [qrLoading, setQrLoading] = useState(false);
 
   // Edit modal state
   const [editingMachine, setEditingMachine] = useState<RegisteredMachine | null>(null);
@@ -110,6 +117,81 @@ export default function AdminDashboard() {
     if (res.ok) { setRegisterMsg('Machine registered!'); fetchMachines(); setNewMachine({ serialNumber: '', machineTypeId: machines[0].id, clientName: '', clientEmail: '', clientAddress: '', clientPhone: '' }); }
     else { setRegisterMsg('Error registering machine.'); }
     setTimeout(() => setRegisterMsg(''), 3000);
+  };
+
+  // ── QR modal handlers ──
+  const openQRModal = async (m: RegisteredMachine) => {
+    setViewingQRMachine(m);
+    setQrCopied(false);
+    setQrLoading(true);
+    try {
+      const url = `${window.location.origin}/machine/${m.serial_number}`;
+      const dataUrl = await QRCode.toDataURL(url, {
+        width: 340,
+        margin: 1,
+        color: { dark: '#282828', light: '#ffffff' },
+      });
+      setQrModalDataUrl(dataUrl);
+    } catch (err) {
+      console.error('Failed to generate QR code', err);
+    } finally {
+      setQrLoading(false);
+    }
+  };
+
+  const closeQRModal = () => {
+    setViewingQRMachine(null);
+    setQrModalDataUrl('');
+    setQrCopied(false);
+  };
+
+  const downloadQRFromModal = () => {
+    if (!viewingQRMachine || !qrModalDataUrl) return;
+    const a = document.createElement('a');
+    a.href = qrModalDataUrl;
+    a.download = `qr-${viewingQRMachine.serial_number}.png`;
+    a.click();
+  };
+
+  const copyQRModalLink = () => {
+    if (!viewingQRMachine) return;
+    const url = `${window.location.origin}/machine/${viewingQRMachine.serial_number}`;
+    navigator.clipboard.writeText(url);
+    setQrCopied(true);
+    setTimeout(() => setQrCopied(false), 2000);
+  };
+
+  const printQRModal = () => {
+    if (!viewingQRMachine || !qrModalDataUrl) return;
+    const win = window.open('', '_blank');
+    if (!win) return;
+    win.document.write(`
+      <html>
+        <head>
+          <title>QR Code - ${viewingQRMachine.serial_number}</title>
+          <style>
+            body { font-family: system-ui, -apple-system, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #fff; }
+            .card { border: 2px solid #282828; border-radius: 16px; padding: 32px; text-align: center; max-width: 360px; }
+            img { width: 260px; height: 260px; display: block; margin: 0 auto; }
+            h2 { margin: 16px 0 4px; font-size: 20px; color: #282828; }
+            .sn { font-family: monospace; font-size: 14px; font-weight: bold; color: #0063ff; margin-bottom: 8px; }
+            .client { font-size: 13px; color: #666; margin: 0; }
+          </style>
+        </head>
+        <body>
+          <div class="card">
+            <img src="${qrModalDataUrl}" alt="QR Code" />
+            <h2>${viewingQRMachine.machine_type_name}</h2>
+            <div class="sn">${viewingQRMachine.serial_number}</div>
+            ${viewingQRMachine.client_name ? `<p class="client">${viewingQRMachine.client_name}</p>` : ''}
+          </div>
+          <script>
+            window.onload = function() { window.print(); window.close(); }
+          </script>
+        </body>
+      </html>
+    `);
+    win.document.close();
   };
 
   // ── Edit modal handlers ──
@@ -347,31 +429,51 @@ export default function AdminDashboard() {
               ) : (
                 <div className="divide-y divide-[#dadada]/40 max-h-[500px] overflow-y-auto">
                   {registeredMachines.map((m) => (
-                    <div key={m.serial_number} className="p-4 hover:bg-[#f9f9f9] transition-colors">
-                      <div className="flex items-start justify-between gap-2">
+                    <div
+                      key={m.serial_number}
+                      onClick={() => openQRModal(m)}
+                      className="p-4 hover:bg-[#f0f6ff]/40 transition-all cursor-pointer group flex items-start justify-between gap-3 border-l-2 border-transparent hover:border-[#0063ff]"
+                      title="Kliknij maszynę, aby natychmiast wyświetlić jej kod QR"
+                    >
+                      <div className="flex items-start gap-3 flex-1 min-w-0">
+                        <div className="w-10 h-10 rounded-xl bg-[#f3f2f2] group-hover:bg-[#0063ff]/10 group-hover:text-[#0063ff] text-[#929292] flex items-center justify-center flex-shrink-0 transition-colors mt-0.5">
+                          <QrCode size={20} />
+                        </div>
                         <div className="flex-1 min-w-0">
-                          <p className="font-semibold text-[#282828] text-sm">{m.machine_type_name}</p>
-                          <p className="font-mono text-xs text-[#0063ff]">{m.serial_number}</p>
+                          <div className="flex items-center gap-2">
+                            <p className="font-semibold text-[#282828] text-sm truncate">{m.machine_type_name}</p>
+                            <span className="opacity-0 group-hover:opacity-100 transition-opacity text-[11px] font-medium text-[#0063ff] bg-[#0063ff]/10 px-1.5 py-0.5 rounded">
+                              Pokaż QR ↗
+                            </span>
+                          </div>
+                          <p className="font-mono text-xs text-[#0063ff] font-medium mt-0.5">{m.serial_number}</p>
                           <p className="text-xs text-[#929292] mt-0.5 truncate">{m.client_name || '—'} · {m.client_email || '—'}</p>
                         </div>
-                        <div className="flex items-center gap-1 flex-shrink-0">
-                          {/* Edit client details */}
-                          <button
-                            onClick={() => openEdit(m)}
-                            className="p-1.5 hover:bg-[#f3f2f2] rounded-lg transition-colors cursor-pointer"
-                            title="Edit client details"
-                          >
-                            <Pencil size={14} className="text-[#929292] hover:text-[#0063ff]" />
-                          </button>
-                          {/* View QR */}
-                          <button
-                            onClick={() => router.push(`/admin/qr-codes?sn=${m.serial_number}`)}
-                            className="p-1.5 hover:bg-[#f3f2f2] rounded-lg transition-colors cursor-pointer"
-                            title="View QR"
-                          >
-                            <QrCode size={16} className="text-[#929292]" />
-                          </button>
-                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-1 flex-shrink-0">
+                        {/* Edit client details */}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openEdit(m);
+                          }}
+                          className="p-2 hover:bg-[#f3f2f2] rounded-lg transition-colors cursor-pointer"
+                          title="Edytuj dane klienta"
+                        >
+                          <Pencil size={15} className="text-[#929292] hover:text-[#0063ff]" />
+                        </button>
+                        {/* View QR */}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openQRModal(m);
+                          }}
+                          className="p-2 hover:bg-[#0063ff]/10 text-[#929292] hover:text-[#0063ff] rounded-lg transition-colors cursor-pointer"
+                          title="Wyświetl kod QR"
+                        >
+                          <QrCode size={16} />
+                        </button>
                       </div>
                     </div>
                   ))}
@@ -552,6 +654,142 @@ export default function AdminDashboard() {
                     )}
                   </div>
                 </form>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* ── Instant Machine QR Modal ── */}
+      <AnimatePresence>
+        {viewingQRMachine && (
+          <>
+            <motion.div
+              key="qr-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={closeQRModal}
+              className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm"
+            />
+            <motion.div
+              key="qr-modal"
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ type: 'spring', stiffness: 380, damping: 28 }}
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none"
+            >
+              <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-[#dadada]/70 pointer-events-auto overflow-hidden">
+                {/* Header */}
+                <div className="flex items-center justify-between p-5 border-b border-[#dadada]/50 bg-gradient-to-b from-[#f9f9f9] to-white">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-xl bg-[#0063ff]/10 text-[#0063ff] flex items-center justify-center">
+                      <QrCode size={18} />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-[#282828] text-base leading-tight">Kod QR Maszyny</h3>
+                      <p className="font-mono text-xs text-[#0063ff] font-semibold">{viewingQRMachine.serial_number}</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={closeQRModal}
+                    className="p-2 hover:bg-[#f3f2f2] rounded-xl text-[#929292] hover:text-[#282828] transition-colors cursor-pointer"
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
+
+                {/* Body */}
+                <div className="p-6 flex flex-col items-center">
+                  <div className="text-center mb-4">
+                    <p className="font-bold text-[#282828] text-lg">{viewingQRMachine.machine_type_name}</p>
+                    {viewingQRMachine.client_name && (
+                      <p className="text-xs text-[#929292] mt-0.5">Klient: {viewingQRMachine.client_name}</p>
+                    )}
+                  </div>
+
+                  {/* QR Image Box */}
+                  <div className="p-3 bg-white rounded-2xl border border-[#dadada] shadow-md relative">
+                    {qrLoading || !qrModalDataUrl ? (
+                      <div className="w-64 h-64 flex items-center justify-center text-[#929292]">
+                        <Loader2 size={32} className="animate-spin text-[#0063ff]" />
+                      </div>
+                    ) : (
+                      <img
+                        src={qrModalDataUrl}
+                        alt={`QR for ${viewingQRMachine.serial_number}`}
+                        className="w-64 h-64 rounded-xl"
+                      />
+                    )}
+                  </div>
+
+                  <p className="text-xs text-[#929292] text-center mt-3">
+                    Zeskanuj aparatem telefonu, aby przejść bezpośrednio do części tej maszyny
+                  </p>
+
+                  {/* URL copy box */}
+                  <div className="w-full mt-4 flex items-center gap-2 bg-[#f9f9f9] border border-[#dadada]/60 rounded-xl px-3 py-2">
+                    <span className="font-mono text-xs text-[#666] truncate flex-1">
+                      {typeof window !== 'undefined' ? `${window.location.origin}/machine/${viewingQRMachine.serial_number}` : `/machine/${viewingQRMachine.serial_number}`}
+                    </span>
+                    <button
+                      onClick={copyQRModalLink}
+                      className="text-xs font-semibold text-[#0063ff] hover:text-[#004fd4] flex items-center gap-1 cursor-pointer flex-shrink-0"
+                    >
+                      {qrCopied ? <Check size={13} className="text-[#16a34a]" /> : <Copy size={13} />}
+                      {qrCopied ? 'Skopiowano!' : 'Kopiuj'}
+                    </button>
+                  </div>
+
+                  {/* Client details mini cards */}
+                  {(viewingQRMachine.client_email || viewingQRMachine.client_phone || viewingQRMachine.client_address) && (
+                    <div className="w-full mt-4 p-3 bg-[#f9f9f9] rounded-xl border border-[#dadada]/40 text-xs text-[#666] space-y-1">
+                      {viewingQRMachine.client_email && (
+                        <p className="truncate"><span className="text-[#929292]">Email:</span> {viewingQRMachine.client_email}</p>
+                      )}
+                      {viewingQRMachine.client_phone && (
+                        <p><span className="text-[#929292]">Tel:</span> {viewingQRMachine.client_phone}</p>
+                      )}
+                      {viewingQRMachine.client_address && (
+                        <p className="truncate"><span className="text-[#929292]">Adres:</span> {viewingQRMachine.client_address}</p>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Action buttons */}
+                  <div className="w-full grid grid-cols-2 gap-2.5 mt-5">
+                    <button
+                      onClick={downloadQRFromModal}
+                      className="flex items-center justify-center gap-2 py-2.5 bg-[#0063ff] text-white rounded-xl text-sm font-semibold hover:bg-[#004fd4] transition-colors cursor-pointer shadow-sm"
+                    >
+                      <Download size={15} /> Pobierz PNG
+                    </button>
+                    <button
+                      onClick={printQRModal}
+                      className="flex items-center justify-center gap-2 py-2.5 bg-[#282828] text-white rounded-xl text-sm font-semibold hover:bg-[#444] transition-colors cursor-pointer"
+                    >
+                      <Printer size={15} /> Drukuj kod
+                    </button>
+                  </div>
+
+                  <div className="w-full flex items-center justify-between gap-3 mt-3 pt-3 border-t border-[#dadada]/40 text-xs">
+                    <a
+                      href={`/machine/${viewingQRMachine.serial_number}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#0063ff] hover:underline flex items-center gap-1 font-medium"
+                    >
+                      <ExternalLink size={12} /> Strona części maszyny
+                    </a>
+                    <button
+                      onClick={() => router.push(`/admin/qr-codes?sn=${viewingQRMachine.serial_number}`)}
+                      className="text-[#929292] hover:text-[#282828] cursor-pointer"
+                    >
+                      Otwórz w QR Manager →
+                    </button>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </>
