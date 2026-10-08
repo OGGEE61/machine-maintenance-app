@@ -147,13 +147,13 @@ function QRCodesContent() {
               <button
                 onClick={() => router.push('/admin')}
                 className="p-2 hover:bg-[#f3f2f2] rounded-lg transition-colors cursor-pointer"
-                title="Wróć do panelu"
+                title="Back to dashboard"
               >
                 <ArrowLeft size={18} />
               </button>
               <div>
-                <span className="font-bold text-[#282828]">Menedżer kodów QR</span>
-                <span className="text-xs text-[#929292] ml-2 hidden sm:inline">({qrCards.length} maszyn)</span>
+                <span className="font-bold text-[#282828]">QR Code Manager</span>
+                <span className="text-xs text-[#929292] ml-2 hidden sm:inline">({qrCards.length} machines)</span>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -161,7 +161,7 @@ function QRCodesContent() {
                 onClick={() => window.print()}
                 className="flex items-center gap-2 px-4 py-2 bg-[#282828] text-white rounded-xl text-sm font-medium hover:bg-[#444] transition-colors cursor-pointer"
               >
-                <Printer size={16} /> Drukuj wszystkie
+                <Printer size={16} /> Print All
               </button>
             </div>
           </div>
@@ -169,16 +169,16 @@ function QRCodesContent() {
 
         <main className="pt-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
           {loading ? (
-            <div className="text-center py-24 text-[#929292]">Generowanie kodów QR…</div>
+            <div className="text-center py-24 text-[#929292]">Generating QR codes…</div>
           ) : qrCards.length === 0 ? (
             <div className="text-center py-24">
               <QrCode size={48} className="text-[#dadada] mx-auto mb-4" />
-              <p className="text-[#929292] mb-4">Brak zarejestrowanych maszyn.</p>
+              <p className="text-[#929292] mb-4">No registered machines yet.</p>
               <button
                 onClick={() => router.push('/admin')}
                 className="px-6 py-3 bg-[#282828] text-white font-bold rounded-xl hover:bg-[#444] transition-colors cursor-pointer"
               >
-                Zarejestruj maszynę
+                Register a Machine
               </button>
             </div>
           ) : (
@@ -201,10 +201,10 @@ function QRCodesContent() {
                       <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#dadada]/40 flex-wrap gap-3">
                         <div className="flex items-center gap-2">
                           <span className="flex items-center gap-1.5 px-2.5 py-1 bg-[#0063ff]/10 text-[#0063ff] text-xs font-semibold rounded-full">
-                            <CheckCircle2 size={13} /> Podświetlona maszyna
+                            <CheckCircle2 size={13} /> Highlighted Machine
                           </span>
                           <span className="text-xs text-[#929292] font-mono">
-                            {currentIndex + 1} z {qrCards.length}
+                            {currentIndex + 1} of {qrCards.length}
                           </span>
                         </div>
 
@@ -214,7 +214,7 @@ function QRCodesContent() {
                             <button
                               onClick={handlePrev}
                               className="p-1.5 hover:bg-white rounded-lg text-[#282828] transition-colors cursor-pointer"
-                              title="Poprzednia maszyna"
+                              title="Previous machine"
                             >
                               <ChevronLeft size={16} />
                             </button>
@@ -232,7 +232,7 @@ function QRCodesContent() {
                             <button
                               onClick={handleNext}
                               className="p-1.5 hover:bg-white rounded-lg text-[#282828] transition-colors cursor-pointer"
-                              title="Następna maszyna"
+                              title="Next machine"
                             >
                               <ChevronRight size={16} />
                             </button>
@@ -241,7 +241,7 @@ function QRCodesContent() {
                           <button
                             onClick={() => handleSelectCard(null)}
                             className="p-2 text-[#929292] hover:text-[#282828] hover:bg-[#f3f2f2] rounded-xl transition-colors cursor-pointer"
-                            title="Zamknij podświetlenie"
+                            title="Close highlight"
                           >
                             <X size={16} />
                           </button>
@@ -266,7 +266,7 @@ function QRCodesContent() {
                             </span>
                           </div>
                           <p className="text-sm text-[#929292] mt-2">
-                            {focusedCard.clientName ? `Klient: ${focusedCard.clientName}` : 'Brak przypisanego klienta'}
+                            {focusedCard.clientName ? `Client: ${focusedCard.clientName}` : 'No client assigned'}
                           </p>
 
                           {/* Quick URL snippet */}
@@ -279,7 +279,7 @@ function QRCodesContent() {
                               className="text-xs text-[#0063ff] hover:text-[#004fd4] font-medium flex items-center gap-1 cursor-pointer flex-shrink-0"
                             >
                               {copied ? <Check size={12} className="text-[#16a34a]" /> : <Copy size={12} />}
-                              {copied ? 'Skopiowano!' : 'Kopiuj link'}
+                              {copied ? 'Copied!' : 'Copy Link'}
                             </button>
                           </div>
                         </div>
@@ -290,7 +290,7 @@ function QRCodesContent() {
                             onClick={() => downloadSingle(focusedCard)}
                             className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2.5 bg-[#0063ff] text-white rounded-xl text-sm font-medium hover:bg-[#004fd4] transition-colors cursor-pointer shadow-sm"
                           >
-                            <Download size={15} /> Pobierz PNG
+                            <Download size={15} /> Download PNG
                           </button>
                           <a
                             href={`/machine/${focusedCard.serialNumber}`}
@@ -298,7 +298,7 @@ function QRCodesContent() {
                             rel="noopener noreferrer"
                             className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2.5 bg-[#f3f2f2] text-[#282828] rounded-xl text-sm font-medium hover:bg-[#e8e8e8] transition-colors cursor-pointer"
                           >
-                            <ExternalLink size={15} /> Strona części
+                            <ExternalLink size={15} /> Parts Page
                           </a>
                         </div>
                       </div>
@@ -307,14 +307,14 @@ function QRCodesContent() {
                     <div className="no-print mb-8 p-4 bg-white rounded-2xl border border-dashed border-[#dadada] flex items-center justify-between text-sm text-[#929292]">
                       <div className="flex items-center gap-2">
                         <QrCode size={18} className="text-[#0063ff]" />
-                        <span>Kliknij dowolną maszynę z listy poniżej, aby ją podświetlić i pobrać jej kod QR.</span>
+                        <span>Click any machine below to highlight it and access its QR code.</span>
                       </div>
                       {qrCards.length > 0 && (
                         <button
                           onClick={() => handleSelectCard(qrCards[0].serialNumber)}
                           className="text-xs font-semibold text-[#0063ff] hover:underline cursor-pointer"
                         >
-                          Podświetl pierwszą
+                          Highlight first
                         </button>
                       )}
                     </div>
@@ -330,7 +330,7 @@ function QRCodesContent() {
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Szukaj po numerze seryjnym, modelu lub kliencie…"
+                    placeholder="Search by serial number, model, or client…"
                     className="w-full bg-white border border-[#dadada] rounded-xl pl-10 pr-4 py-2 text-sm text-[#282828] placeholder-[#929292] focus:outline-none focus:border-[#0063ff] transition-colors shadow-sm"
                   />
                   {searchQuery && (
@@ -344,9 +344,9 @@ function QRCodesContent() {
                 </div>
 
                 <div className="text-xs text-[#929292] flex items-center gap-3">
-                  <span>Pokazano: <strong>{filteredCards.length}</strong> z {qrCards.length}</span>
+                  <span>Showing: <strong>{filteredCards.length}</strong> of {qrCards.length}</span>
                   <span className="hidden sm:inline">•</span>
-                  <span className="hidden sm:inline">Kliknij kartę, aby zmienić podświetlenie</span>
+                  <span className="hidden sm:inline">Click card to change highlighted machine</span>
                 </div>
               </div>
 
@@ -370,11 +370,11 @@ function QRCodesContent() {
                       {/* Active indicator badge */}
                       {isSelected ? (
                         <div className="no-print absolute top-3 right-3 flex items-center gap-1 text-[11px] font-semibold bg-[#0063ff] text-white px-2 py-0.5 rounded-full shadow-xs">
-                          <Check size={11} /> Podświetlona
+                          <Check size={11} /> Highlighted
                         </div>
                       ) : (
                         <div className="no-print absolute top-3 right-3 text-[11px] font-medium text-[#929292] opacity-0 group-hover:opacity-100 transition-opacity bg-[#f3f2f2] px-2 py-0.5 rounded-full">
-                          Wybierz ↗
+                          Select ↗
                         </div>
                       )}
 
@@ -404,7 +404,7 @@ function QRCodesContent() {
 
                       <div className="no-print flex items-center gap-3 pt-1 border-t border-[#dadada]/30 w-full justify-between">
                         <span className="text-[11px] text-[#929292] group-hover:text-[#0063ff] transition-colors">
-                          {isSelected ? 'Aktywna' : 'Kliknij, aby podświetlić'}
+                          {isSelected ? 'Active' : 'Click to highlight'}
                         </span>
                         <button
                           onClick={(e) => {
@@ -412,9 +412,9 @@ function QRCodesContent() {
                             downloadSingle(card);
                           }}
                           className="flex items-center gap-1 text-xs text-[#282828] hover:text-[#0063ff] px-2 py-1 hover:bg-[#f3f2f2] rounded-lg transition-colors cursor-pointer"
-                          title="Pobierz plik PNG"
+                          title="Download PNG file"
                         >
-                          <Download size={12} /> Pobierz
+                          <Download size={12} /> Download
                         </button>
                       </div>
                     </motion.div>
@@ -431,7 +431,7 @@ function QRCodesContent() {
 
 export default function QRCodesPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#f9f9f9] flex items-center justify-center text-[#929292]">Ładowanie…</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[#f9f9f9] flex items-center justify-center text-[#929292]">Loading…</div>}>
       <QRCodesContent />
     </Suspense>
   );

@@ -433,7 +433,7 @@ export default function AdminDashboard() {
                       key={m.serial_number}
                       onClick={() => openQRModal(m)}
                       className="p-4 hover:bg-[#f0f6ff]/40 transition-all cursor-pointer group flex items-start justify-between gap-3 border-l-2 border-transparent hover:border-[#0063ff]"
-                      title="Kliknij maszynę, aby natychmiast wyświetlić jej kod QR"
+                      title="Click machine to instantly view its QR code"
                     >
                       <div className="flex items-start gap-3 flex-1 min-w-0">
                         <div className="w-10 h-10 rounded-xl bg-[#f3f2f2] group-hover:bg-[#0063ff]/10 group-hover:text-[#0063ff] text-[#929292] flex items-center justify-center flex-shrink-0 transition-colors mt-0.5">
@@ -443,7 +443,7 @@ export default function AdminDashboard() {
                           <div className="flex items-center gap-2">
                             <p className="font-semibold text-[#282828] text-sm truncate">{m.machine_type_name}</p>
                             <span className="opacity-0 group-hover:opacity-100 transition-opacity text-[11px] font-medium text-[#0063ff] bg-[#0063ff]/10 px-1.5 py-0.5 rounded">
-                              Pokaż QR ↗
+                              View QR ↗
                             </span>
                           </div>
                           <p className="font-mono text-xs text-[#0063ff] font-medium mt-0.5">{m.serial_number}</p>
@@ -459,7 +459,7 @@ export default function AdminDashboard() {
                             openEdit(m);
                           }}
                           className="p-2 hover:bg-[#f3f2f2] rounded-lg transition-colors cursor-pointer"
-                          title="Edytuj dane klienta"
+                          title="Edit client details"
                         >
                           <Pencil size={15} className="text-[#929292] hover:text-[#0063ff]" />
                         </button>
@@ -470,7 +470,7 @@ export default function AdminDashboard() {
                             openQRModal(m);
                           }}
                           className="p-2 hover:bg-[#0063ff]/10 text-[#929292] hover:text-[#0063ff] rounded-lg transition-colors cursor-pointer"
-                          title="Wyświetl kod QR"
+                          title="View QR Code"
                         >
                           <QrCode size={16} />
                         </button>
@@ -688,7 +688,7 @@ export default function AdminDashboard() {
                       <QrCode size={18} />
                     </div>
                     <div>
-                      <h3 className="font-bold text-[#282828] text-base leading-tight">Kod QR Maszyny</h3>
+                      <h3 className="font-bold text-[#282828] text-base leading-tight">Machine QR Code</h3>
                       <p className="font-mono text-xs text-[#0063ff] font-semibold">{viewingQRMachine.serial_number}</p>
                     </div>
                   </div>
@@ -705,7 +705,7 @@ export default function AdminDashboard() {
                   <div className="text-center mb-4">
                     <p className="font-bold text-[#282828] text-lg">{viewingQRMachine.machine_type_name}</p>
                     {viewingQRMachine.client_name && (
-                      <p className="text-xs text-[#929292] mt-0.5">Klient: {viewingQRMachine.client_name}</p>
+                      <p className="text-xs text-[#929292] mt-0.5">Client: {viewingQRMachine.client_name}</p>
                     )}
                   </div>
 
@@ -725,7 +725,7 @@ export default function AdminDashboard() {
                   </div>
 
                   <p className="text-xs text-[#929292] text-center mt-3">
-                    Zeskanuj aparatem telefonu, aby przejść bezpośrednio do części tej maszyny
+                    Scan with any smartphone camera to jump directly to this machine's parts page
                   </p>
 
                   {/* URL copy box */}
@@ -738,7 +738,7 @@ export default function AdminDashboard() {
                       className="text-xs font-semibold text-[#0063ff] hover:text-[#004fd4] flex items-center gap-1 cursor-pointer flex-shrink-0"
                     >
                       {qrCopied ? <Check size={13} className="text-[#16a34a]" /> : <Copy size={13} />}
-                      {qrCopied ? 'Skopiowano!' : 'Kopiuj'}
+                      {qrCopied ? 'Copied!' : 'Copy'}
                     </button>
                   </div>
 
@@ -749,10 +749,10 @@ export default function AdminDashboard() {
                         <p className="truncate"><span className="text-[#929292]">Email:</span> {viewingQRMachine.client_email}</p>
                       )}
                       {viewingQRMachine.client_phone && (
-                        <p><span className="text-[#929292]">Tel:</span> {viewingQRMachine.client_phone}</p>
+                        <p><span className="text-[#929292]">Phone:</span> {viewingQRMachine.client_phone}</p>
                       )}
                       {viewingQRMachine.client_address && (
-                        <p className="truncate"><span className="text-[#929292]">Adres:</span> {viewingQRMachine.client_address}</p>
+                        <p className="truncate"><span className="text-[#929292]">Address:</span> {viewingQRMachine.client_address}</p>
                       )}
                     </div>
                   )}
@@ -763,13 +763,13 @@ export default function AdminDashboard() {
                       onClick={downloadQRFromModal}
                       className="flex items-center justify-center gap-2 py-2.5 bg-[#0063ff] text-white rounded-xl text-sm font-semibold hover:bg-[#004fd4] transition-colors cursor-pointer shadow-sm"
                     >
-                      <Download size={15} /> Pobierz PNG
+                      <Download size={15} /> Download PNG
                     </button>
                     <button
                       onClick={printQRModal}
                       className="flex items-center justify-center gap-2 py-2.5 bg-[#282828] text-white rounded-xl text-sm font-semibold hover:bg-[#444] transition-colors cursor-pointer"
                     >
-                      <Printer size={15} /> Drukuj kod
+                      <Printer size={15} /> Print QR Code
                     </button>
                   </div>
 
@@ -780,13 +780,13 @@ export default function AdminDashboard() {
                       rel="noopener noreferrer"
                       className="text-[#0063ff] hover:underline flex items-center gap-1 font-medium"
                     >
-                      <ExternalLink size={12} /> Strona części maszyny
+                      <ExternalLink size={12} /> Machine Parts Page
                     </a>
                     <button
                       onClick={() => router.push(`/admin/qr-codes?sn=${viewingQRMachine.serial_number}`)}
                       className="text-[#929292] hover:text-[#282828] cursor-pointer"
                     >
-                      Otwórz w QR Manager →
+                      Open in QR Manager →
                     </button>
                   </div>
                 </div>
