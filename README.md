@@ -21,7 +21,7 @@ This app replaces that with a **self-service spare parts portal** tied to each p
 2. An admin registers it under **Admin → Machines** with just the serial number and machine type
 3. Its **QR sticker opens straight away**, ready to print or download. All stickers stay available under **Admin → QR Stickers**
 4. The QR sticker is **physically placed on the machine** before it leaves the factory
-5. The QR encodes a URL: `https://gross-service-app.vercel.app/machine/GP80-2024-001`
+5. The QR encodes a URL: `https://machine-maintenance-app.vercel.app/machine/GP80-2024-001`
 
 > Stickers carry no client details, because they stay on the machine through resales. A machine registered by mistake can be deleted as long as it has no orders.
 
@@ -227,6 +227,6 @@ Deployed automatically via **Vercel** on every push to `main`. Run `npm run db:m
 Environment variables (set in the Vercel dashboard; see [`.env.example`](.env.example)):
 - `POSTGRES_URL` — provided automatically by the Neon integration
 - `ADMIN_PIN` — set manually
-- `NEXT_PUBLIC_APP_URL` — the production address printed on QR stickers, e.g. `https://gross-service-app.vercel.app`. Without it, stickers use the address of whichever deployment generated them, so a sticker made on a preview deploy or localhost would not work once printed
+- `NEXT_PUBLIC_APP_URL` — the production address printed on QR stickers, e.g. `https://machine-maintenance-app.vercel.app`. Without it, stickers use the address of whichever deployment generated them, so a sticker made on a preview deploy or localhost would not work once printed
 - `RESEND_API_KEY`, `ORDER_FROM_EMAIL` — optional, turn on order emails through [Resend](https://resend.com). The sender address must be on a domain verified with Resend
 - `ORDER_NOTIFY_EMAIL` — optional, the staff inbox for new orders
