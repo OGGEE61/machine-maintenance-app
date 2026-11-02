@@ -42,7 +42,7 @@ export default function HotspotPin({
         whileHover={{ scale: 1.2 }}
         whileTap={{ scale: 0.95 }}
         className={`
-          relative flex items-center justify-center w-8 h-8 rounded-md
+          relative flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-md
           transition-colors duration-200 shadow-lg
           ${isActive
             ? 'bg-[#0063ff] shadow-[#0063ff]/40'
