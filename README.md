@@ -70,16 +70,16 @@ This app replaces that with a **self-service spare parts portal** tied to each p
 | Genius 2 / 50 | Genius | Briquetting — 50 mm |
 | Genius 2 / 60 | Genius | Briquetting — 60 mm |
 | Genius 2 / 70 | Genius | Briquetting — 70 mm |
-| GP 80 | GP | Briquetting — 80 mm |
-| GP 100 | GP | Briquetting — 100 mm |
-| GP 150 | GP | Briquetting — 150 mm |
-| GP 200 | GP | Briquetting — 200 mm |
-| GP 300 S | GP | Briquetting — max output |
-| GP 400 M | GP | Briquetting — rectangular |
-| GAZ 600 / 62 / 82 / 82S / 102 / 102S / 152S | Seria GAZ | Single-shaft wood shredder |
-| GAZK 800 / 1000 / 1500 / 2000 | Seria GAZK | Single-shaft shredder — plastics, paper, wood |
-| GHZ B4 / 3–6 / T 6-13 | Seria GHZ | Horizontal shredder — long timber |
-| GZ 30 / 40 / 50 | Seria GZ | Four-shaft shredder — continuous operation |
+| GP 80 | GP | Briquetting — 50 mm |
+| GP 100 | GP | Briquetting — 60 mm |
+| GP 150 | GP | Briquetting — 70 mm |
+| GP 200 | GP | Briquetting — 80 mm |
+| GP 300 S | GP | Briquetting — 80 mm, max output |
+| GP 400 M | GP | Briquetting — 150 x 60 mm rectangular |
+| GAZ 600 / 62 / 82 / 82S / 102 / 102S / 152S | GAZ Series | Single-shaft wood shredder |
+| GAZK 800 / 1000 / 1500 / 2000 | GAZK Series | Single-shaft shredder — plastics, paper, wood |
+| GHZ B4 / 3–6 / T 6-13 | GHZ Series | Horizontal shredder — long timber |
+| GZ 30 / 40 / 50 | GZ Series | Four-shaft shredder — continuous operation |
 
 ---
 
@@ -101,7 +101,6 @@ This app replaces that with a **self-service spare parts portal** tied to each p
 ### 🔲 In Progress / Pending
 
 - **Full parts catalogue** — parts data needs to be completed for all 26 machine types
-- **X-ray hotspot layout** — module positions on the machine diagram images need to be tuned per machine
 
 Everything else — routing, database, QR flow, admin panel, order management — is production-ready.
 
@@ -182,7 +181,7 @@ admin_sessions  — logged-in staff sessions, storing only a hash of each token
 rate_limits     — attempt counters per time window, storing only hashed addresses
 ```
 
-`src/data/machines.ts` defines each machine's modules and parts. **Price, availability, lead time and visibility come from the `parts` table**, which is what the admin panel edits.
+`src/data/machines.ts` defines each machine's modules and parts. Machine images, hotspot positions and module descriptions come from the product pages on gross-zerkleinerer.de, which share images between some similar models. **Price, availability, lead time and visibility come from the `parts` table**, which is what the admin panel edits.
 
 Schema changes live in [`migrations/`](migrations/) as numbered SQL files:
 

@@ -7,17 +7,17 @@ export const machines: Machine[] = [
     model: 'Genius',
     type: 'briquetting',
     serialNumber: '',
-    image: '/machines/genius-2-40.png',
-    xrayImage: '/machines/genius-2-40-xray.png',
+    image: '/machines/genius-2-40.webp',
+    xrayImage: '/machines/genius-2-40-xray.webp',
     description: 'The entry-level machine | 40 mm briquette diameter',
     modules: [
       {
             id: "genius-2-40-briquett",
             name: "Briquette length monitoring",
-            description: "Genuine replacement part for Briquette length monitoring",
+            description: "For consistently high-quality briquettes",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 44,
+                  y: 87
             },
             parts: [
                   {
@@ -35,10 +35,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-40-conveyor",
             name: "Conveyor screw",
-            description: "Genuine replacement part for Conveyor screw",
+            description: "Feeds material into the filling tower",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 57,
+                  y: 61
             },
             parts: [
                   {
@@ -56,10 +56,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-40-mixer",
             name: "Mixer",
-            description: "Genuine replacement part for Mixer",
+            description: "Feeds material into the screw conveyor shaft",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 40,
+                  y: 56
             },
             parts: [
                   {
@@ -77,10 +77,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-40-maintena",
             name: "Maintenance hatch",
-            description: "Genuine replacement part for Maintenance hatch",
+            description: "Direct access for servicing",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 43,
+                  y: 71
             },
             parts: [
                   {
@@ -98,10 +98,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-40-press-cy",
             name: "Press cylinder",
-            description: "Genuine replacement part for Press cylinder",
+            description: "Operates hydraulically and compacts the material",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 86,
+                  y: 60
             },
             parts: [
                   {
@@ -119,10 +119,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-40-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "Generously sized",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 37,
+                  y: 23
             },
             parts: [
                   {
@@ -140,10 +140,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-40-hydrauli",
             name: "Hydraulic tank",
-            description: "Genuine replacement part for Hydraulic tank",
+            description: "Contains oil for lubricating the cylinders",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 73,
+                  y: 35
             },
             parts: [
                   {
@@ -161,10 +161,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-40-clamping",
             name: "Clamping cylinder",
-            description: "Genuine replacement part for Clamping cylinder",
+            description: "This is where the final briquette is formed",
             position: {
-                  x: 30,
-                  y: 50
+                  x: 52,
+                  y: 83
             },
             parts: [
                   {
@@ -182,10 +182,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-40-filling-",
             name: "Filling tower",
-            description: "Genuine replacement part for Filling tower",
+            description: "Pre-compaction takes place in the filling tower",
             position: {
-                  x: 70,
-                  y: 50
+                  x: 66,
+                  y: 70
             },
             parts: [
                   {
@@ -208,17 +208,17 @@ export const machines: Machine[] = [
     model: 'Genius',
     type: 'briquetting',
     serialNumber: '',
-    image: '/machines/genius-2-50.png',
-    xrayImage: '/machines/genius-2-50-xray.png',
+    image: '/machines/genius-2-40.webp',
+    xrayImage: '/machines/genius-2-40-xray.webp',
     description: 'The basic machine | 50 mm briquette diameter',
     modules: [
       {
             id: "genius-2-50-briquett",
             name: "Briquette length monitoring",
-            description: "Genuine replacement part for Briquette length monitoring",
+            description: "For consistently high-quality briquettes",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 44,
+                  y: 87
             },
             parts: [
                   {
@@ -236,10 +236,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-50-conveyor",
             name: "Conveyor screw",
-            description: "Genuine replacement part for Conveyor screw",
+            description: "Feeds material into the filling tower",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 57,
+                  y: 61
             },
             parts: [
                   {
@@ -257,10 +257,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-50-mixer",
             name: "Mixer",
-            description: "Genuine replacement part for Mixer",
+            description: "Feeds material into the screw conveyor shaft",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 40,
+                  y: 56
             },
             parts: [
                   {
@@ -278,10 +278,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-50-maintena",
             name: "Maintenance hatch",
-            description: "Genuine replacement part for Maintenance hatch",
+            description: "Direct access for servicing",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 43,
+                  y: 71
             },
             parts: [
                   {
@@ -299,10 +299,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-50-press-cy",
             name: "Press cylinder",
-            description: "Genuine replacement part for Press cylinder",
+            description: "Operates hydraulically and compacts the material",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 86,
+                  y: 60
             },
             parts: [
                   {
@@ -320,10 +320,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-50-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "Generously sized",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 37,
+                  y: 23
             },
             parts: [
                   {
@@ -341,10 +341,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-50-hydrauli",
             name: "Hydraulic tank",
-            description: "Genuine replacement part for Hydraulic tank",
+            description: "Contains oil for lubricating the cylinders",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 73,
+                  y: 35
             },
             parts: [
                   {
@@ -362,10 +362,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-50-clamping",
             name: "Clamping cylinder",
-            description: "Genuine replacement part for Clamping cylinder",
+            description: "This is where the final briquette is formed",
             position: {
-                  x: 30,
-                  y: 50
+                  x: 52,
+                  y: 83
             },
             parts: [
                   {
@@ -383,10 +383,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-50-filling-",
             name: "Filling tower",
-            description: "Genuine replacement part for Filling tower",
+            description: "Pre-compaction takes place in the filling tower",
             position: {
-                  x: 70,
-                  y: 50
+                  x: 66,
+                  y: 70
             },
             parts: [
                   {
@@ -409,17 +409,17 @@ export const machines: Machine[] = [
     model: 'Genius',
     type: 'briquetting',
     serialNumber: '',
-    image: '/machines/genius-2-60-v2.png',
-    xrayImage: '/machines/genius-2-60-xray.png',
+    image: '/machines/genius-2-40.webp',
+    xrayImage: '/machines/genius-2-40-xray.webp',
     description: 'The basic machine | 60 mm briquette diameter',
     modules: [
       {
             id: "genius-2-60-briquett",
             name: "Briquette length monitoring",
-            description: "Genuine replacement part for Briquette length monitoring",
+            description: "For consistently high-quality briquettes",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 44,
+                  y: 87
             },
             parts: [
                   {
@@ -437,10 +437,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-60-conveyor",
             name: "Conveyor screw",
-            description: "Genuine replacement part for Conveyor screw",
+            description: "Feeds material into the filling tower",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 57,
+                  y: 61
             },
             parts: [
                   {
@@ -458,10 +458,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-60-mixer",
             name: "Mixer",
-            description: "Genuine replacement part for Mixer",
+            description: "Feeds material into the screw conveyor shaft",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 40,
+                  y: 56
             },
             parts: [
                   {
@@ -479,10 +479,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-60-maintena",
             name: "Maintenance hatch",
-            description: "Genuine replacement part for Maintenance hatch",
+            description: "Direct access for servicing",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 43,
+                  y: 71
             },
             parts: [
                   {
@@ -500,10 +500,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-60-press-cy",
             name: "Press cylinder",
-            description: "Genuine replacement part for Press cylinder",
+            description: "Operates hydraulically and compacts the material",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 86,
+                  y: 60
             },
             parts: [
                   {
@@ -521,10 +521,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-60-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "Generously sized",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 37,
+                  y: 23
             },
             parts: [
                   {
@@ -542,10 +542,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-60-hydrauli",
             name: "Hydraulic tank",
-            description: "Genuine replacement part for Hydraulic tank",
+            description: "Contains oil for lubricating the cylinders",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 73,
+                  y: 35
             },
             parts: [
                   {
@@ -562,18 +562,18 @@ export const machines: Machine[] = [
       },
       {
             id: "genius-2-60-clamping",
-            name: "Clamping unit",
-            description: "Genuine replacement part for Clamping unit",
+            name: "Clamping cylinder",
+            description: "This is where the final briquette is formed",
             position: {
-                  x: 30,
-                  y: 50
+                  x: 52,
+                  y: 83
             },
             parts: [
                   {
                         id: "genius-2-60-clamping-kit",
                         partNumber: "GRS-GENIUS260-CLAMPING-001",
-                        name: "Clamping unit Replacement Kit",
-                        description: "Complete replacement kit for Clamping unit",
+                        name: "Clamping cylinder Replacement Kit",
+                        description: "Complete replacement kit for Clamping cylinder",
                         price: 71,
                         currency: "EUR",
                         availability: "in-stock",
@@ -584,10 +584,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-60-filling-",
             name: "Filling tower",
-            description: "Genuine replacement part for Filling tower",
+            description: "Pre-compaction takes place in the filling tower",
             position: {
-                  x: 70,
-                  y: 50
+                  x: 66,
+                  y: 70
             },
             parts: [
                   {
@@ -610,17 +610,17 @@ export const machines: Machine[] = [
     model: 'Genius',
     type: 'briquetting',
     serialNumber: '',
-    image: '/machines/genius-2-70.png',
-    xrayImage: '/machines/genius-2-70-xray.png',
+    image: '/machines/genius-2-40.webp',
+    xrayImage: '/machines/genius-2-40-xray.webp',
     description: 'The basic machine | 70 mm briquette diameter',
     modules: [
       {
             id: "genius-2-70-briquett",
             name: "Briquette length monitoring",
-            description: "Genuine replacement part for Briquette length monitoring",
+            description: "For consistently high-quality briquettes",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 44,
+                  y: 87
             },
             parts: [
                   {
@@ -638,10 +638,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-70-conveyor",
             name: "Conveyor screw",
-            description: "Genuine replacement part for Conveyor screw",
+            description: "Feeds material into the filling tower",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 57,
+                  y: 61
             },
             parts: [
                   {
@@ -659,10 +659,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-70-mixer",
             name: "Mixer",
-            description: "Genuine replacement part for Mixer",
+            description: "Feeds material into the screw conveyor shaft",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 40,
+                  y: 56
             },
             parts: [
                   {
@@ -680,10 +680,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-70-maintena",
             name: "Maintenance hatch",
-            description: "Genuine replacement part for Maintenance hatch",
+            description: "Direct access for maintenance work",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 43,
+                  y: 71
             },
             parts: [
                   {
@@ -701,10 +701,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-70-press-cy",
             name: "Press cylinder",
-            description: "Genuine replacement part for Press cylinder",
+            description: "Operates hydraulically and compresses the material",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 86,
+                  y: 60
             },
             parts: [
                   {
@@ -722,10 +722,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-70-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "Generously sized",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 37,
+                  y: 23
             },
             parts: [
                   {
@@ -743,10 +743,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-70-hydrauli",
             name: "Hydraulic tank",
-            description: "Genuine replacement part for Hydraulic tank",
+            description: "Contains oil for lubricating the cylinders",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 73,
+                  y: 35
             },
             parts: [
                   {
@@ -764,10 +764,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-70-clamping",
             name: "Clamping unit",
-            description: "Genuine replacement part for Clamping unit",
+            description: "This is where the final briquette is moulded",
             position: {
-                  x: 30,
-                  y: 50
+                  x: 52,
+                  y: 83
             },
             parts: [
                   {
@@ -785,10 +785,10 @@ export const machines: Machine[] = [
       {
             id: "genius-2-70-filling-",
             name: "Filling tower",
-            description: "Genuine replacement part for Filling tower",
+            description: "Pre-compaction takes place in the filling tower",
             position: {
-                  x: 70,
-                  y: 50
+                  x: 66,
+                  y: 70
             },
             parts: [
                   {
@@ -811,17 +811,17 @@ export const machines: Machine[] = [
     model: 'GP',
     type: 'briquetting',
     serialNumber: '',
-    image: '/machines/gp-80.png',
-    xrayImage: '/machines/gp-80-xray.png',
-    description: 'Medium throughput requirements | 80 mm briquette diameter',
+    image: '/machines/gp-80.webp',
+    xrayImage: '/machines/gp-80-xray.webp',
+    description: 'Medium throughput requirements | 50 mm briquette diameter',
     modules: [
       {
             id: "gp-80-hydrauli",
             name: "Hydraulic tank",
-            description: "Genuine replacement part for Hydraulic tank",
+            description: "Contains oil for lubricating the cylinders",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 78,
+                  y: 35
             },
             parts: [
                   {
@@ -839,10 +839,10 @@ export const machines: Machine[] = [
       {
             id: "gp-80-filling-",
             name: "Filling tower",
-            description: "Genuine replacement part for Filling tower",
+            description: "Pre-compaction takes place in the filling tower",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 74,
+                  y: 73
             },
             parts: [
                   {
@@ -860,10 +860,10 @@ export const machines: Machine[] = [
       {
             id: "gp-80-clamping",
             name: "Clamping cylinder",
-            description: "Genuine replacement part for Clamping cylinder",
+            description: "This is where the final briquette is moulded",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 59,
+                  y: 83
             },
             parts: [
                   {
@@ -881,10 +881,10 @@ export const machines: Machine[] = [
       {
             id: "gp-80-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "Generously sized",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 26,
+                  y: 31
             },
             parts: [
                   {
@@ -902,10 +902,10 @@ export const machines: Machine[] = [
       {
             id: "gp-80-press-cy",
             name: "Press cylinder",
-            description: "Genuine replacement part for Press cylinder",
+            description: "Operates hydraulically and compresses the material",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 90,
+                  y: 60
             },
             parts: [
                   {
@@ -923,10 +923,10 @@ export const machines: Machine[] = [
       {
             id: "gp-80-briquett",
             name: "Briquette length monitoring",
-            description: "Genuine replacement part for Briquette length monitoring",
+            description: "For consistently high-quality briquettes",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 52,
+                  y: 88
             },
             parts: [
                   {
@@ -944,10 +944,10 @@ export const machines: Machine[] = [
       {
             id: "gp-80-mixer",
             name: "Mixer",
-            description: "Genuine replacement part for Mixer",
+            description: "Feeds material into the screw conveyor shaft",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 44,
+                  y: 56
             },
             parts: [
                   {
@@ -965,10 +965,10 @@ export const machines: Machine[] = [
       {
             id: "gp-80-conveyor",
             name: "Conveyor screw",
-            description: "Genuine replacement part for Conveyor screw",
+            description: "Feeds material into the filling tower",
             position: {
-                  x: 30,
-                  y: 50
+                  x: 55,
+                  y: 52
             },
             parts: [
                   {
@@ -991,17 +991,17 @@ export const machines: Machine[] = [
     model: 'GP',
     type: 'briquetting',
     serialNumber: '',
-    image: '/machines/gp-100.png',
-    xrayImage: '/machines/gp-100-xray.png',
+    image: '/machines/gp-80.webp',
+    xrayImage: '/machines/gp-80-xray.webp',
     description: 'Medium throughput requirements | 60 mm briquette diameter',
     modules: [
       {
             id: "gp-100-hydrauli",
             name: "Hydraulic tank",
-            description: "Genuine replacement part for Hydraulic tank",
+            description: "Contains oil for lubricating the cylinders",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 78,
+                  y: 35
             },
             parts: [
                   {
@@ -1019,10 +1019,10 @@ export const machines: Machine[] = [
       {
             id: "gp-100-filling-",
             name: "Filling tower",
-            description: "Genuine replacement part for Filling tower",
+            description: "Pre-compaction takes place in the filling tower",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 74,
+                  y: 73
             },
             parts: [
                   {
@@ -1040,10 +1040,10 @@ export const machines: Machine[] = [
       {
             id: "gp-100-clamping",
             name: "Clamping cylinder",
-            description: "Genuine replacement part for Clamping cylinder",
+            description: "This is where the final briquette is moulded",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 59,
+                  y: 83
             },
             parts: [
                   {
@@ -1061,10 +1061,10 @@ export const machines: Machine[] = [
       {
             id: "gp-100-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "Generously sized",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 26,
+                  y: 31
             },
             parts: [
                   {
@@ -1082,10 +1082,10 @@ export const machines: Machine[] = [
       {
             id: "gp-100-press-cy",
             name: "Press cylinder",
-            description: "Genuine replacement part for Press cylinder",
+            description: "Operates hydraulically and compacts the material",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 90,
+                  y: 60
             },
             parts: [
                   {
@@ -1103,10 +1103,10 @@ export const machines: Machine[] = [
       {
             id: "gp-100-briquett",
             name: "Briquette length monitoring",
-            description: "Genuine replacement part for Briquette length monitoring",
+            description: "For consistently high-quality briquettes",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 52,
+                  y: 88
             },
             parts: [
                   {
@@ -1124,10 +1124,10 @@ export const machines: Machine[] = [
       {
             id: "gp-100-mixer",
             name: "Mixer",
-            description: "Genuine replacement part for Mixer",
+            description: "Feeds material into the screw conveyor shaft",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 44,
+                  y: 56
             },
             parts: [
                   {
@@ -1145,10 +1145,10 @@ export const machines: Machine[] = [
       {
             id: "gp-100-conveyor",
             name: "Conveyor screw",
-            description: "Genuine replacement part for Conveyor screw",
+            description: "Feeds material into the filling tower",
             position: {
-                  x: 30,
-                  y: 50
+                  x: 55,
+                  y: 52
             },
             parts: [
                   {
@@ -1171,17 +1171,17 @@ export const machines: Machine[] = [
     model: 'GP',
     type: 'briquetting',
     serialNumber: '',
-    image: '/machines/gp-150.png',
-    xrayImage: '/machines/gp-150-xray.png',
+    image: '/machines/gp-80.webp',
+    xrayImage: '/machines/gp-80-xray.webp',
     description: 'Medium to high throughput requirements | 70 mm briquette diameter',
     modules: [
       {
             id: "gp-150-hydrauli",
             name: "Hydraulic tank",
-            description: "Genuine replacement part for Hydraulic tank",
+            description: "Contains oil for lubricating the cylinders",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 78,
+                  y: 35
             },
             parts: [
                   {
@@ -1199,10 +1199,10 @@ export const machines: Machine[] = [
       {
             id: "gp-150-filling-",
             name: "Filling tower",
-            description: "Genuine replacement part for Filling tower",
+            description: "Pre-compaction takes place in the filling tower",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 74,
+                  y: 73
             },
             parts: [
                   {
@@ -1220,10 +1220,10 @@ export const machines: Machine[] = [
       {
             id: "gp-150-clamping",
             name: "Clamping cylinder",
-            description: "Genuine replacement part for Clamping cylinder",
+            description: "This is where the final briquette is moulded",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 59,
+                  y: 83
             },
             parts: [
                   {
@@ -1241,10 +1241,10 @@ export const machines: Machine[] = [
       {
             id: "gp-150-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "Generously sized",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 26,
+                  y: 31
             },
             parts: [
                   {
@@ -1262,10 +1262,10 @@ export const machines: Machine[] = [
       {
             id: "gp-150-press-cy",
             name: "Press cylinder",
-            description: "Genuine replacement part for Press cylinder",
+            description: "Operates hydraulically and compacts the material",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 90,
+                  y: 60
             },
             parts: [
                   {
@@ -1283,10 +1283,10 @@ export const machines: Machine[] = [
       {
             id: "gp-150-briquett",
             name: "Briquette length monitoring",
-            description: "Genuine replacement part for Briquette length monitoring",
+            description: "For consistently high-quality briquettes",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 52,
+                  y: 88
             },
             parts: [
                   {
@@ -1304,10 +1304,10 @@ export const machines: Machine[] = [
       {
             id: "gp-150-mixer",
             name: "Mixer",
-            description: "Genuine replacement part for Mixer",
+            description: "Feeds material into the screw conveyor shaft",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 44,
+                  y: 56
             },
             parts: [
                   {
@@ -1325,10 +1325,10 @@ export const machines: Machine[] = [
       {
             id: "gp-150-conveyor",
             name: "Conveyor screw",
-            description: "Genuine replacement part for Conveyor screw",
+            description: "Feeds material into the filling tower",
             position: {
-                  x: 30,
-                  y: 50
+                  x: 55,
+                  y: 52
             },
             parts: [
                   {
@@ -1351,17 +1351,17 @@ export const machines: Machine[] = [
     model: 'GP',
     type: 'briquetting',
     serialNumber: '',
-    image: '/machines/gp-200.png',
-    xrayImage: '/machines/gp-200-xray.png',
+    image: '/machines/gp-80.webp',
+    xrayImage: '/machines/gp-80-xray.webp',
     description: 'Medium to high throughput requirements | 80 mm briquette diameter',
     modules: [
       {
             id: "gp-200-hydrauli",
             name: "Hydraulic tank",
-            description: "Genuine replacement part for Hydraulic tank",
+            description: "Contains oil for lubricating the cylinders",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 78,
+                  y: 35
             },
             parts: [
                   {
@@ -1379,10 +1379,10 @@ export const machines: Machine[] = [
       {
             id: "gp-200-filling-",
             name: "Filling tower",
-            description: "Genuine replacement part for Filling tower",
+            description: "Pre-compaction takes place in the filling tower",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 74,
+                  y: 73
             },
             parts: [
                   {
@@ -1400,10 +1400,10 @@ export const machines: Machine[] = [
       {
             id: "gp-200-clamping",
             name: "Clamping cylinder",
-            description: "Genuine replacement part for Clamping cylinder",
+            description: "This is where the final briquette is moulded",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 59,
+                  y: 83
             },
             parts: [
                   {
@@ -1421,10 +1421,10 @@ export const machines: Machine[] = [
       {
             id: "gp-200-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "Generously sized",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 26,
+                  y: 31
             },
             parts: [
                   {
@@ -1442,10 +1442,10 @@ export const machines: Machine[] = [
       {
             id: "gp-200-press-cy",
             name: "Press cylinder",
-            description: "Genuine replacement part for Press cylinder",
+            description: "Operates hydraulically and compacts the material",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 90,
+                  y: 60
             },
             parts: [
                   {
@@ -1463,10 +1463,10 @@ export const machines: Machine[] = [
       {
             id: "gp-200-briquett",
             name: "Briquette length monitoring",
-            description: "Genuine replacement part for Briquette length monitoring",
+            description: "For consistently high-quality briquettes",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 52,
+                  y: 88
             },
             parts: [
                   {
@@ -1484,10 +1484,10 @@ export const machines: Machine[] = [
       {
             id: "gp-200-mixer",
             name: "Mixer",
-            description: "Genuine replacement part for Mixer",
+            description: "Feeds material into the screw conveyor shaft",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 44,
+                  y: 56
             },
             parts: [
                   {
@@ -1505,10 +1505,10 @@ export const machines: Machine[] = [
       {
             id: "gp-200-conveyor",
             name: "Conveyor screw",
-            description: "Genuine replacement part for Conveyor screw",
+            description: "Feeds material into the filling tower",
             position: {
-                  x: 30,
-                  y: 50
+                  x: 55,
+                  y: 52
             },
             parts: [
                   {
@@ -1531,17 +1531,17 @@ export const machines: Machine[] = [
     model: 'GP',
     type: 'briquetting',
     serialNumber: '',
-    image: '/machines/gp-300-s.png',
-    xrayImage: '/machines/gp-300-s-xray.png',
+    image: '/machines/gp-80.webp',
+    xrayImage: '/machines/gp-80-xray.webp',
     description: 'Maximum output | 80 mm briquette diameter',
     modules: [
       {
             id: "gp-300-s-hydrauli",
             name: "Hydraulic tank",
-            description: "Genuine replacement part for Hydraulic tank",
+            description: "Contains oil for lubricating the cylinders",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 78,
+                  y: 35
             },
             parts: [
                   {
@@ -1559,10 +1559,10 @@ export const machines: Machine[] = [
       {
             id: "gp-300-s-filling-",
             name: "Filling tower",
-            description: "Genuine replacement part for Filling tower",
+            description: "Pre-compaction takes place in the filling tower",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 74,
+                  y: 73
             },
             parts: [
                   {
@@ -1580,10 +1580,10 @@ export const machines: Machine[] = [
       {
             id: "gp-300-s-clamping",
             name: "Clamping cylinder",
-            description: "Genuine replacement part for Clamping cylinder",
+            description: "This is where the final briquette is formed",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 59,
+                  y: 83
             },
             parts: [
                   {
@@ -1601,10 +1601,10 @@ export const machines: Machine[] = [
       {
             id: "gp-300-s-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "Generously sized",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 26,
+                  y: 31
             },
             parts: [
                   {
@@ -1622,10 +1622,10 @@ export const machines: Machine[] = [
       {
             id: "gp-300-s-press-cy",
             name: "Press cylinder",
-            description: "Genuine replacement part for Press cylinder",
+            description: "Operates hydraulically and compacts the material",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 90,
+                  y: 60
             },
             parts: [
                   {
@@ -1643,10 +1643,10 @@ export const machines: Machine[] = [
       {
             id: "gp-300-s-briquett",
             name: "Briquette length monitoring",
-            description: "Genuine replacement part for Briquette length monitoring",
+            description: "For consistently high-quality briquettes",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 52,
+                  y: 88
             },
             parts: [
                   {
@@ -1664,10 +1664,10 @@ export const machines: Machine[] = [
       {
             id: "gp-300-s-mixer",
             name: "Mixer",
-            description: "Genuine replacement part for Mixer",
+            description: "Feeds material into the screw conveyor shaft",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 44,
+                  y: 56
             },
             parts: [
                   {
@@ -1685,10 +1685,10 @@ export const machines: Machine[] = [
       {
             id: "gp-300-s-conveyor",
             name: "Conveyor screw",
-            description: "Genuine replacement part for Conveyor screw",
+            description: "Feeds material into the filling tower",
             position: {
-                  x: 30,
-                  y: 50
+                  x: 55,
+                  y: 52
             },
             parts: [
                   {
@@ -1711,17 +1711,17 @@ export const machines: Machine[] = [
     model: 'GP',
     type: 'briquetting',
     serialNumber: '',
-    image: '/machines/gp-400-m.png',
-    xrayImage: '/machines/gp-400-m-xray.png',
+    image: '/machines/gp-400-m.webp',
+    xrayImage: '/machines/gp-400-m-xray.webp',
     description: 'For industrial use | 150 x 60 mm rectangular briquette',
     modules: [
       {
             id: "gp-400-m-control-",
             name: "Control panel",
-            description: "Genuine replacement part for Control panel",
+            description: "Siemens S7 electrical control system with touch panel",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 73,
+                  y: 22
             },
             parts: [
                   {
@@ -1739,10 +1739,10 @@ export const machines: Machine[] = [
       {
             id: "gp-400-m-mixer",
             name: "Mixer",
-            description: "Genuine replacement part for Mixer",
+            description: "With screw conveyor, discharge screw and motor",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 47,
+                  y: 44
             },
             parts: [
                   {
@@ -1760,10 +1760,10 @@ export const machines: Machine[] = [
       {
             id: "gp-400-m-briquett",
             name: "Briquette discharge",
-            description: "Genuine replacement part for Briquette discharge",
+            description: "Briquettes are ejected alternately",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 87,
+                  y: 24
             },
             parts: [
                   {
@@ -1781,10 +1781,10 @@ export const machines: Machine[] = [
       {
             id: "gp-400-m-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "Generously sized at 1400 x 1400 mm",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 37,
+                  y: 31
             },
             parts: [
                   {
@@ -1802,10 +1802,10 @@ export const machines: Machine[] = [
       {
             id: "gp-400-m-matrix",
             name: "Matrix",
-            description: "Genuine replacement part for Matrix",
+            description: "This is where the final briquette is moulded",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 72,
+                  y: 45
             },
             parts: [
                   {
@@ -1823,10 +1823,10 @@ export const machines: Machine[] = [
       {
             id: "gp-400-m-filling-",
             name: "Filling tower",
-            description: "Genuine replacement part for Filling tower",
+            description: "Pre-compaction takes place in the filling tower",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 67,
+                  y: 32
             },
             parts: [
                   {
@@ -1844,10 +1844,10 @@ export const machines: Machine[] = [
       {
             id: "gp-400-m-hydrauli",
             name: "Hydraulic tank",
-            description: "Genuine replacement part for Hydraulic tank",
+            description: "Approx. 900 litres, with pump motor and valve control",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 13,
+                  y: 69
             },
             parts: [
                   {
@@ -1867,20 +1867,20 @@ export const machines: Machine[] = [
   {
     id: 'gaz-600',
     name: 'GAZ 600',
-    model: 'Seria GAZ',
+    model: 'GAZ Series',
     type: 'shredder',
     serialNumber: '',
-    image: '/machines/gaz-600.png',
-    xrayImage: '/machines/gaz-600-xray.png',
+    image: '/machines/gaz-600.webp',
+    xrayImage: '/machines/gaz-600-xray.webp',
     description: 'Single-shaft wood shredder.',
     modules: [
       {
             id: "gaz-600-drive",
             name: "Drive",
-            description: "Genuine replacement part for Drive",
+            description: "Tried-and-tested electromechanical drive",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 38,
+                  y: 69
             },
             parts: [
                   {
@@ -1898,10 +1898,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-600-gearbox",
             name: "Gearbox",
-            description: "Genuine replacement part for Gearbox",
+            description: "Resistant to vibrations and impacts",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 60,
+                  y: 67
             },
             parts: [
                   {
@@ -1919,10 +1919,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-600-hydrauli",
             name: "Hydraulic unit",
-            description: "Genuine replacement part for Hydraulic unit",
+            description: "Compactly integrated into the machine body",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 15,
+                  y: 63
             },
             parts: [
                   {
@@ -1940,10 +1940,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-600-suction-",
             name: "Suction connection",
-            description: "Genuine replacement part for Suction connection",
+            description: "For extracting or discharging the shredded material",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 69,
+                  y: 87
             },
             parts: [
                   {
@@ -1961,10 +1961,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-600-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "For manual or automated material feeding",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 72,
+                  y: 25
             },
             parts: [
                   {
@@ -1982,10 +1982,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-600-rubber-f",
             name: "Rubber feet",
-            description: "Genuine replacement part for Rubber feet",
+            description: "Absorb vibrations. No need to anchor the machine to the floor.",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 10,
+                  y: 71
             },
             parts: [
                   {
@@ -2003,10 +2003,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-600-pusher",
             name: "Pusher",
-            description: "Genuine replacement part for Pusher",
+            description: "Presses the material horizontally against the rotor.",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 54,
+                  y: 51
             },
             parts: [
                   {
@@ -2024,10 +2024,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-600-rotor",
             name: "Rotor",
-            description: "Genuine replacement part for Rotor",
+            description: "Fitted with cutting blades",
             position: {
-                  x: 30,
-                  y: 50
+                  x: 75,
+                  y: 56
             },
             parts: [
                   {
@@ -2045,10 +2045,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-600-screen",
             name: "Screen",
-            description: "Genuine replacement part for Screen",
+            description: "Round-hole screen available in a range of diameters.",
             position: {
-                  x: 70,
-                  y: 50
+                  x: 80,
+                  y: 61
             },
             parts: [
                   {
@@ -2068,20 +2068,20 @@ export const machines: Machine[] = [
   {
     id: 'gaz-62',
     name: 'GAZ 62',
-    model: 'Seria GAZ',
+    model: 'GAZ Series',
     type: 'shredder',
     serialNumber: '',
-    image: '/machines/gaz-62.png',
-    xrayImage: '/machines/gaz-62-xray.png',
+    image: '/machines/gaz-62.webp',
+    xrayImage: '/machines/gaz-62-xray.webp',
     description: 'Single-shaft wood shredder.',
     modules: [
       {
             id: "gaz-62-hydrauli",
             name: "Hydraulic unit",
-            description: "Genuine replacement part for Hydraulic unit",
+            description: "Compactly integrated into the machine body",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 19,
+                  y: 59
             },
             parts: [
                   {
@@ -2099,10 +2099,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-62-suction-",
             name: "Suction connection",
-            description: "Genuine replacement part for Suction connection",
+            description: "For extracting or discharging the shredded material",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 69,
+                  y: 87
             },
             parts: [
                   {
@@ -2120,10 +2120,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-62-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "For manual or automated material feeding",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 72,
+                  y: 25
             },
             parts: [
                   {
@@ -2141,10 +2141,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-62-gearbox",
             name: "Gearbox",
-            description: "Genuine replacement part for Gearbox",
+            description: "Resistant to vibrations and impacts",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 60,
+                  y: 67
             },
             parts: [
                   {
@@ -2162,10 +2162,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-62-rubber-f",
             name: "Rubber feet",
-            description: "Genuine replacement part for Rubber feet",
+            description: "Absorb vibrations. No need to anchor the machine to the floor.",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 10,
+                  y: 71
             },
             parts: [
                   {
@@ -2183,10 +2183,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-62-pusher",
             name: "Pusher",
-            description: "Genuine replacement part for Pusher",
+            description: "Presses the material horizontally against the rotor.",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 54,
+                  y: 51
             },
             parts: [
                   {
@@ -2204,10 +2204,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-62-drive",
             name: "Drive",
-            description: "Genuine replacement part for Drive",
+            description: "Tried-and-tested electromechanical drive",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 43,
+                  y: 79
             },
             parts: [
                   {
@@ -2225,10 +2225,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-62-rotor",
             name: "Rotor",
-            description: "Genuine replacement part for Rotor",
+            description: "Fitted with cutting blades",
             position: {
-                  x: 30,
-                  y: 50
+                  x: 75,
+                  y: 56
             },
             parts: [
                   {
@@ -2246,10 +2246,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-62-screen",
             name: "Screen",
-            description: "Genuine replacement part for Screen",
+            description: "Round-hole sieves available in a range of diameters.",
             position: {
-                  x: 70,
-                  y: 50
+                  x: 80,
+                  y: 61
             },
             parts: [
                   {
@@ -2269,20 +2269,20 @@ export const machines: Machine[] = [
   {
     id: 'gaz-82',
     name: 'GAZ 82',
-    model: 'Seria GAZ',
+    model: 'GAZ Series',
     type: 'shredder',
     serialNumber: '',
-    image: '/machines/gaz-82.png',
-    xrayImage: '/machines/gaz-82-xray.png',
+    image: '/machines/gaz-82.webp',
+    xrayImage: '/machines/gaz-82-xray.webp',
     description: 'Single-shaft wood shredder.',
     modules: [
       {
             id: "gaz-82-hydrauli",
             name: "Hydraulic unit",
-            description: "Genuine replacement part for Hydraulic unit",
+            description: "Compactly integrated into the machine body",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 17,
+                  y: 61
             },
             parts: [
                   {
@@ -2300,10 +2300,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-82-suction-",
             name: "Suction connection",
-            description: "Genuine replacement part for Suction connection",
+            description: "For extracting or discharging the crushed material",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 72,
+                  y: 87
             },
             parts: [
                   {
@@ -2321,10 +2321,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-82-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "For manual or automated material feeding",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 72,
+                  y: 25
             },
             parts: [
                   {
@@ -2342,10 +2342,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-82-gearbox",
             name: "Gearbox",
-            description: "Genuine replacement part for Gearbox",
+            description: "Resistant to vibrations and impacts",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 65,
+                  y: 67
             },
             parts: [
                   {
@@ -2363,10 +2363,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-82-rubber-f",
             name: "Rubber feet",
-            description: "Genuine replacement part for Rubber feet",
+            description: "Absorb vibrations. No need to anchor the machine to the floor.",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 10,
+                  y: 71
             },
             parts: [
                   {
@@ -2384,10 +2384,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-82-pusher",
             name: "Pusher",
-            description: "Genuine replacement part for Pusher",
+            description: "Presses the material horizontally against the rotor.",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 55,
+                  y: 48
             },
             parts: [
                   {
@@ -2405,10 +2405,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-82-drive",
             name: "Drive",
-            description: "Genuine replacement part for Drive",
+            description: "Tried-and-tested electromechanical drive",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 43,
+                  y: 79
             },
             parts: [
                   {
@@ -2426,10 +2426,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-82-rotor",
             name: "Rotor",
-            description: "Genuine replacement part for Rotor",
+            description: "Fitted with cutting blades",
             position: {
-                  x: 30,
-                  y: 50
+                  x: 75,
+                  y: 56
             },
             parts: [
                   {
@@ -2447,10 +2447,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-82-screen",
             name: "Screen",
-            description: "Genuine replacement part for Screen",
+            description: "Round-hole sieves available in a range of diameters.",
             position: {
-                  x: 70,
-                  y: 50
+                  x: 85,
+                  y: 60
             },
             parts: [
                   {
@@ -2470,20 +2470,20 @@ export const machines: Machine[] = [
   {
     id: 'gaz-82-s',
     name: 'GAZ 82 S',
-    model: 'Seria GAZ',
+    model: 'GAZ Series',
     type: 'shredder',
     serialNumber: '',
-    image: '/machines/gaz-82-s.png',
-    xrayImage: '/machines/gaz-82-s-xray.png',
+    image: '/machines/gaz-82.webp',
+    xrayImage: '/machines/gaz-82-xray.webp',
     description: 'Single-shaft wood shredder (S-version).',
     modules: [
       {
             id: "gaz-82-s-hydrauli",
             name: "Hydraulic unit",
-            description: "Genuine replacement part for Hydraulic unit",
+            description: "Compactly integrated into the machine body",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 17,
+                  y: 61
             },
             parts: [
                   {
@@ -2501,10 +2501,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-82-s-suction-",
             name: "Suction connection",
-            description: "Genuine replacement part for Suction connection",
+            description: "For extracting or discharging the shredded material",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 72,
+                  y: 87
             },
             parts: [
                   {
@@ -2522,10 +2522,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-82-s-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "For manual or automated material feeding",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 72,
+                  y: 25
             },
             parts: [
                   {
@@ -2543,10 +2543,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-82-s-gearbox",
             name: "Gearbox",
-            description: "Genuine replacement part for Gearbox",
+            description: "Resistant to vibrations and impacts",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 65,
+                  y: 67
             },
             parts: [
                   {
@@ -2564,10 +2564,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-82-s-rubber-f",
             name: "Rubber feet",
-            description: "Genuine replacement part for Rubber feet",
+            description: "Absorb vibrations. No need to anchor the machine to the floor.",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 10,
+                  y: 71
             },
             parts: [
                   {
@@ -2585,10 +2585,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-82-s-pusher",
             name: "Pusher",
-            description: "Genuine replacement part for Pusher",
+            description: "Presses the material horizontally against the rotor.",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 55,
+                  y: 48
             },
             parts: [
                   {
@@ -2606,10 +2606,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-82-s-drive",
             name: "Drive",
-            description: "Genuine replacement part for Drive",
+            description: "Tried-and-tested electromechanical drive",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 43,
+                  y: 79
             },
             parts: [
                   {
@@ -2627,10 +2627,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-82-s-rotor",
             name: "Rotor",
-            description: "Genuine replacement part for Rotor",
+            description: "Fitted with cutting blades",
             position: {
-                  x: 30,
-                  y: 50
+                  x: 75,
+                  y: 56
             },
             parts: [
                   {
@@ -2648,10 +2648,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-82-s-screen",
             name: "Screen",
-            description: "Genuine replacement part for Screen",
+            description: "Round-hole sieves available in a range of diameters.",
             position: {
-                  x: 70,
-                  y: 50
+                  x: 85,
+                  y: 60
             },
             parts: [
                   {
@@ -2671,20 +2671,20 @@ export const machines: Machine[] = [
   {
     id: 'gaz-102',
     name: 'GAZ 102',
-    model: 'Seria GAZ',
+    model: 'GAZ Series',
     type: 'shredder',
     serialNumber: '',
-    image: '/machines/gaz-102.png',
-    xrayImage: '/machines/gaz-102-xray.png',
+    image: '/machines/gaz-102.webp',
+    xrayImage: '/machines/gaz-102-xray.webp',
     description: 'Single-shaft wood shredder.',
     modules: [
       {
             id: "gaz-102-hydrauli",
             name: "Hydraulic unit",
-            description: "Genuine replacement part for Hydraulic unit",
+            description: "Compactly integrated into the machine body",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 17,
+                  y: 61
             },
             parts: [
                   {
@@ -2702,10 +2702,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-102-suction-",
             name: "Suction connection",
-            description: "Genuine replacement part for Suction connection",
+            description: "For extracting or discharging the shredded material",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 64,
+                  y: 87
             },
             parts: [
                   {
@@ -2723,10 +2723,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-102-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "For manual or automated material feeding",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 72,
+                  y: 25
             },
             parts: [
                   {
@@ -2744,10 +2744,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-102-gearbox",
             name: "Gearbox",
-            description: "Genuine replacement part for Gearbox",
+            description: "Resistant to vibrations and impacts",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 59,
+                  y: 67
             },
             parts: [
                   {
@@ -2765,10 +2765,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-102-rubber-f",
             name: "Rubber feet",
-            description: "Genuine replacement part for Rubber feet",
+            description: "Absorb vibrations. No need to anchor the machine to the floor.",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 10,
+                  y: 71
             },
             parts: [
                   {
@@ -2786,10 +2786,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-102-pusher",
             name: "Pusher",
-            description: "Genuine replacement part for Pusher",
+            description: "Presses the material horizontally against the rotor.",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 55,
+                  y: 48
             },
             parts: [
                   {
@@ -2807,10 +2807,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-102-drive",
             name: "Drive",
-            description: "Genuine replacement part for Drive",
+            description: "Tried-and-tested electromechanical drive",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 43,
+                  y: 79
             },
             parts: [
                   {
@@ -2828,10 +2828,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-102-rotor",
             name: "Rotor",
-            description: "Genuine replacement part for Rotor",
+            description: "Fitted with cutting blades",
             position: {
-                  x: 30,
-                  y: 50
+                  x: 75,
+                  y: 56
             },
             parts: [
                   {
@@ -2849,10 +2849,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-102-screen",
             name: "Screen",
-            description: "Genuine replacement part for Screen",
+            description: "Round-hole sieves available in a range of diameters.",
             position: {
-                  x: 70,
-                  y: 50
+                  x: 80,
+                  y: 60
             },
             parts: [
                   {
@@ -2872,20 +2872,20 @@ export const machines: Machine[] = [
   {
     id: 'gaz-102-s',
     name: 'GAZ 102 S',
-    model: 'Seria GAZ',
+    model: 'GAZ Series',
     type: 'shredder',
     serialNumber: '',
-    image: '/machines/gaz-102-s.png',
-    xrayImage: '/machines/gaz-102-s-xray.png',
+    image: '/machines/gaz-102.webp',
+    xrayImage: '/machines/gaz-102-xray.webp',
     description: 'Single-shaft wood shredder (S-version).',
     modules: [
       {
             id: "gaz-102-s-hydrauli",
             name: "Hydraulic unit",
-            description: "Genuine replacement part for Hydraulic unit",
+            description: "Compactly integrated into the machine body",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 17,
+                  y: 61
             },
             parts: [
                   {
@@ -2903,10 +2903,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-102-s-suction-",
             name: "Suction connection",
-            description: "Genuine replacement part for Suction connection",
+            description: "For extracting or discharging the shredded material",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 64,
+                  y: 87
             },
             parts: [
                   {
@@ -2924,10 +2924,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-102-s-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "For manual or automated material feeding",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 72,
+                  y: 25
             },
             parts: [
                   {
@@ -2945,10 +2945,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-102-s-gearbox",
             name: "Gearbox",
-            description: "Genuine replacement part for Gearbox",
+            description: "Resistant to vibrations and shocks",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 59,
+                  y: 67
             },
             parts: [
                   {
@@ -2966,10 +2966,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-102-s-rubber-f",
             name: "Rubber feet",
-            description: "Genuine replacement part for Rubber feet",
+            description: "Absorb vibrations. No need to anchor the machine to the floor.",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 10,
+                  y: 71
             },
             parts: [
                   {
@@ -2987,10 +2987,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-102-s-pusher",
             name: "Pusher",
-            description: "Genuine replacement part for Pusher",
+            description: "Presses the material horizontally against the rotor.",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 55,
+                  y: 48
             },
             parts: [
                   {
@@ -3008,10 +3008,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-102-s-drive",
             name: "Drive",
-            description: "Genuine replacement part for Drive",
+            description: "Tried-and-tested electromechanical drive",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 43,
+                  y: 79
             },
             parts: [
                   {
@@ -3029,10 +3029,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-102-s-rotor",
             name: "Rotor",
-            description: "Genuine replacement part for Rotor",
+            description: "Fitted with cutting blades",
             position: {
-                  x: 30,
-                  y: 50
+                  x: 75,
+                  y: 56
             },
             parts: [
                   {
@@ -3050,10 +3050,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-102-s-screen",
             name: "Screen",
-            description: "Genuine replacement part for Screen",
+            description: "Round-hole sieves available in a range of diameters.",
             position: {
-                  x: 70,
-                  y: 50
+                  x: 80,
+                  y: 60
             },
             parts: [
                   {
@@ -3073,20 +3073,20 @@ export const machines: Machine[] = [
   {
     id: 'gaz-152-s',
     name: 'GAZ 152 S',
-    model: 'Seria GAZ',
+    model: 'GAZ Series',
     type: 'shredder',
     serialNumber: '',
-    image: '/machines/gaz-152-s.png',
-    xrayImage: '/machines/gaz-152-s-xray.png',
+    image: '/machines/gaz-152-s.webp',
+    xrayImage: '/machines/gaz-152-s-xray.webp',
     description: 'Single-shaft wood shredder (S-version).',
     modules: [
       {
             id: "gaz-152-s-hydrauli",
             name: "Hydraulic unit",
-            description: "Genuine replacement part for Hydraulic unit",
+            description: "Compactly integrated into the machine body",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 19,
+                  y: 55
             },
             parts: [
                   {
@@ -3104,10 +3104,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-152-s-suction-",
             name: "Suction connection",
-            description: "Genuine replacement part for Suction connection",
+            description: "For extracting or discharging the shredded material",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 72,
+                  y: 80
             },
             parts: [
                   {
@@ -3125,10 +3125,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-152-s-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "For manual or automated material feeding",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 72,
+                  y: 21
             },
             parts: [
                   {
@@ -3146,10 +3146,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-152-s-gearbox",
             name: "Gearbox",
-            description: "Genuine replacement part for Gearbox",
+            description: "Resistant to vibrations and impacts",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 59,
+                  y: 63
             },
             parts: [
                   {
@@ -3167,10 +3167,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-152-s-rubber-f",
             name: "Rubber feet",
-            description: "Genuine replacement part for Rubber feet",
+            description: "Absorb vibrations. No need to anchor the machine to the floor.",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 10,
+                  y: 65
             },
             parts: [
                   {
@@ -3188,10 +3188,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-152-s-pusher",
             name: "Pusher",
-            description: "Genuine replacement part for Pusher",
+            description: "Presses the material horizontally against the rotor.",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 55,
+                  y: 42
             },
             parts: [
                   {
@@ -3209,10 +3209,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-152-s-drive",
             name: "Drive",
-            description: "Genuine replacement part for Drive",
+            description: "Tried-and-tested electromechanical drive",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 43,
+                  y: 79
             },
             parts: [
                   {
@@ -3230,10 +3230,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-152-s-rotor",
             name: "Rotor",
-            description: "Genuine replacement part for Rotor",
+            description: "Fitted with cutting blades",
             position: {
-                  x: 30,
-                  y: 50
+                  x: 75,
+                  y: 51
             },
             parts: [
                   {
@@ -3251,10 +3251,10 @@ export const machines: Machine[] = [
       {
             id: "gaz-152-s-screen",
             name: "Screen",
-            description: "Genuine replacement part for Screen",
+            description: "Round-hole sieves available in a range of diameters.",
             position: {
-                  x: 70,
-                  y: 50
+                  x: 84,
+                  y: 44
             },
             parts: [
                   {
@@ -3274,20 +3274,20 @@ export const machines: Machine[] = [
   {
     id: 'gazk-800',
     name: 'GAZK 800',
-    model: 'Seria GAZK',
+    model: 'GAZK Series',
     type: 'shredder',
     serialNumber: '',
-    image: '/machines/gazk-800.png',
-    xrayImage: '/machines/gazk-800-xray.png',
+    image: '/machines/gazk-800.webp',
+    xrayImage: '/machines/gazk-800-xray.webp',
     description: 'Single-shaft shredder for plastics, paper, and wood.',
     modules: [
       {
             id: "gazk-800-hydrauli",
             name: "Hydraulic unit",
-            description: "Genuine replacement part for Hydraulic unit",
+            description: "Compactly integrated into the machine body",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 18,
+                  y: 61
             },
             parts: [
                   {
@@ -3305,10 +3305,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-800-conveyor",
             name: "Conveyor belt cut-out",
-            description: "Genuine replacement part for Conveyor belt cut-out",
+            description: "To position a conveyor belt directly beneath the machine",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 67,
+                  y: 79
             },
             parts: [
                   {
@@ -3326,10 +3326,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-800-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "For manual or automated material feeding",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 72,
+                  y: 25
             },
             parts: [
                   {
@@ -3347,10 +3347,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-800-gearbox",
             name: "Gearbox",
-            description: "Genuine replacement part for Gearbox",
+            description: "Resistant to vibrations and shocks",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 59,
+                  y: 59
             },
             parts: [
                   {
@@ -3368,10 +3368,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-800-rubber-f",
             name: "Rubber feet",
-            description: "Genuine replacement part for Rubber feet",
+            description: "Absorb vibrations. No need to anchor the machine to the floor.",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 10,
+                  y: 71
             },
             parts: [
                   {
@@ -3389,10 +3389,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-800-pusher",
             name: "Pusher",
-            description: "Genuine replacement part for Pusher",
+            description: "Presses the material horizontally against the rotor.",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 44,
+                  y: 42
             },
             parts: [
                   {
@@ -3410,10 +3410,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-800-drive",
             name: "Drive",
-            description: "Genuine replacement part for Drive",
+            description: "Tried-and-tested electromechanical drive",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 37,
+                  y: 72
             },
             parts: [
                   {
@@ -3431,10 +3431,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-800-rotor",
             name: "Rotor",
-            description: "Genuine replacement part for Rotor",
+            description: "Fitted with cutting blades",
             position: {
-                  x: 30,
-                  y: 50
+                  x: 65,
+                  y: 48
             },
             parts: [
                   {
@@ -3452,9 +3452,9 @@ export const machines: Machine[] = [
       {
             id: "gazk-800-screen",
             name: "Screen",
-            description: "Genuine replacement part for Screen",
+            description: "Round-hole screens available in a range of diameters.",
             position: {
-                  x: 70,
+                  x: 74,
                   y: 50
             },
             parts: [
@@ -3475,20 +3475,20 @@ export const machines: Machine[] = [
   {
     id: 'gazk-1000',
     name: 'GAZK 1000',
-    model: 'Seria GAZK',
+    model: 'GAZK Series',
     type: 'shredder',
     serialNumber: '',
-    image: '/machines/gazk-1000.png',
-    xrayImage: '/machines/gazk-1000-xray.png',
+    image: '/machines/gazk-1000.webp',
+    xrayImage: '/machines/gazk-1000-xray.webp',
     description: 'Single-shaft shredder for plastics, paper, and wood.',
     modules: [
       {
             id: "gazk-1000-screen",
             name: "Screen",
-            description: "Genuine replacement part for Screen",
+            description: "Round-hole screen available in a range of diameters.",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 75,
+                  y: 42
             },
             parts: [
                   {
@@ -3506,10 +3506,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-1000-rotor",
             name: "Rotor",
-            description: "Genuine replacement part for Rotor",
+            description: "Fitted with cutting blades",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 68,
+                  y: 41
             },
             parts: [
                   {
@@ -3527,10 +3527,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-1000-drive",
             name: "Drive",
-            description: "Genuine replacement part for Drive",
+            description: "Tried-and-tested electromechanical drive",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 30,
+                  y: 72
             },
             parts: [
                   {
@@ -3548,10 +3548,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-1000-rubber-f",
             name: "Rubber feet",
-            description: "Genuine replacement part for Rubber feet",
+            description: "Absorb vibrations. No need to anchor the machine to the floor.",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 55,
+                  y: 78
             },
             parts: [
                   {
@@ -3569,10 +3569,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-1000-gearbox",
             name: "Gearbox",
-            description: "Genuine replacement part for Gearbox",
+            description: "Resistant to vibrations and impacts",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 61,
+                  y: 55
             },
             parts: [
                   {
@@ -3590,10 +3590,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-1000-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "For manual or automated material feeding",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 66,
+                  y: 20
             },
             parts: [
                   {
@@ -3611,10 +3611,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-1000-conveyor",
             name: "Conveyor belt cut-out",
-            description: "Genuine replacement part for Conveyor belt cut-out",
+            description: "To position a conveyor belt directly beneath the machine",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 71,
+                  y: 75
             },
             parts: [
                   {
@@ -3632,10 +3632,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-1000-pusher",
             name: "Pusher",
-            description: "Genuine replacement part for Pusher",
+            description: "Presses the material horizontally against the rotor.",
             position: {
-                  x: 30,
-                  y: 50
+                  x: 44,
+                  y: 37
             },
             parts: [
                   {
@@ -3653,10 +3653,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-1000-hydrauli",
             name: "Hydraulic unit",
-            description: "Genuine replacement part for Hydraulic unit",
+            description: "Compactly integrated into the machine body",
             position: {
-                  x: 70,
-                  y: 50
+                  x: 18,
+                  y: 56
             },
             parts: [
                   {
@@ -3676,20 +3676,20 @@ export const machines: Machine[] = [
   {
     id: 'gazk-1500',
     name: 'GAZK 1500',
-    model: 'Seria GAZK',
+    model: 'GAZK Series',
     type: 'shredder',
     serialNumber: '',
-    image: '/machines/gazk-1500.png',
-    xrayImage: '/machines/gazk-1500-xray.png',
+    image: '/machines/gazk-1500.webp',
+    xrayImage: '/machines/gazk-1500-xray.webp',
     description: 'Single-shaft shredder for plastics, paper, and wood.',
     modules: [
       {
             id: "gazk-1500-screen",
             name: "Screen",
-            description: "Genuine replacement part for Screen",
+            description: "Round-hole screen available in a range of diameters.",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 77,
+                  y: 46
             },
             parts: [
                   {
@@ -3707,10 +3707,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-1500-rotor",
             name: "Rotor",
-            description: "Genuine replacement part for Rotor",
+            description: "Fitted with cutting blades",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 73,
+                  y: 41
             },
             parts: [
                   {
@@ -3728,10 +3728,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-1500-pusher",
             name: "Pusher",
-            description: "Genuine replacement part for Pusher",
+            description: "Presses the material horizontally against the rotor.",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 49,
+                  y: 38
             },
             parts: [
                   {
@@ -3749,10 +3749,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-1500-rubber-f",
             name: "Rubber feet",
-            description: "Genuine replacement part for Rubber feet",
+            description: "Absorb vibrations. No need to anchor the machine to the floor.",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 58,
+                  y: 76
             },
             parts: [
                   {
@@ -3770,10 +3770,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-1500-gearbox",
             name: "Gearbox",
-            description: "Genuine replacement part for Gearbox",
+            description: "Resistant to vibrations and impacts",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 60,
+                  y: 57
             },
             parts: [
                   {
@@ -3791,10 +3791,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-1500-hydrauli",
             name: "Hydraulic unit",
-            description: "Genuine replacement part for Hydraulic unit",
+            description: "Compactly integrated into the machine body",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 22,
+                  y: 58
             },
             parts: [
                   {
@@ -3812,10 +3812,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-1500-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "For manual or automated material feeding",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 68,
+                  y: 22
             },
             parts: [
                   {
@@ -3833,10 +3833,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-1500-conveyor",
             name: "Conveyor belt cut-out",
-            description: "Genuine replacement part for Conveyor belt cut-out",
+            description: "To position a conveyor belt directly beneath the machine",
             position: {
-                  x: 30,
-                  y: 50
+                  x: 72,
+                  y: 76
             },
             parts: [
                   {
@@ -3854,10 +3854,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-1500-drive",
             name: "Drive",
-            description: "Genuine replacement part for Drive",
+            description: "Tried-and-tested electromechanical drive",
             position: {
-                  x: 70,
-                  y: 50
+                  x: 37,
+                  y: 72
             },
             parts: [
                   {
@@ -3877,20 +3877,20 @@ export const machines: Machine[] = [
   {
     id: 'gazk-2000',
     name: 'GAZK 2000',
-    model: 'Seria GAZK',
+    model: 'GAZK Series',
     type: 'shredder',
     serialNumber: '',
-    image: '/machines/gazk-2000.png',
-    xrayImage: '/machines/gazk-2000-xray.png',
+    image: '/machines/gazk-1500.webp',
+    xrayImage: '/machines/gazk-1500-xray.webp',
     description: 'Single-shaft shredder for plastics, paper, and wood.',
     modules: [
       {
             id: "gazk-2000-screen",
             name: "Screen",
-            description: "Genuine replacement part for Screen",
+            description: "Round-hole screen available in various diameters.",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 77,
+                  y: 46
             },
             parts: [
                   {
@@ -3908,10 +3908,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-2000-rotor",
             name: "Rotor",
-            description: "Genuine replacement part for Rotor",
+            description: "Fitted with cutting blades",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 73,
+                  y: 41
             },
             parts: [
                   {
@@ -3929,10 +3929,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-2000-pusher",
             name: "Pusher",
-            description: "Genuine replacement part for Pusher",
+            description: "Presses the material horizontally against the rotor.",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 49,
+                  y: 38
             },
             parts: [
                   {
@@ -3950,10 +3950,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-2000-rubber-f",
             name: "Rubber feet",
-            description: "Genuine replacement part for Rubber feet",
+            description: "Absorb vibrations. No need to anchor the machine to the floor.",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 58,
+                  y: 76
             },
             parts: [
                   {
@@ -3971,10 +3971,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-2000-gearbox",
             name: "Gearbox",
-            description: "Genuine replacement part for Gearbox",
+            description: "Resistant to vibrations and impacts",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 60,
+                  y: 57
             },
             parts: [
                   {
@@ -3992,10 +3992,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-2000-hydrauli",
             name: "Hydraulic unit",
-            description: "Genuine replacement part for Hydraulic unit",
+            description: "Compactly integrated into the machine body",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 22,
+                  y: 58
             },
             parts: [
                   {
@@ -4013,10 +4013,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-2000-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "For manual or automated material feeding",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 68,
+                  y: 22
             },
             parts: [
                   {
@@ -4034,10 +4034,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-2000-conveyor",
             name: "Conveyor belt cut-out",
-            description: "Genuine replacement part for Conveyor belt cut-out",
+            description: "To position a conveyor belt directly beneath the machine",
             position: {
-                  x: 30,
-                  y: 50
+                  x: 72,
+                  y: 76
             },
             parts: [
                   {
@@ -4055,10 +4055,10 @@ export const machines: Machine[] = [
       {
             id: "gazk-2000-drive",
             name: "Drive",
-            description: "Genuine replacement part for Drive",
+            description: "Tried-and-tested electromechanical drive",
             position: {
-                  x: 70,
-                  y: 50
+                  x: 37,
+                  y: 72
             },
             parts: [
                   {
@@ -4078,20 +4078,20 @@ export const machines: Machine[] = [
   {
     id: 'ghz-b4',
     name: 'GHZ B4',
-    model: 'Seria GHZ',
+    model: 'GHZ Series',
     type: 'shredder',
     serialNumber: '',
-    image: '/machines/ghz-b4.png',
-    xrayImage: '/machines/ghz-b4-xray.png',
+    image: '/machines/ghz-b4.webp',
+    xrayImage: '/machines/ghz-b4-xray.webp',
     description: 'Horizontal single-shaft shredder for long timber.',
     modules: [
       {
             id: "ghz-b4-rotor",
             name: "Rotor",
-            description: "Genuine replacement part for Rotor",
+            description: "Fitted with cutting blades",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 58,
+                  y: 45
             },
             parts: [
                   {
@@ -4109,10 +4109,10 @@ export const machines: Machine[] = [
       {
             id: "ghz-b4-screen",
             name: "Screen",
-            description: "Genuine replacement part for Screen",
+            description: "Round-hole screen are available in a range of diameters.",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 64,
+                  y: 49
             },
             parts: [
                   {
@@ -4130,10 +4130,10 @@ export const machines: Machine[] = [
       {
             id: "ghz-b4-drive",
             name: "Drive",
-            description: "Genuine replacement part for Drive",
+            description: "Tried-and-tested electromechanical drive with V-belt",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 37,
+                  y: 68
             },
             parts: [
                   {
@@ -4151,10 +4151,10 @@ export const machines: Machine[] = [
       {
             id: "ghz-b4-rubber-f",
             name: "Rubber feet",
-            description: "Genuine replacement part for Rubber feet",
+            description: "Absorb vibrations. No need to anchor the machine to the floor.",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 10,
+                  y: 71
             },
             parts: [
                   {
@@ -4172,10 +4172,10 @@ export const machines: Machine[] = [
       {
             id: "ghz-b4-feed-rol",
             name: "Feed rollers",
-            description: "Genuine replacement part for Feed rollers",
+            description: "Recording controls the material",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 50,
+                  y: 40
             },
             parts: [
                   {
@@ -4193,10 +4193,10 @@ export const machines: Machine[] = [
       {
             id: "ghz-b4-electric",
             name: "Electric motor",
-            description: "Genuine replacement part for Electric motor",
+            description: "To power up the machine",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 89,
+                  y: 65
             },
             parts: [
                   {
@@ -4216,20 +4216,20 @@ export const machines: Machine[] = [
   {
     id: 'ghz-3-6',
     name: 'GHZ 3–6',
-    model: 'Seria GHZ',
+    model: 'GHZ Series',
     type: 'shredder',
     serialNumber: '',
-    image: '/machines/ghz-3-6.png',
-    xrayImage: '/machines/ghz-3-6-xray.png',
+    image: '/machines/ghz-3-6.webp',
+    xrayImage: '/machines/ghz-3-6-xray.webp',
     description: 'Horizontal single-shaft shredder for long timber.',
     modules: [
       {
             id: "ghz-3-6-feed-rol",
             name: "Feed rollers",
-            description: "Genuine replacement part for Feed rollers",
+            description: "Recording controls the material",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 37,
+                  y: 36
             },
             parts: [
                   {
@@ -4247,10 +4247,10 @@ export const machines: Machine[] = [
       {
             id: "ghz-3-6-rotor",
             name: "Rotor",
-            description: "Genuine replacement part for Rotor",
+            description: "Fitted with cutting blades",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 47,
+                  y: 41
             },
             parts: [
                   {
@@ -4268,10 +4268,10 @@ export const machines: Machine[] = [
       {
             id: "ghz-3-6-screen",
             name: "Screen",
-            description: "Genuine replacement part for Screen",
+            description: "Round-hole screen are available in a range of diameters.",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 53,
+                  y: 45
             },
             parts: [
                   {
@@ -4289,10 +4289,10 @@ export const machines: Machine[] = [
       {
             id: "ghz-3-6-drive",
             name: "Drive",
-            description: "Genuine replacement part for Drive",
+            description: "Electromechanical drive with a power belt",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 41,
+                  y: 55
             },
             parts: [
                   {
@@ -4310,10 +4310,10 @@ export const machines: Machine[] = [
       {
             id: "ghz-3-6-rubber-f",
             name: "Rubber feet",
-            description: "Genuine replacement part for Rubber feet",
+            description: "Absorb vibrations. No need to anchor the machine to the floor.",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 83,
+                  y: 86
             },
             parts: [
                   {
@@ -4331,10 +4331,10 @@ export const machines: Machine[] = [
       {
             id: "ghz-3-6-suction-",
             name: "Suction connection",
-            description: "Genuine replacement part for Suction connection",
+            description: "For extracting or discharging the shredded material",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 57,
+                  y: 33
             },
             parts: [
                   {
@@ -4352,10 +4352,10 @@ export const machines: Machine[] = [
       {
             id: "ghz-3-6-vibratin",
             name: "Vibrating conveyor",
-            description: "Genuine replacement part for Vibrating conveyor",
+            description: "Transports the material to the machine",
             position: {
-                  x: 50,
-                  y: 85
+                  x: 4,
+                  y: 23
             },
             parts: [
                   {
@@ -4375,27 +4375,27 @@ export const machines: Machine[] = [
   {
     id: 'ghz-t-6-13',
     name: 'GHZ T 6-13',
-    model: 'Seria GHZ',
+    model: 'GHZ Series',
     type: 'shredder',
     serialNumber: '',
-    image: '/machines/ghz-t-6-13.png',
-    xrayImage: '/machines/ghz-t-6-13-xray.png',
+    image: '/machines/ghz-t-6-13.webp',
+    xrayImage: '/machines/ghz-t-6-13-xray.webp',
     description: 'Horizontal single-shaft shredder for long timber.',
     modules: [
       {
             id: "ghz-t-6-13-feed-rol",
-            name: "Feed rollers",
-            description: "Genuine replacement part for Feed rollers",
+            name: "Feed roller",
+            description: "Controlled material feeding",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 34,
+                  y: 38
             },
             parts: [
                   {
                         id: "ghz-t-6-13-feed-rol-kit",
                         partNumber: "GRS-GHZT613-FEED-ROL-001",
-                        name: "Feed rollers Replacement Kit",
-                        description: "Complete replacement kit for Feed rollers",
+                        name: "Feed roller Replacement Kit",
+                        description: "Complete replacement kit for Feed roller",
                         price: 285,
                         currency: "EUR",
                         availability: "in-stock",
@@ -4406,10 +4406,10 @@ export const machines: Machine[] = [
       {
             id: "ghz-t-6-13-rotor",
             name: "Rotor",
-            description: "Genuine replacement part for Rotor",
+            description: "Fitted with cutting blades",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 47,
+                  y: 43
             },
             parts: [
                   {
@@ -4427,10 +4427,10 @@ export const machines: Machine[] = [
       {
             id: "ghz-t-6-13-screen",
             name: "Screen",
-            description: "Genuine replacement part for Screen",
+            description: "Round-hole screen available in a range of diameters.",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 54,
+                  y: 50
             },
             parts: [
                   {
@@ -4448,10 +4448,10 @@ export const machines: Machine[] = [
       {
             id: "ghz-t-6-13-drive",
             name: "Drive",
-            description: "Genuine replacement part for Drive",
+            description: "Tried-and-tested electromechanical drive",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 38,
+                  y: 68
             },
             parts: [
                   {
@@ -4469,10 +4469,10 @@ export const machines: Machine[] = [
       {
             id: "ghz-t-6-13-rubber-f",
             name: "Rubber feet",
-            description: "Genuine replacement part for Rubber feet",
+            description: "Absorb vibrations. No need to anchor the machine to the floor.",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 22,
+                  y: 61
             },
             parts: [
                   {
@@ -4490,10 +4490,10 @@ export const machines: Machine[] = [
       {
             id: "ghz-t-6-13-suction-",
             name: "Suction connection",
-            description: "Genuine replacement part for Suction connection",
+            description: "For extracting or discharging the shredded material",
             position: {
-                  x: 20,
-                  y: 70
+                  x: 56,
+                  y: 32
             },
             parts: [
                   {
@@ -4507,47 +4507,26 @@ export const machines: Machine[] = [
                         category: "Replacement Parts"
                   }
             ]
-      },
-      {
-            id: "ghz-t-6-13-vibratin",
-            name: "Vibrating conveyor",
-            description: "Genuine replacement part for Vibrating conveyor",
-            position: {
-                  x: 50,
-                  y: 85
-            },
-            parts: [
-                  {
-                        id: "ghz-t-6-13-vibratin-kit",
-                        partNumber: "GRS-GHZT613-VIBRATIN-001",
-                        name: "Vibrating conveyor Replacement Kit",
-                        description: "Complete replacement kit for Vibrating conveyor",
-                        price: 272,
-                        currency: "EUR",
-                        availability: "in-stock",
-                        category: "Replacement Parts"
-                  }
-            ]
       }
 ]
   },
   {
     id: 'gz-30',
     name: 'GZ 30',
-    model: 'Seria GZ',
+    model: 'GZ Series',
     type: 'shredder',
     serialNumber: '',
-    image: '/machines/gz-30.png',
-    xrayImage: '/machines/gz-30-xray.png',
+    image: '/machines/gz-30.webp',
+    xrayImage: '/machines/gz-30-xray.webp',
     description: 'Four-shaft shredder for continuous operation.',
     modules: [
       {
             id: "gz-30-screen",
             name: "Screen",
-            description: "Genuine replacement part for Screen",
+            description: "Can be used with or without a sieve",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 54,
+                  y: 74
             },
             parts: [
                   {
@@ -4565,10 +4544,10 @@ export const machines: Machine[] = [
       {
             id: "gz-30-cutting-",
             name: "Cutting shafts",
-            description: "Genuine replacement part for Cutting shafts",
+            description: "Shred the material using cutting discs",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 58,
+                  y: 62
             },
             parts: [
                   {
@@ -4586,10 +4565,10 @@ export const machines: Machine[] = [
       {
             id: "gz-30-clearanc",
             name: "Clearance shafts",
-            description: "Genuine replacement part for Clearance shafts",
+            description: "Conveying material to the cutting shafts",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 65,
+                  y: 56
             },
             parts: [
                   {
@@ -4607,10 +4586,10 @@ export const machines: Machine[] = [
       {
             id: "gz-30-drive",
             name: "Drive",
-            description: "Genuine replacement part for Drive",
+            description: "Resistant to vibrations and shocks",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 26,
+                  y: 55
             },
             parts: [
                   {
@@ -4628,10 +4607,10 @@ export const machines: Machine[] = [
       {
             id: "gz-30-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "For manual or automated material feeding",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 41,
+                  y: 24
             },
             parts: [
                   {
@@ -4651,20 +4630,20 @@ export const machines: Machine[] = [
   {
     id: 'gz-40',
     name: 'GZ 40',
-    model: 'Seria GZ',
+    model: 'GZ Series',
     type: 'shredder',
     serialNumber: '',
-    image: '/machines/gz-40.png',
-    xrayImage: '/machines/gz-40-xray.png',
+    image: '/machines/gz-30.webp',
+    xrayImage: '/machines/gz-30-xray.webp',
     description: 'Four-shaft shredder for continuous operation.',
     modules: [
       {
             id: "gz-40-screen",
             name: "Screen",
-            description: "Genuine replacement part for Screen",
+            description: "Can be used with or without a sieve",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 54,
+                  y: 74
             },
             parts: [
                   {
@@ -4682,10 +4661,10 @@ export const machines: Machine[] = [
       {
             id: "gz-40-cutting-",
             name: "Cutting shafts",
-            description: "Genuine replacement part for Cutting shafts",
+            description: "Shred the material using cutting discs",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 58,
+                  y: 62
             },
             parts: [
                   {
@@ -4703,10 +4682,10 @@ export const machines: Machine[] = [
       {
             id: "gz-40-clearanc",
             name: "Clearance shafts",
-            description: "Genuine replacement part for Clearance shafts",
+            description: "Conveying material to the cutting shafts",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 65,
+                  y: 56
             },
             parts: [
                   {
@@ -4724,10 +4703,10 @@ export const machines: Machine[] = [
       {
             id: "gz-40-drive",
             name: "Drive",
-            description: "Genuine replacement part for Drive",
+            description: "Resistant to vibrations and impacts",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 26,
+                  y: 55
             },
             parts: [
                   {
@@ -4745,10 +4724,10 @@ export const machines: Machine[] = [
       {
             id: "gz-40-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "For manual or automated material feeding",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 41,
+                  y: 24
             },
             parts: [
                   {
@@ -4768,20 +4747,20 @@ export const machines: Machine[] = [
   {
     id: 'gz-50',
     name: 'GZ 50',
-    model: 'Seria GZ',
+    model: 'GZ Series',
     type: 'shredder',
     serialNumber: '',
-    image: '/machines/gz-50.png',
-    xrayImage: '/machines/gz-50-xray.png',
+    image: '/machines/gz-50.webp',
+    xrayImage: '/machines/gz-50-xray.webp',
     description: 'Four-shaft shredder for continuous operation.',
     modules: [
       {
             id: "gz-50-screen",
             name: "Screen",
-            description: "Genuine replacement part for Screen",
+            description: "Can be used with or without a sieve",
             position: {
-                  x: 50,
-                  y: 15
+                  x: 54,
+                  y: 74
             },
             parts: [
                   {
@@ -4799,10 +4778,10 @@ export const machines: Machine[] = [
       {
             id: "gz-50-cutting-",
             name: "Cutting shafts",
-            description: "Genuine replacement part for Cutting shafts",
+            description: "Shred the material using cutting discs",
             position: {
-                  x: 80,
-                  y: 30
+                  x: 58,
+                  y: 60
             },
             parts: [
                   {
@@ -4820,10 +4799,10 @@ export const machines: Machine[] = [
       {
             id: "gz-50-clearanc",
             name: "Clearance shafts",
-            description: "Genuine replacement part for Clearance shafts",
+            description: "Conveying material to the cutting shafts",
             position: {
-                  x: 20,
-                  y: 30
+                  x: 65,
+                  y: 56
             },
             parts: [
                   {
@@ -4841,10 +4820,10 @@ export const machines: Machine[] = [
       {
             id: "gz-50-drive",
             name: "Drive",
-            description: "Genuine replacement part for Drive",
+            description: "Resistant to vibrations and impacts",
             position: {
-                  x: 50,
-                  y: 50
+                  x: 26,
+                  y: 55
             },
             parts: [
                   {
@@ -4862,10 +4841,10 @@ export const machines: Machine[] = [
       {
             id: "gz-50-hopper",
             name: "Hopper",
-            description: "Genuine replacement part for Hopper",
+            description: "For manual or automated material feeding",
             position: {
-                  x: 80,
-                  y: 70
+                  x: 41,
+                  y: 24
             },
             parts: [
                   {
