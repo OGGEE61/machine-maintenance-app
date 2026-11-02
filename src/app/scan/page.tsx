@@ -75,7 +75,7 @@ export default function ScanPage() {
       // not a URL — try as serial number directly
     }
     if (raw.trim()) {
-      router.push(`/machine/${raw.trim()}`);
+      router.push(`/machine/${encodeURIComponent(raw.trim())}`);
     } else {
       setState('error');
       setErrorMsg('Could not read QR code content.');

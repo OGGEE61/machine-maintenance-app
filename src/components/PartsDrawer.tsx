@@ -2,12 +2,14 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Package, ShoppingCart, Check, Clock, AlertTriangle } from 'lucide-react';
-import { Module, Part } from '@/types';
-import { useCart } from '@/context/CartContext';
+import { CartMachine, Module, Part } from '@/types';
+import { isSameMachine, useCart } from '@/context/CartContext';
 import { useState } from 'react';
+import { useEscapeKey } from '@/hooks/useEscapeKey';
 
 interface PartsDrawerProps {
   module: Module | null;
+  machine: CartMachine;
   onClose: () => void;
 }
 
@@ -28,21 +30,37 @@ function AvailabilityBadge({ availability, leadTimeDays }: { availability: Part[
     case 'on-order':
       return (
         <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#0063ff] bg-blue-50 px-2 py-0.5 rounded-full">
-          <Clock size={10} /> {leadTimeDays}d lead time
+          <Clock size={10} /> {leadTimeDays ? `${leadTimeDays}d lead time` : 'On order'}
         </span>
       );
   }
 }
 
-function PartCard({ part, moduleName }: { part: Part; moduleName: string }) {
-  const { addItem, items } = useCart();
+function PartCard({ part, moduleName, machine }: { part: Part; moduleName: string; machine: CartMachine }) {
+  const { addItem, clearCart, items, machine: cartMachine } = useCart();
   const [justAdded, setJustAdded] = useState(false);
+  const [confirmReplace, setConfirmReplace] = useState(false);
   const inCart = items.find((item) => item.part.id === part.id);
 
-  const handleAdd = () => {
-    addItem(part, moduleName);
+  const add = () => {
+    addItem(part, moduleName, machine);
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 1200);
+  };
+
+  // An order covers one machine, so parts for another machine can't join the current cart
+  const handleAdd = () => {
+    if (cartMachine && !isSameMachine(cartMachine, machine)) {
+      setConfirmReplace(true);
+    } else {
+      add();
+    }
+  };
+
+  const handleReplace = () => {
+    clearCart();
+    setConfirmReplace(false);
+    add();
   };
 
   return (
@@ -99,11 +117,25 @@ function PartCard({ part, moduleName }: { part: Part; moduleName: string }) {
           )}
         </button>
       </div>
+
+      {confirmReplace && cartMachine && (
+        <div role="alert" className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-900">
+          <p className="mb-2">
+            Your cart has parts for {cartMachine.name}{cartMachine.serialNumber ? ` (S/N ${cartMachine.serialNumber})` : ''}. Each order covers one machine.
+          </p>
+          <div className="flex gap-3 font-medium">
+            <button onClick={handleReplace} className="underline cursor-pointer">Empty cart and add this part</button>
+            <button onClick={() => setConfirmReplace(false)} className="cursor-pointer">Keep my cart</button>
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 }
 
-export default function PartsDrawer({ module, onClose }: PartsDrawerProps) {
+export default function PartsDrawer({ module, machine, onClose }: PartsDrawerProps) {
+  useEscapeKey(!!module, onClose);
+
   return (
     <AnimatePresence mode="wait">
       {module && (
@@ -155,7 +187,7 @@ export default function PartsDrawer({ module, onClose }: PartsDrawerProps) {
                 {module.parts.length} part{module.parts.length !== 1 ? 's' : ''} available
               </p>
               {module.parts.map((part) => (
-                <PartCard key={part.id} part={part} moduleName={module.name} />
+                <PartCard key={part.id} part={part} moduleName={module.name} machine={machine} />
               ))}
             </div>
           </motion.aside>

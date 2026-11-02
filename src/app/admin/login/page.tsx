@@ -15,17 +15,24 @@ export default function AdminLogin() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    const res = await fetch('/api/auth', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pin }),
-    });
-    setLoading(false);
-    if (res.ok) {
-      router.push('/admin');
-    } else {
-      setError('Incorrect PIN. Try again.');
-      setPin('');
+    try {
+      const res = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pin }),
+      });
+      if (res.ok) {
+        router.push('/admin');
+      } else {
+        if (res.status === 401) setError('Incorrect PIN. Try again.');
+        else if (res.status === 429) setError('Too many attempts. Please wait 15 minutes and try again.');
+        else setError('Could not log in right now. Please try again shortly.');
+        setPin('');
+      }
+    } catch {
+      setError('Could not reach the server. Try again.');
+    } finally {
+      setLoading(false);
     }
   };
 

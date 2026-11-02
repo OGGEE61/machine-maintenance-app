@@ -61,7 +61,11 @@ export default function MachineViewer({ machine }: MachineViewerProps) {
       </div>
 
       {/* Parts drawer */}
-      <PartsDrawer module={activeModule} onClose={handleClose} />
+      <PartsDrawer
+        module={activeModule}
+        machine={{ typeId: machine.id, name: machine.name, serialNumber: machine.serialNumber || null }}
+        onClose={handleClose}
+      />
     </div>
   );
 }

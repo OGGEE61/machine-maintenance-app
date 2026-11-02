@@ -4,7 +4,6 @@ import { Suspense, useEffect, useRef, useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowLeft,
   Printer,
   Download,
   QrCode,
@@ -18,7 +17,8 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import QRCode from 'qrcode';
-import { machines as machineTypes } from '@/data/machines';
+import AdminShell from '@/components/admin/AdminShell';
+import { machineUrl } from '@/lib/machine-url';
 
 interface RegisteredMachine {
   serial_number: string;
@@ -62,13 +62,11 @@ function QRCodesContent() {
 
       const cards: QRCard[] = await Promise.all(
         list.map(async (m) => {
-          const url = `${window.location.origin}/machine/${m.serial_number}`;
-          const dataUrl = await generateQR(url);
-          const typeName = machineTypes.find((t) => t.id === m.machine_type_id)?.name ?? m.machine_type_name;
+          const dataUrl = await generateQR(machineUrl(m.serial_number));
           return {
             serialNumber: m.serial_number,
             machineTypeId: m.machine_type_id,
-            machineTypeName: typeName,
+            machineTypeName: m.machine_type_name,
             clientName: m.client_name,
             dataUrl,
           };
@@ -105,8 +103,7 @@ function QRCodesContent() {
   };
 
   const copyMachineLink = (sn: string) => {
-    const url = `${window.location.origin}/machine/${sn}`;
-    navigator.clipboard.writeText(url);
+    navigator.clipboard.writeText(machineUrl(sn));
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -139,35 +136,17 @@ function QRCodesContent() {
   return (
     <>
       <style>{`@media print { .no-print { display: none !important; } .print-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; } }`}</style>
-      <div className="min-h-screen bg-[#f9f9f9]">
-        {/* Header */}
-        <header className="no-print fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/90 border-b border-[#dadada]/50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => router.push('/admin')}
-                className="p-2 hover:bg-[#f3f2f2] rounded-lg transition-colors cursor-pointer"
-                title="Back to dashboard"
-              >
-                <ArrowLeft size={18} />
-              </button>
-              <div>
-                <span className="font-bold text-[#282828]">QR Code Manager</span>
-                <span className="text-xs text-[#929292] ml-2 hidden sm:inline">({qrCards.length} machines)</span>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => window.print()}
-                className="flex items-center gap-2 px-4 py-2 bg-[#282828] text-white rounded-xl text-sm font-medium hover:bg-[#444] transition-colors cursor-pointer"
-              >
-                <Printer size={16} /> Print All
-              </button>
-            </div>
-          </div>
-        </header>
-
-        <main className="pt-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <AdminShell
+        active="stickers"
+        actions={
+          <button
+            onClick={() => window.print()}
+            className="flex items-center gap-2 px-4 py-2 bg-[#282828] text-white rounded-xl text-sm font-medium hover:bg-[#444] transition-colors cursor-pointer"
+          >
+            <Printer size={16} /> {searchQuery.trim() ? `Print ${filteredCards.length}` : 'Print All'}
+          </button>
+        }
+      >
           {loading ? (
             <div className="text-center py-24 text-[#929292]">Generating QR codes…</div>
           ) : qrCards.length === 0 ? (
@@ -175,7 +154,7 @@ function QRCodesContent() {
               <QrCode size={48} className="text-[#dadada] mx-auto mb-4" />
               <p className="text-[#929292] mb-4">No registered machines yet.</p>
               <button
-                onClick={() => router.push('/admin')}
+                onClick={() => router.push('/admin?tab=machines')}
                 className="px-6 py-3 bg-[#282828] text-white font-bold rounded-xl hover:bg-[#444] transition-colors cursor-pointer"
               >
                 Register a Machine
@@ -272,7 +251,7 @@ function QRCodesContent() {
                           {/* Quick URL snippet */}
                           <div className="mt-3 flex items-center gap-2 bg-[#f9f9f9] border border-[#dadada]/60 rounded-xl px-3 py-1.5 max-w-md">
                             <span className="font-mono text-xs text-[#666] truncate flex-1">
-                              {typeof window !== 'undefined' ? `${window.location.origin}/machine/${focusedCard.serialNumber}` : `/machine/${focusedCard.serialNumber}`}
+                              {machineUrl(focusedCard.serialNumber)}
                             </span>
                             <button
                               onClick={() => copyMachineLink(focusedCard.serialNumber)}
@@ -293,7 +272,7 @@ function QRCodesContent() {
                             <Download size={15} /> Download PNG
                           </button>
                           <a
-                            href={`/machine/${focusedCard.serialNumber}`}
+                            href={`/machine/${encodeURIComponent(focusedCard.serialNumber)}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2.5 bg-[#f3f2f2] text-[#282828] rounded-xl text-sm font-medium hover:bg-[#e8e8e8] transition-colors cursor-pointer"
@@ -394,11 +373,11 @@ function QRCodesContent() {
                           {card.serialNumber}
                         </p>
                         {card.clientName ? (
-                          <p className="text-xs text-[#929292] mt-0.5 truncate" title={card.clientName}>
+                          <p className="no-print text-xs text-[#929292] mt-0.5 truncate" title={card.clientName}>
                             {card.clientName}
                           </p>
                         ) : (
-                          <p className="text-xs text-[#dadada] mt-0.5">—</p>
+                          <p className="no-print text-xs text-[#dadada] mt-0.5">—</p>
                         )}
                       </div>
 
@@ -423,8 +402,7 @@ function QRCodesContent() {
               </div>
             </>
           )}
-        </main>
-      </div>
+      </AdminShell>
     </>
   );
 }

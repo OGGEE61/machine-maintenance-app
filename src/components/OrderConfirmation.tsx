@@ -1,65 +1,32 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle, X, Printer, Loader2 } from 'lucide-react';
-import { CartItem } from '@/types';
+import { CheckCircle, X, Printer } from 'lucide-react';
+import { CartMachine } from '@/types';
+import { useEscapeKey } from '@/hooks/useEscapeKey';
+import { orderReference } from '@/lib/orders';
 
-interface OrderConfirmationProps {
-  isOpen: boolean;
-  onClose: () => void;
-  items: CartItem[];
-  totalPrice: number;
-  machineTypeId?: string;
-  serialNumber?: string;
-  customerName?: string;
-  customerEmail?: string;
-  customerPhone?: string;
+// An order the server has confirmed it saved; this dialog is only shown for those
+export interface SubmittedOrder {
+  orderId: string;
+  // As returned by the server, so these are the parts and prices that were actually saved
+  lines: Array<{ partNumber: string; partName: string; quantity: number; unitPrice: number }>;
+  total: number;
+  machine: CartMachine;
+  customerEmail: string;
 }
 
-export default function OrderConfirmation({
-  isOpen, onClose, items, totalPrice,
-  machineTypeId, serialNumber, customerName, customerEmail, customerPhone,
-}: OrderConfirmationProps) {
-  const [orderId, setOrderId] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+interface OrderConfirmationProps {
+  order: SubmittedOrder | null;
+  onClose: () => void;
+}
 
-  useEffect(() => {
-    if (!isOpen || submitted || items.length === 0) return;
-    setSubmitting(true);
-    fetch('/api/orders', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        serialNumber: serialNumber ?? null,
-        machineTypeId: machineTypeId ?? '',
-        customerName: customerName ?? 'Unknown',
-        customerEmail: customerEmail ?? '',
-        customerPhone: customerPhone ?? null,
-        items: items.map((item) => ({
-          partId: item.part.id,
-          partNumber: item.part.partNumber,
-          partName: item.part.name,
-          quantity: item.quantity,
-          unitPrice: item.part.price,
-          currency: item.part.currency,
-        })),
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => { setOrderId(data.orderId); setSubmitted(true); })
-      .catch(() => { setSubmitted(true); })
-      .finally(() => setSubmitting(false));
-  }, [isOpen]);
-
-  const displayId = orderId
-    ? `GRS-${orderId.slice(0, 8).toUpperCase()}`
-    : `GRS-${Date.now().toString(36).toUpperCase()}`;
+export default function OrderConfirmation({ order, onClose }: OrderConfirmationProps) {
+  useEscapeKey(!!order, onClose);
 
   return (
     <AnimatePresence>
-      {isOpen && (
+      {order && (
         <>
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -78,6 +45,7 @@ export default function OrderConfirmation({
               <button
                 onClick={onClose}
                 className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#f1f1f1] transition-colors cursor-pointer"
+                aria-label="Close confirmation"
               >
                 <X size={18} className="text-[#6b6969]" />
               </button>
@@ -87,16 +55,11 @@ export default function OrderConfirmation({
                 transition={{ delay: 0.2, type: 'spring', stiffness: 300 }}
                 className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#d6ff41]/20 mb-3"
               >
-                {submitting
-                  ? <Loader2 size={32} className="text-[#0063ff] animate-spin" />
-                  : <CheckCircle size={32} className="text-[#0063ff]" />
-                }
+                <CheckCircle size={32} className="text-[#0063ff]" />
               </motion.div>
-              <h2 className="text-[#282828] font-bold text-xl mb-1">
-                {submitting ? 'Submitting Order…' : 'Order Request Submitted'}
-              </h2>
+              <h2 className="text-[#282828] font-bold text-xl mb-1">Order Request Submitted</h2>
               <p className="text-[#6b6969] text-sm">
-                Your request has been sent to the GROSS sales team. They will contact you shortly with a quote.
+                Your request has been sent to the GROSS sales team. They will contact you at {order.customerEmail} with a quote.
               </p>
             </div>
 
@@ -104,18 +67,25 @@ export default function OrderConfirmation({
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
               <div className="flex justify-between items-center">
                 <span className="font-mono text-[10px] text-[#929292] uppercase tracking-widest">Order Reference</span>
-                <span className="font-mono text-sm font-bold text-[#0063ff]">{displayId}</span>
+                <span className="font-mono text-sm font-bold text-[#0063ff]">{orderReference(order.orderId)}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="font-mono text-[10px] text-[#929292] uppercase tracking-widest">Machine</span>
+                <span className="text-sm font-medium text-[#282828] text-right">
+                  {order.machine.name}
+                  {order.machine.serialNumber && <span className="font-mono text-xs text-[#929292] ml-2">{order.machine.serialNumber}</span>}
+                </span>
               </div>
 
               <div className="space-y-2">
-                {items.map((item) => (
-                  <div key={item.part.id} className="flex items-center justify-between py-2 border-b border-[#f1f1f1] last:border-0">
+                {order.lines.map((line) => (
+                  <div key={line.partNumber} className="flex items-center justify-between py-2 border-b border-[#f1f1f1] last:border-0">
                     <div className="flex-1 min-w-0 mr-4">
-                      <p className="text-sm text-[#282828] font-medium truncate">{item.part.name}</p>
-                      <p className="text-[11px] text-[#929292] font-mono">{item.part.partNumber} × {item.quantity}</p>
+                      <p className="text-sm text-[#282828] font-medium truncate">{line.partName}</p>
+                      <p className="text-[11px] text-[#929292] font-mono">{line.partNumber} × {line.quantity}</p>
                     </div>
                     <span className="text-sm font-bold text-[#282828] whitespace-nowrap">
-                      €{(item.part.price * item.quantity).toFixed(2)}
+                      €{(line.unitPrice * line.quantity).toFixed(2)}
                     </span>
                   </div>
                 ))}
@@ -123,7 +93,7 @@ export default function OrderConfirmation({
 
               <div className="flex items-center justify-between pt-3 border-t-2 border-[#282828]">
                 <span className="font-bold text-[#282828]">Total (excl. VAT)</span>
-                <span className="font-bold text-xl text-[#282828]">€{totalPrice.toFixed(2)}</span>
+                <span className="font-bold text-xl text-[#282828]">€{order.total.toFixed(2)}</span>
               </div>
             </div>
 
