@@ -2,7 +2,7 @@ import { cache } from 'react';
 import { getMachineById } from '@/data/machines';
 import { notFound } from 'next/navigation';
 import { sql } from '@/lib/db';
-import { withVisiblePartsOnly } from '@/lib/catalog';
+import { getCustomerMachine } from '@/lib/catalog';
 import MachinePageClient from './MachinePageClient';
 import type { Machine } from '@/types';
 
@@ -32,6 +32,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   return {
     title: `${machine.name} — GROSS Parts`,
     description: `Order spare parts for your ${machine.name}. ${machine.description}`,
+    // Individual machines shouldn't turn up in search results, only the catalogue pages
+    robots: machine.serialNumber ? { index: false } : undefined,
   };
 }
 
@@ -42,5 +44,5 @@ export default async function MachinePage({ params }: { params: Promise<{ id: st
     notFound();
   }
 
-  return <MachinePageClient machine={await withVisiblePartsOnly(machine)} />;
+  return <MachinePageClient machine={await getCustomerMachine(machine)} />;
 }

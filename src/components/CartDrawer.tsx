@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Loader2, X, Minus, Plus, Trash2, Send, ShoppingCart } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import { useEscapeKey } from '@/hooks/useEscapeKey';
 import { useState } from 'react';
 import OrderConfirmation, { SubmittedOrder } from './OrderConfirmation';
 
@@ -31,6 +32,8 @@ export default function CartDrawer() {
 
   const showDetails = step === 'details' && items.length > 0;
 
+  useEscapeKey(isOpen, () => setIsOpen(false));
+
   const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!machine || submitting) return;
@@ -56,7 +59,7 @@ export default function CartDrawer() {
         setError(data?.error ?? 'We could not send your order. Please try again.');
         return;
       }
-      setSubmittedOrder({ orderId: data.orderId, items, totalPrice, machine, customerEmail: contact.email.trim() });
+      setSubmittedOrder({ orderId: data.orderId, lines: data.lines, total: data.total, machine, customerEmail: contact.email.trim() });
       setContact((prev) => ({ ...prev, notes: '' }));
       setStep('items');
       setIsOpen(false);

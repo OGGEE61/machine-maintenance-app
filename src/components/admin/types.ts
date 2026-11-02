@@ -1,5 +1,10 @@
 import type { OrderStatus } from '@/lib/orders';
 
+export interface MachineTypeOption {
+  id: string;
+  name: string;
+}
+
 export interface Order {
   id: string;
   serial_number: string | null;

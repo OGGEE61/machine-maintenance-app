@@ -1,10 +1,24 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { after, NextRequest, NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
 import { isAdminAuthenticated } from '@/lib/auth';
 import { getMachineById } from '@/data/machines';
-import { withVisiblePartsOnly } from '@/lib/catalog';
+import { getCustomerMachine } from '@/lib/catalog';
+import { OrderEmailDetails, sendOrderEmails } from '@/lib/email';
 import { readJson } from '@/lib/http';
+import { clientKey, consumeRateLimit } from '@/lib/rate-limit';
 import { parseOrderRequest } from '@/lib/validation';
+
+const MAX_ORDERS_PER_HOUR = 20;
+
+// Saving a real customer's order matters more than the limit, so a limiter failure lets it through
+async function isOverOrderLimit(req: NextRequest): Promise<boolean> {
+  try {
+    return !(await consumeRateLimit(`orders:${clientKey(req)}`, MAX_ORDERS_PER_HOUR, 60 * 60));
+  } catch (err) {
+    console.error('Order rate limit check failed', err);
+    return false;
+  }
+}
 
 export async function POST(req: NextRequest) {
   const parsed = parseOrderRequest(await readJson(req));
@@ -18,6 +32,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Unknown machine.' }, { status: 400 });
   }
 
+  if (await isOverOrderLimit(req)) {
+    return NextResponse.json(
+      { error: 'Too many orders from this network. Please try again later or contact GROSS directly.' },
+      { status: 429, headers: { 'Retry-After': '3600' } }
+    );
+  }
+
   try {
     if (serialNumber) {
       const rows = await sql`SELECT machine_type_id FROM machines WHERE serial_number = ${serialNumber}`;
@@ -27,7 +48,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Part details and prices always come from the catalogue, never from the browser
-    const machine = await withVisiblePartsOnly(catalogueMachine);
+    const machine = await getCustomerMachine(catalogueMachine);
     const partsById = new Map(machine.modules.flatMap((mod) => mod.parts).map((part) => [part.id, part]));
 
     const orderId = crypto.randomUUID();
@@ -38,14 +59,23 @@ export async function POST(req: NextRequest) {
       `,
     ];
 
+    const lines: OrderEmailDetails['lines'] = [];
     for (const item of items) {
       const part = partsById.get(item.partId);
       if (!part) {
+        const name = catalogueMachine.modules.flatMap((mod) => mod.parts).find((p) => p.id === item.partId)?.name;
         return NextResponse.json(
-          { error: 'One of the parts in your cart is no longer available. Please remove it and try again.' },
+          { error: `${name ?? 'One of the parts in your cart'} is no longer available. Please remove it and try again.` },
           { status: 400 }
         );
       }
+      lines.push({
+        partNumber: part.partNumber,
+        partName: part.name,
+        quantity: item.quantity,
+        unitPrice: part.price,
+        currency: part.currency,
+      });
       queries.push(
         sql`
           INSERT INTO order_items (order_id, part_id, part_number, part_name, quantity, unit_price, currency)
@@ -57,7 +87,21 @@ export async function POST(req: NextRequest) {
     // Execute all queries in a single transaction (batch)
     await sql.transaction(queries);
 
-    return NextResponse.json({ orderId }, { status: 201 });
+    const total = lines.reduce((sum, line) => sum + line.unitPrice * line.quantity, 0);
+    after(() => sendOrderEmails({
+      orderId,
+      machineName: machine.name,
+      serialNumber,
+      customerName,
+      customerEmail,
+      customerPhone,
+      notes,
+      lines,
+      total,
+      currency: lines[0].currency,
+    }));
+
+    return NextResponse.json({ orderId, lines, total }, { status: 201 });
   } catch (err) {
     console.error('Failed to save order', err);
     return NextResponse.json({ error: 'We could not save your order. Please try again.' }, { status: 500 });

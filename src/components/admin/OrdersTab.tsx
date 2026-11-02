@@ -3,11 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { AlertTriangle, Clock, Download, Mail, Package, Phone, Search, Truck, XCircle } from 'lucide-react';
-import { getMachineById } from '@/data/machines';
 import { ORDER_TRANSITIONS, OrderStatus, orderReference } from '@/lib/orders';
+import { orderTotal, ordersToCsv } from '@/lib/orders-csv';
 import { adminRequest, errorMessage } from './api';
 import FilterPills from './FilterPills';
-import type { Order } from './types';
+import type { MachineTypeOption, Order } from './types';
 
 type OrderFilter = 'open' | OrderStatus | 'all';
 
@@ -26,41 +26,9 @@ function transitionLabel(from: OrderStatus, to: OrderStatus): string {
   return from === 'shipped' ? 'Undo shipping' : 'Back to new';
 }
 
-function orderTotal(order: Order): number {
-  return order.items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
-}
-
-function machineName(order: Order): string {
-  if (!order.machine_type_id) return 'Machine not recorded';
-  return getMachineById(order.machine_type_id)?.name ?? order.machine_type_id;
-}
-
-// Customers can type anything into an order, so stop spreadsheets running it as a formula
-function spreadsheetSafe(value: string | null): string {
-  const text = value ?? '';
-  return /^[=+\-@\t\r]/.test(text) ? `'${text}` : text;
-}
-
-function exportCSV(orders: Order[]) {
-  const rows = [
-    ['Reference', 'Date', 'Status', 'Machine', 'Serial Number', 'Customer', 'Email', 'Phone', 'Items', 'Total (excl. VAT)', 'Currency', 'Notes'],
-    ...orders.map((o) => [
-      orderReference(o.id),
-      o.created_at,
-      o.status,
-      machineName(o),
-      o.serial_number ?? '',
-      spreadsheetSafe(o.customer_name),
-      spreadsheetSafe(o.customer_email),
-      o.customer_phone ?? '',
-      o.items.map((i) => `${i.partNumber} ${i.partName} x${i.quantity} @ ${i.unitPrice.toFixed(2)}`).join('; '),
-      orderTotal(o).toFixed(2),
-      o.items[0]?.currency ?? '',
-      spreadsheetSafe(o.notes),
-    ]),
-  ];
-  const csv = rows.map((r) => r.map((c) => `"${c.replace(/"/g, '""')}"`).join(',')).join('\r\n');
-  const url = URL.createObjectURL(new Blob(['﻿', csv], { type: 'text/csv;charset=utf-8' }));
+function exportCSV(orders: Order[], machineName: (order: Order) => string) {
+  const csv = ordersToCsv(orders, (o) => machineName(o as Order));
+  const url = URL.createObjectURL(new Blob(['\uFEFF', csv], { type: 'text/csv;charset=utf-8' }));
   const a = document.createElement('a');
   a.href = url;
   a.download = 'gross-orders.csv';
@@ -71,17 +39,23 @@ function exportCSV(orders: Order[]) {
 
 interface OrdersTabProps {
   orders: Order[];
+  machineTypes: MachineTypeOption[];
   loading: boolean;
   initialQuery: string;
   onOrderChange: (orderId: string, status: OrderStatus) => void;
 }
 
-export default function OrdersTab({ orders, loading, initialQuery, onOrderChange }: OrdersTabProps) {
+export default function OrdersTab({ orders, machineTypes, loading, initialQuery, onOrderChange }: OrdersTabProps) {
   // Arriving from a machine's order link shows all of its orders, not just the open ones
   const [filter, setFilter] = useState<OrderFilter>(initialQuery ? 'all' : 'open');
   const [query, setQuery] = useState(initialQuery);
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [error, setError] = useState('');
+
+  const machineName = (order: Pick<Order, 'machine_type_id'>) => {
+    if (!order.machine_type_id) return 'Machine not recorded';
+    return machineTypes.find((m) => m.id === order.machine_type_id)?.name ?? order.machine_type_id;
+  };
 
   const countOf = (status: OrderStatus) => orders.filter((o) => o.status === status).length;
   const isOpen = (o: Order) => o.status === 'new' || o.status === 'processing';
@@ -126,7 +100,7 @@ export default function OrdersTab({ orders, loading, initialQuery, onOrderChange
             />
           </div>
           <button
-            onClick={() => exportCSV(visibleOrders)}
+            onClick={() => exportCSV(visibleOrders, machineName)}
             disabled={visibleOrders.length === 0}
             className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-[#0063ff] hover:bg-[#f3f2f2] rounded-lg transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
           >

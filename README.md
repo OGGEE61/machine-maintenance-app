@@ -42,7 +42,7 @@ This app replaces that with a **self-service spare parts portal** tied to each p
    - A list of available spare parts per module
 3. Customer adds parts to the cart. Each order covers one machine
 4. Customer enters their name / company and email (phone and notes are optional) and submits the order
-5. A confirmation with an order reference (e.g. `GRS-1A2B3C4D`) appears only once the order has been saved; if saving fails they see an error and keep their cart
+5. A confirmation with an order reference (e.g. `GRS-1A2B3C4D`) appears only once the order has been saved; if saving fails they see an error and keep their cart. The cart also survives a page refresh
 6. No login or account is required
 
 ### Process 4 — GROSS Staff Manages Orders
@@ -52,11 +52,13 @@ This app replaces that with a **self-service spare parts portal** tied to each p
 3. Each order shows the customer, machine, parts, total and notes, with its next step as one button: **Start processing → Mark as shipped**. Orders can also be cancelled, reopened or moved a step back
 4. Search finds orders by reference, customer, serial number or part. Orders and machines link to each other
 5. The orders currently listed can be exported to CSV for internal use (ERP, invoicing)
+6. When email is configured, staff get each new order by email (replies go to the customer) and the customer gets a confirmation
 
-### Process 5 — Staff Control What Can Be Ordered
+### Process 5 — Staff Manage Parts, Prices and Stock
 
-1. **Admin → Parts** lists each machine type's catalogue by module
-2. Hiding a part removes it from the customer's parts page immediately and stops it being ordered. A module with no visible parts loses its hotspot
+1. **Admin → Parts** lists each machine type's catalogue by module, with price, availability and lead time
+2. Changes apply to the customer's parts page immediately, with no deploy. Existing orders keep the prices they were placed at
+3. Hiding a part removes it from the parts page and stops it being ordered. A module with no visible parts loses its hotspot
 
 ---
 
@@ -92,8 +94,9 @@ This app replaces that with a **self-service spare parts portal** tied to each p
 - Client details for when a machine is sold or relocated (staff only)
 - Order submission (no login required) with contact details, and validation and prices enforced on the server
 - Order management — To do queue, guided status steps, search, CSV export
-- Parts visibility per machine type, applied to customer pages and to ordering
-- Admin PIN authentication with HttpOnly cookie session (8 hours)
+- Parts, prices, stock and visibility managed per machine type, applied to customer pages and to ordering
+- Admin PIN login with server-side sessions (8 hours), and limits on login attempts and orders
+- Order emails to staff and customers (off until configured)
 
 ### 🔲 In Progress / Pending
 
@@ -159,7 +162,7 @@ machine_types   — machine models (Genius 2/40, GP 80, etc.)
 modules         — subsystems per machine type (Hopper, Hydraulic Tank, etc.)
                   id, machine_type_id, name, description, position_x, position_y
 
-parts           — spare parts per module, with visibility toggle
+parts           — spare parts per module
                   id, module_id, part_number, name, description,
                   price, currency, availability, lead_time_days, category, visible
 
@@ -171,27 +174,59 @@ orders          — customer order requests
                   id, serial_number, machine_type_id, status, customer_name,
                   customer_email, customer_phone, notes, created_at, updated_at
 
-order_items     — line items per order
+order_items     — line items per order, keeping the price at the time of ordering
                   id, order_id, part_id, part_number, part_name,
                   quantity, unit_price, currency
+
+admin_sessions  — logged-in staff sessions, storing only a hash of each token
+rate_limits     — attempt counters per time window, storing only hashed addresses
 ```
+
+`src/data/machines.ts` defines each machine's modules and parts. **Price, availability, lead time and visibility come from the `parts` table**, which is what the admin panel edits.
+
+Schema changes live in [`migrations/`](migrations/) as numbered SQL files:
+
+```bash
+npm run db:migrate   # applies pending migrations to POSTGRES_URL in .env.local
+npm run db:seed      # adds new catalogue entries; keeps existing prices, stock and visibility
+```
+
+Both use whichever database `.env.local` points at, so check that first. `db:migrate` prints the host it connects to.
 
 ---
 
 ## Admin Access
 
 Visit `/admin/login` and enter the admin PIN.  
-Production PIN is set via `ADMIN_PIN` in Vercel environment variables.
+Production PIN is set via `ADMIN_PIN` in Vercel environment variables. Use a long one: attempts are limited, but a 4-digit PIN is still guessable over time.
+
+Logging out ends the session on the server. To sign everyone out at once, for example after changing the PIN, run `DELETE FROM admin_sessions`.
 
 > ⚠️ Never commit the PIN to the repository.
 
 ---
 
+## Testing
+
+```bash
+npm run lint
+npm run typecheck
+npm test            # unit tests
+npx playwright install chromium   # first time only
+npm run test:e2e    # full flows in a real browser
+```
+
+The end-to-end tests run the real migrations, seed script and a production build against a throwaway in-memory Postgres, so they never touch a real database or send real email, whatever is in `.env.local`. GitHub Actions runs all of this on every pull request.
+
+---
+
 ## Deployment
 
-Deployed automatically via **Vercel** on every push to `main`.
+Deployed automatically via **Vercel** on every push to `main`. Run `npm run db:migrate` against production **before** merging anything that adds a migration.
 
-Required environment variables (set in Vercel dashboard):
+Environment variables (set in the Vercel dashboard; see [`.env.example`](.env.example)):
 - `POSTGRES_URL` — provided automatically by the Neon integration
 - `ADMIN_PIN` — set manually
 - `NEXT_PUBLIC_APP_URL` — the production address printed on QR stickers, e.g. `https://gross-service-app.vercel.app`. Without it, stickers use the address of whichever deployment generated them, so a sticker made on a preview deploy or localhost would not work once printed
+- `RESEND_API_KEY`, `ORDER_FROM_EMAIL` — optional, turn on order emails through [Resend](https://resend.com). The sender address must be on a domain verified with Resend
+- `ORDER_NOTIFY_EMAIL` — optional, the staff inbox for new orders

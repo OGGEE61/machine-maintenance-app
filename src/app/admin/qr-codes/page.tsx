@@ -17,7 +17,6 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import QRCode from 'qrcode';
-import { machines as machineTypes } from '@/data/machines';
 import AdminShell from '@/components/admin/AdminShell';
 import { machineUrl } from '@/lib/machine-url';
 
@@ -64,11 +63,10 @@ function QRCodesContent() {
       const cards: QRCard[] = await Promise.all(
         list.map(async (m) => {
           const dataUrl = await generateQR(machineUrl(m.serial_number));
-          const typeName = machineTypes.find((t) => t.id === m.machine_type_id)?.name ?? m.machine_type_name;
           return {
             serialNumber: m.serial_number,
             machineTypeId: m.machine_type_id,
-            machineTypeName: typeName,
+            machineTypeName: m.machine_type_name,
             clientName: m.client_name,
             dataUrl,
           };

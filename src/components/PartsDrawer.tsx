@@ -5,6 +5,7 @@ import { X, Package, ShoppingCart, Check, Clock, AlertTriangle } from 'lucide-re
 import { CartMachine, Module, Part } from '@/types';
 import { isSameMachine, useCart } from '@/context/CartContext';
 import { useState } from 'react';
+import { useEscapeKey } from '@/hooks/useEscapeKey';
 
 interface PartsDrawerProps {
   module: Module | null;
@@ -29,7 +30,7 @@ function AvailabilityBadge({ availability, leadTimeDays }: { availability: Part[
     case 'on-order':
       return (
         <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#0063ff] bg-blue-50 px-2 py-0.5 rounded-full">
-          <Clock size={10} /> {leadTimeDays}d lead time
+          <Clock size={10} /> {leadTimeDays ? `${leadTimeDays}d lead time` : 'On order'}
         </span>
       );
   }
@@ -133,6 +134,8 @@ function PartCard({ part, moduleName, machine }: { part: Part; moduleName: strin
 }
 
 export default function PartsDrawer({ module, machine, onClose }: PartsDrawerProps) {
+  useEscapeKey(!!module, onClose);
+
   return (
     <AnimatePresence mode="wait">
       {module && (

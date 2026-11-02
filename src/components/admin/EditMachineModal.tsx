@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Info, Loader2, Save, Trash2, X } from 'lucide-react';
+import { useEscapeKey } from '@/hooks/useEscapeKey';
 import { adminRequest, errorMessage } from './api';
 import type { RegisteredMachine } from './types';
 
@@ -26,6 +27,7 @@ export default function EditMachineModal({ machine, onClose, onChanged }: EditMa
   });
   const [busy, setBusy] = useState<'save' | 'delete' | null>(null);
   const [error, setError] = useState('');
+  useEscapeKey(true, onClose);
   const path = `/api/machines-db/${encodeURIComponent(machine.serial_number)}`;
   const set = (field: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((prev) => ({ ...prev, [field]: e.target.value }));

@@ -1,13 +1,13 @@
 'use client';
 
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import AdminShell from '@/components/admin/AdminShell';
-import { adminRequest, errorMessage } from '@/components/admin/api';
-import MachinesTab from '@/components/admin/MachinesTab';
-import OrdersTab from '@/components/admin/OrdersTab';
-import PartsTab from '@/components/admin/PartsTab';
-import type { Order, RegisteredMachine } from '@/components/admin/types';
+import AdminShell from './AdminShell';
+import { adminRequest, errorMessage } from './api';
+import MachinesTab from './MachinesTab';
+import OrdersTab from './OrdersTab';
+import PartsTab from './PartsTab';
+import type { MachineTypeOption, Order, RegisteredMachine } from './types';
 import type { OrderStatus } from '@/lib/orders';
 
 type Tab = 'orders' | 'machines' | 'parts';
@@ -20,7 +20,7 @@ function fetchMachines() {
   return adminRequest<{ machines: RegisteredMachine[] }>('/api/machines-db').then((data) => data.machines);
 }
 
-function AdminDashboard() {
+export default function AdminDashboard({ machineTypes }: { machineTypes: MachineTypeOption[] }) {
   const searchParams = useSearchParams();
   const tabParam = searchParams.get('tab');
   const tab: Tab = tabParam === 'machines' || tabParam === 'parts' ? tabParam : 'orders';
@@ -76,20 +76,12 @@ function AdminDashboard() {
       )}
 
       {tab === 'orders' && (
-        <OrdersTab key={query} orders={orders} loading={loading} initialQuery={query} onOrderChange={handleOrderChange} />
+        <OrdersTab key={query} orders={orders} machineTypes={machineTypes} loading={loading} initialQuery={query} onOrderChange={handleOrderChange} />
       )}
       {tab === 'machines' && (
-        <MachinesTab key={query} machines={machines} initialQuery={query} onChanged={refreshMachines} />
+        <MachinesTab key={query} machines={machines} machineTypes={machineTypes} initialQuery={query} onChanged={refreshMachines} />
       )}
-      {tab === 'parts' && <PartsTab />}
+      {tab === 'parts' && <PartsTab machineTypes={machineTypes} />}
     </AdminShell>
-  );
-}
-
-export default function AdminPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen bg-[#f9f9f9] flex items-center justify-center text-[#929292]">Loading…</div>}>
-      <AdminDashboard />
-    </Suspense>
   );
 }

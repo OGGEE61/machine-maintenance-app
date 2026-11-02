@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Check, CheckCircle2, Copy, Download, ExternalLink, Loader2, Printer, QrCode, X } from 'lucide-react';
 import QRCode from 'qrcode';
+import { useEscapeKey } from '@/hooks/useEscapeKey';
 import { machineUrl } from '@/lib/machine-url';
 import type { RegisteredMachine } from './types';
 
@@ -23,6 +24,7 @@ export default function MachineQrModal({ machine, justRegistered, onClose }: Mac
   const [failed, setFailed] = useState(false);
   const [copied, setCopied] = useState(false);
   const url = machineUrl(machine.serial_number);
+  useEscapeKey(true, onClose);
 
   useEffect(() => {
     QRCode.toDataURL(url, { width: 340, margin: 1, color: { dark: '#282828', light: '#ffffff' } })

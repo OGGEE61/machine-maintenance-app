@@ -27,7 +27,7 @@ export default function HotspotPin({
       transition={{ delay: 0.3 + index * 0.08, type: 'spring', stiffness: 300, damping: 20 }}
       onClick={onClick}
       className="absolute group cursor-pointer z-10"
-      style={{ left: `${x}%`, top: `${y}%`, transform: 'translate(-50%, -50%)' }}
+      style={{ left: `${x}%`, top: `${y}%`, x: '-50%', y: '-50%' }}
       aria-label={`View parts for ${label}`}
       title={label}
     >

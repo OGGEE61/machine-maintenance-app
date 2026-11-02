@@ -4,12 +4,11 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { AnimatePresence } from 'framer-motion';
 import { Loader2, Pencil, QrCode, Search, UserPlus } from 'lucide-react';
-import { machines as machineTypes } from '@/data/machines';
 import { adminRequest, errorMessage } from './api';
 import EditMachineModal from './EditMachineModal';
 import FilterPills from './FilterPills';
 import MachineQrModal from './MachineQrModal';
-import type { RegisteredMachine } from './types';
+import type { MachineTypeOption, RegisteredMachine } from './types';
 
 type MachineFilter = 'all' | 'unassigned' | 'assigned';
 
@@ -17,11 +16,12 @@ const inputClass = 'w-full border border-[#dadada] rounded-xl px-4 py-2.5 text-s
 
 interface MachinesTabProps {
   machines: RegisteredMachine[];
+  machineTypes: MachineTypeOption[];
   initialQuery: string;
   onChanged: () => Promise<void>;
 }
 
-export default function MachinesTab({ machines, initialQuery, onChanged }: MachinesTabProps) {
+export default function MachinesTab({ machines, machineTypes, initialQuery, onChanged }: MachinesTabProps) {
   const [serialNumber, setSerialNumber] = useState('');
   const [machineTypeId, setMachineTypeId] = useState(machineTypes[0].id);
   const [registering, setRegistering] = useState(false);

@@ -2,14 +2,16 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle, X, Printer } from 'lucide-react';
-import { CartItem, CartMachine } from '@/types';
+import { CartMachine } from '@/types';
+import { useEscapeKey } from '@/hooks/useEscapeKey';
 import { orderReference } from '@/lib/orders';
 
 // An order the server has confirmed it saved; this dialog is only shown for those
 export interface SubmittedOrder {
   orderId: string;
-  items: CartItem[];
-  totalPrice: number;
+  // As returned by the server, so these are the parts and prices that were actually saved
+  lines: Array<{ partNumber: string; partName: string; quantity: number; unitPrice: number }>;
+  total: number;
   machine: CartMachine;
   customerEmail: string;
 }
@@ -20,6 +22,8 @@ interface OrderConfirmationProps {
 }
 
 export default function OrderConfirmation({ order, onClose }: OrderConfirmationProps) {
+  useEscapeKey(!!order, onClose);
+
   return (
     <AnimatePresence>
       {order && (
@@ -74,14 +78,14 @@ export default function OrderConfirmation({ order, onClose }: OrderConfirmationP
               </div>
 
               <div className="space-y-2">
-                {order.items.map((item) => (
-                  <div key={item.part.id} className="flex items-center justify-between py-2 border-b border-[#f1f1f1] last:border-0">
+                {order.lines.map((line) => (
+                  <div key={line.partNumber} className="flex items-center justify-between py-2 border-b border-[#f1f1f1] last:border-0">
                     <div className="flex-1 min-w-0 mr-4">
-                      <p className="text-sm text-[#282828] font-medium truncate">{item.part.name}</p>
-                      <p className="text-[11px] text-[#929292] font-mono">{item.part.partNumber} × {item.quantity}</p>
+                      <p className="text-sm text-[#282828] font-medium truncate">{line.partName}</p>
+                      <p className="text-[11px] text-[#929292] font-mono">{line.partNumber} × {line.quantity}</p>
                     </div>
                     <span className="text-sm font-bold text-[#282828] whitespace-nowrap">
-                      €{(item.part.price * item.quantity).toFixed(2)}
+                      €{(line.unitPrice * line.quantity).toFixed(2)}
                     </span>
                   </div>
                 ))}
@@ -89,7 +93,7 @@ export default function OrderConfirmation({ order, onClose }: OrderConfirmationP
 
               <div className="flex items-center justify-between pt-3 border-t-2 border-[#282828]">
                 <span className="font-bold text-[#282828]">Total (excl. VAT)</span>
-                <span className="font-bold text-xl text-[#282828]">€{order.totalPrice.toFixed(2)}</span>
+                <span className="font-bold text-xl text-[#282828]">€{order.total.toFixed(2)}</span>
               </div>
             </div>
 

@@ -1,37 +1,141 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Eye, EyeOff, Search } from 'lucide-react';
-import { machines as machineTypes } from '@/data/machines';
+import { Eye, EyeOff, Loader2, Search } from 'lucide-react';
 import { adminRequest, errorMessage } from './api';
+import type { MachineTypeOption } from './types';
 
-interface PartVisibility {
+type Availability = 'in-stock' | 'low-stock' | 'on-order';
+
+interface ManagedPart {
   id: string;
   name: string;
   partNumber: string;
-  category: string;
+  price: number;
+  currency: string;
+  availability: Availability;
+  leadTimeDays: number | null;
   visible: boolean;
 }
 
-interface ModuleVisibility {
+interface ManagedModule {
   id: string;
   name: string;
-  parts: PartVisibility[];
+  parts: ManagedPart[];
 }
 
-export default function PartsTab() {
+const fieldClass = 'border border-[#dadada] rounded-lg px-2.5 py-1.5 text-sm focus:outline-none focus:border-[#0063ff] transition-colors bg-white';
+
+function PartRow({ part, onSaved }: { part: ManagedPart; onSaved: (changes: Partial<ManagedPart>) => void }) {
+  const [price, setPrice] = useState(part.price.toFixed(2));
+  const [availability, setAvailability] = useState(part.availability);
+  const [leadTime, setLeadTime] = useState(part.leadTimeDays?.toString() ?? '');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+
+  const parsedLeadTime = leadTime.trim() === '' ? null : Number(leadTime);
+  const dirty = Number(price) !== part.price || availability !== part.availability
+    || (availability === 'on-order' && parsedLeadTime !== part.leadTimeDays);
+
+  const save = async (changes: Partial<ManagedPart>) => {
+    setBusy(true);
+    setError('');
+    try {
+      await adminRequest(`/api/parts/${encodeURIComponent(part.id)}`, 'PATCH', changes);
+      onSaved(changes);
+    } catch (err) {
+      setError(errorMessage(err));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className={`p-3 rounded-xl border border-[#dadada]/50 ${part.visible ? '' : 'bg-[#f9f9f9]'}`}>
+      <div className="flex items-center justify-between gap-3 flex-wrap">
+        <div className="flex-1 min-w-[200px]">
+          <p className={`font-medium text-sm ${part.visible ? 'text-[#282828]' : 'text-[#929292]'}`}>{part.name}</p>
+          <p className="font-mono text-[11px] text-[#929292]">{part.partNumber}</p>
+        </div>
+
+        <div className="flex items-center gap-2 flex-wrap">
+          <label className="flex items-center gap-1 text-xs text-[#929292]">
+            €
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              aria-label={`Price of ${part.name}`}
+              className={`${fieldClass} w-24`}
+            />
+          </label>
+          <select
+            value={availability}
+            onChange={(e) => setAvailability(e.target.value as Availability)}
+            aria-label={`Availability of ${part.name}`}
+            className={fieldClass}
+          >
+            <option value="in-stock">In stock</option>
+            <option value="low-stock">Low stock</option>
+            <option value="on-order">On order</option>
+          </select>
+          {availability === 'on-order' && (
+            <label className="flex items-center gap-1 text-xs text-[#929292]">
+              <input
+                type="number"
+                min="0"
+                step="1"
+                value={leadTime}
+                onChange={(e) => setLeadTime(e.target.value)}
+                aria-label={`Lead time of ${part.name} in days`}
+                className={`${fieldClass} w-16`}
+              />
+              days
+            </label>
+          )}
+          {dirty && (
+            <button
+              onClick={() => save({
+                price: Number(price),
+                availability,
+                leadTimeDays: availability === 'on-order' ? parsedLeadTime : part.leadTimeDays,
+              })}
+              disabled={busy}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#282828] text-white rounded-lg text-xs font-semibold hover:bg-[#444] transition-colors cursor-pointer disabled:opacity-60"
+            >
+              {busy && <Loader2 size={13} className="animate-spin" />}
+              Save
+            </button>
+          )}
+          <button
+            onClick={() => save({ visible: !part.visible })}
+            disabled={busy}
+            aria-label={`${part.visible ? 'Hide' : 'Show'} ${part.name}`}
+            className={`flex items-center gap-1.5 w-24 justify-center py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer disabled:opacity-60 ${part.visible ? 'bg-[#dcfce7] text-[#16a34a] hover:bg-[#bbf7d0]' : 'bg-[#f3f2f2] text-[#929292] hover:bg-[#e8e8e8]'}`}
+          >
+            {part.visible ? <><Eye size={13} /> Visible</> : <><EyeOff size={13} /> Hidden</>}
+          </button>
+        </div>
+      </div>
+      {error && <p role="alert" className="mt-2 text-xs text-red-700">{error}</p>}
+    </div>
+  );
+}
+
+export default function PartsTab({ machineTypes }: { machineTypes: MachineTypeOption[] }) {
   const [machineTypeId, setMachineTypeId] = useState(machineTypes[0].id);
   // Keyed by machine type, so a missing entry means that machine is still loading
-  const [modulesByType, setModulesByType] = useState<Record<string, ModuleVisibility[]>>({});
+  const [modulesByType, setModulesByType] = useState<Record<string, ManagedModule[]>>({});
   const [query, setQuery] = useState('');
-  const [pendingId, setPendingId] = useState<string | null>(null);
   const [error, setError] = useState('');
 
   useEffect(() => {
     let active = true;
     async function load() {
       try {
-        const { modules } = await adminRequest<{ modules: ModuleVisibility[] }>(
+        const { modules } = await adminRequest<{ modules: ManagedModule[] }>(
           `/api/parts-by-machine?machineTypeId=${encodeURIComponent(machineTypeId)}`
         );
         if (active) setModulesByType((prev) => ({ ...prev, [machineTypeId]: modules }));
@@ -43,23 +147,14 @@ export default function PartsTab() {
     return () => { active = false; };
   }, [machineTypeId]);
 
-  const toggle = async (partId: string, visible: boolean) => {
-    setPendingId(partId);
-    setError('');
-    try {
-      await adminRequest(`/api/parts/${encodeURIComponent(partId)}`, 'PATCH', { visible });
-      setModulesByType((prev) => ({
-        ...prev,
-        [machineTypeId]: (prev[machineTypeId] ?? []).map((mod) => ({
-          ...mod,
-          parts: mod.parts.map((part) => (part.id === partId ? { ...part, visible } : part)),
-        })),
-      }));
-    } catch (err) {
-      setError(`The part was not updated: ${errorMessage(err)}`);
-    } finally {
-      setPendingId(null);
-    }
+  const updatePart = (partId: string, changes: Partial<ManagedPart>) => {
+    setModulesByType((prev) => ({
+      ...prev,
+      [machineTypeId]: (prev[machineTypeId] ?? []).map((mod) => ({
+        ...mod,
+        parts: mod.parts.map((part) => (part.id === partId ? { ...part, ...changes } : part)),
+      })),
+    }));
   };
 
   const modules = modulesByType[machineTypeId];
@@ -76,8 +171,8 @@ export default function PartsTab() {
     <div className="bg-white rounded-2xl border border-[#dadada]/70 overflow-hidden">
       <div className="p-5 border-b border-[#dadada]/50 space-y-3">
         <div>
-          <h2 className="font-bold text-[#282828]">Parts Customers Can Order</h2>
-          <p className="text-sm text-[#929292] mt-0.5">Hidden parts disappear from the machine&apos;s parts page immediately and can&apos;t be ordered.</p>
+          <h2 className="font-bold text-[#282828]">Parts, Prices &amp; Stock</h2>
+          <p className="text-sm text-[#929292] mt-0.5">Changes apply to the machine&apos;s parts page immediately. Hidden parts can&apos;t be ordered, and existing orders keep their original prices.</p>
         </div>
         <div className="flex items-center gap-3 flex-wrap">
           <select
@@ -117,20 +212,7 @@ export default function PartsTab() {
               <h3 className="text-[11px] uppercase tracking-wide text-[#929292] mb-2">{mod.name}</h3>
               <div className="space-y-2">
                 {mod.parts.map((part) => (
-                  <div key={part.id} className="flex items-center justify-between p-3 rounded-xl border border-[#dadada]/50">
-                    <div className="flex-1 min-w-0 mr-4">
-                      <p className={`font-medium text-sm truncate ${part.visible ? 'text-[#282828]' : 'text-[#929292]'}`}>{part.name}</p>
-                      <p className="text-xs text-[#929292] truncate">{part.partNumber} · {part.category}</p>
-                    </div>
-                    <button
-                      onClick={() => toggle(part.id, !part.visible)}
-                      disabled={pendingId === part.id}
-                      aria-label={`${part.visible ? 'Hide' : 'Show'} ${part.name}`}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer disabled:opacity-60 ${part.visible ? 'bg-[#dcfce7] text-[#16a34a] hover:bg-[#bbf7d0]' : 'bg-[#f3f2f2] text-[#929292] hover:bg-[#e8e8e8]'}`}
-                    >
-                      {part.visible ? <><Eye size={13} /> Visible</> : <><EyeOff size={13} /> Hidden</>}
-                    </button>
-                  </div>
+                  <PartRow key={part.id} part={part} onSaved={(changes) => updatePart(part.id, changes)} />
                 ))}
               </div>
             </section>

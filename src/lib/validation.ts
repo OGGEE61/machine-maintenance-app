@@ -123,3 +123,46 @@ export function parseClientDetails(body: unknown): Parsed<ClientDetails> {
 
   return { ok: true, value: { clientName, clientEmail, clientAddress, clientPhone, installedAt, notes } };
 }
+
+export const PART_AVAILABILITY = ['in-stock', 'low-stock', 'on-order'] as const;
+export type PartAvailability = (typeof PART_AVAILABILITY)[number];
+
+export interface PartUpdate {
+  visible?: boolean;
+  price?: number;
+  availability?: PartAvailability;
+  leadTimeDays?: number | null;
+}
+
+// Every field is optional: a request changes only the fields it includes
+export function parsePartUpdate(body: unknown): Parsed<PartUpdate> {
+  if (!isRecord(body)) return { ok: false, error: 'Invalid request.' };
+  const { visible, price, availability, leadTimeDays } = body;
+  const update: PartUpdate = {};
+
+  if (visible !== undefined) {
+    if (typeof visible !== 'boolean') return { ok: false, error: 'visible must be true or false.' };
+    update.visible = visible;
+  }
+  if (price !== undefined) {
+    const validPrice = typeof price === 'number' && price >= 0 && price <= 1_000_000
+      && Math.abs(price * 100 - Math.round(price * 100)) < 1e-6;
+    if (!validPrice) return { ok: false, error: 'Price must be a positive amount with at most 2 decimals.' };
+    update.price = price;
+  }
+  if (availability !== undefined) {
+    if (!PART_AVAILABILITY.includes(availability as PartAvailability)) {
+      return { ok: false, error: 'Invalid availability.' };
+    }
+    update.availability = availability as PartAvailability;
+  }
+  if (leadTimeDays !== undefined) {
+    if (leadTimeDays !== null && (!Number.isInteger(leadTimeDays) || (leadTimeDays as number) < 0 || (leadTimeDays as number) > 730)) {
+      return { ok: false, error: 'Lead time must be a whole number of days, up to 730.' };
+    }
+    update.leadTimeDays = leadTimeDays as number | null;
+  }
+  if (Object.keys(update).length === 0) return { ok: false, error: 'Nothing to update.' };
+
+  return { ok: true, value: update };
+}

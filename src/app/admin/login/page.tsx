@@ -24,7 +24,9 @@ export default function AdminLogin() {
       if (res.ok) {
         router.push('/admin');
       } else {
-        setError('Incorrect PIN. Try again.');
+        if (res.status === 401) setError('Incorrect PIN. Try again.');
+        else if (res.status === 429) setError('Too many attempts. Please wait 15 minutes and try again.');
+        else setError('Could not log in right now. Please try again shortly.');
         setPin('');
       }
     } catch {
