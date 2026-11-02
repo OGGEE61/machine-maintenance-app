@@ -4,16 +4,13 @@ import Header from '@/components/Header';
 import MachineViewer from '@/components/MachineViewer';
 import { Machine } from '@/types';
 import { motion } from 'framer-motion';
-import { Info, Building2, Mail, Phone, MapPin, Calendar } from 'lucide-react';
+import { Info } from 'lucide-react';
 
 interface MachinePageClientProps {
   machine: Machine;
 }
 
 export default function MachinePageClient({ machine }: MachinePageClientProps) {
-  const hasClientInfo = !!(machine.clientName || machine.clientEmail);
-  const isScannedViaSerial = !!machine.serialNumber && machine.serialNumber !== '';
-
   return (
     <div className="min-h-screen bg-white">
       <Header machineName={machine.name} serialNumber={machine.serialNumber || undefined} />
@@ -33,50 +30,11 @@ export default function MachinePageClient({ machine }: MachinePageClientProps) {
           </div>
         </motion.div>
 
-        {/* Client info banner — shown when accessed via QR / serial number */}
-        {isScannedViaSerial && hasClientInfo && (
-          <motion.div
-            initial={{ opacity: 0, y: -6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="bg-white border-b border-[#dadada]/50"
-          >
-            <div className="max-w-[2100px] mx-auto px-4 sm:px-6 lg:px-8 py-3">
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-1.5">
-                {machine.clientName && (
-                  <div className="flex items-center gap-1.5 text-xs text-[#282828]">
-                    <Building2 size={12} className="text-[#0063ff]" />
-                    <span className="font-medium">{machine.clientName}</span>
-                  </div>
-                )}
-                {machine.clientEmail && (
-                  <div className="flex items-center gap-1.5 text-xs text-[#929292]">
-                    <Mail size={12} />
-                    <span>{machine.clientEmail}</span>
-                  </div>
-                )}
-                {machine.clientPhone && (
-                  <div className="flex items-center gap-1.5 text-xs text-[#929292]">
-                    <Phone size={12} />
-                    <span>{machine.clientPhone}</span>
-                  </div>
-                )}
-                {machine.clientAddress && (
-                  <div className="flex items-center gap-1.5 text-xs text-[#929292]">
-                    <MapPin size={12} />
-                    <span>{machine.clientAddress}</span>
-                  </div>
-                )}
-                {machine.installedAt && (
-                  <div className="flex items-center gap-1.5 text-xs text-[#929292]">
-                    <Calendar size={12} />
-                    <span>Installed: {new Date(machine.installedAt).toLocaleDateString()}</span>
-                  </div>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        )}
+        {/* The header hides the machine details on phones, which is where QR scans happen */}
+        <div className="sm:hidden bg-white border-b border-[#f1f1f1] px-4 py-2 text-xs text-[#6b6969]">
+          <span className="font-medium text-[#282828]">{machine.name}</span>
+          {machine.serialNumber && <span className="font-mono ml-2 text-[#929292]">S/N: {machine.serialNumber}</span>}
+        </div>
 
         {/* Machine viewer */}
         <div className="max-w-[2100px] mx-auto">

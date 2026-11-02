@@ -1,11 +1,12 @@
 'use client';
 
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import { CartItem, Part } from '@/types';
+import { CartItem, CartMachine, Part } from '@/types';
 
 interface CartContextType {
   items: CartItem[];
-  addItem: (part: Part, moduleName: string) => void;
+  machine: CartMachine | null;
+  addItem: (part: Part, moduleName: string, machine: CartMachine) => void;
   removeItem: (partId: string) => void;
   updateQuantity: (partId: string, quantity: number) => void;
   clearCart: () => void;
@@ -17,11 +18,23 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+// A catalogue page has no serial number, so it counts as the same machine as a scanned one of that type
+export function isSameMachine(a: CartMachine, b: CartMachine): boolean {
+  if (a.typeId !== b.typeId) return false;
+  return !a.serialNumber || !b.serialNumber || a.serialNumber === b.serialNumber;
+}
+
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [machine, setMachine] = useState<CartMachine | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const addItem = useCallback((part: Part, moduleName: string) => {
+  const addItem = useCallback((part: Part, moduleName: string, partMachine: CartMachine) => {
+    setMachine((prev) =>
+      prev && isSameMachine(prev, partMachine)
+        ? { ...prev, serialNumber: prev.serialNumber ?? partMachine.serialNumber }
+        : partMachine
+    );
     setItems((prev) => {
       const existing = prev.find((item) => item.part.id === part.id);
       if (existing) {
@@ -53,6 +66,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const clearCart = useCallback(() => {
     setItems([]);
+    setMachine(null);
   }, []);
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
@@ -65,6 +79,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     <CartContext.Provider
       value={{
         items,
+        machine: items.length > 0 ? machine : null,
         addItem,
         removeItem,
         updateQuantity,

@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
+import { readJson } from '@/lib/http';
 
 export async function POST(req: NextRequest) {
-  const { pin } = await req.json();
-  if (pin !== process.env.ADMIN_PIN) {
+  const body = await readJson(req);
+  const pin = (body as { pin?: unknown } | undefined)?.pin;
+  if (!process.env.ADMIN_PIN || pin !== process.env.ADMIN_PIN) {
     return NextResponse.json({ error: 'Invalid PIN' }, { status: 401 });
   }
   

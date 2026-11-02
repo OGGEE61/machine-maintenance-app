@@ -18,18 +18,20 @@ This app replaces that with a **self-service spare parts portal** tied to each p
 ### Process 1 — Machine Leaves the Factory
 
 1. A machine is manufactured and assigned a **serial number** (e.g. `GP80-2024-001`)
-2. An admin registers that serial number in the portal under **Admin → Machines** and selects the machine type — no client details are needed at this stage
-3. The admin opens **Admin → QR Codes**, downloads the generated QR sticker for that serial number, and prints it
+2. An admin registers it under **Admin → Machines** with just the serial number and machine type
+3. Its **QR sticker opens straight away**, ready to print or download. All stickers stay available under **Admin → QR Stickers**
 4. The QR sticker is **physically placed on the machine** before it leaves the factory
 5. The QR encodes a URL: `https://gross-service-app.vercel.app/machine/GP80-2024-001`
 
+> Stickers carry no client details, because they stay on the machine through resales. A machine registered by mistake can be deleted as long as it has no orders.
+
 ### Process 2 — Machine is Sold and Installed
 
-1. Once the machine is sold, an admin opens the **Machines tab**, finds the serial number, and clicks the ✏️ **Edit** button
-2. Client details are filled in: company name, email, phone, install address, installation date
-3. From this point on, scanning the QR on the machine will show that client's context on the parts page
+1. Once the machine is sold, an admin opens **Machines**, finds the serial number (filter: **No client yet**) and clicks **Add client**
+2. Client details are filled in: company name, email, phone, install address, installation date, internal notes
+3. These details are **visible to staff only**. They appear next to the machine's orders, and never on the public parts page
 
-> **If the machine is later sold or relocated**, the same Edit button is used to update the client details. Changes are instant — no new QR sticker is needed.
+> **If the machine is later sold or relocated**, the same form (**Edit client**) is used to update the details. No new QR sticker is needed.
 
 ### Process 3 — Customer Orders Parts
 
@@ -38,15 +40,23 @@ This app replaces that with a **self-service spare parts portal** tied to each p
    - The correct machine diagram (X-ray view)
    - Clickable hotspots for each subsystem / module
    - A list of available spare parts per module
-3. Customer adds parts to cart, fills in their contact details, and submits the order
-4. No login or account is required
+3. Customer adds parts to the cart. Each order covers one machine
+4. Customer enters their name / company and email (phone and notes are optional) and submits the order
+5. A confirmation with an order reference (e.g. `GRS-1A2B3C4D`) appears only once the order has been saved; if saving fails they see an error and keep their cart
+6. No login or account is required
 
 ### Process 4 — GROSS Staff Manages Orders
 
 1. An admin logs in at `/admin/login` with the admin PIN
-2. The **Orders tab** shows all incoming order requests with status: **New → Processing → Shipped → Cancelled**
-3. Status is updated inline — one click per order
-4. Orders can be exported to CSV for internal use (ERP, invoicing)
+2. **Orders** opens on the **To do** queue: new and processing orders, oldest first
+3. Each order shows the customer, machine, parts, total and notes, with its next step as one button: **Start processing → Mark as shipped**. Orders can also be cancelled, reopened or moved a step back
+4. Search finds orders by reference, customer, serial number or part. Orders and machines link to each other
+5. The orders currently listed can be exported to CSV for internal use (ERP, invoicing)
+
+### Process 5 — Staff Control What Can Be Ordered
+
+1. **Admin → Parts** lists each machine type's catalogue by module
+2. Hiding a part removes it from the customer's parts page immediately and stops it being ordered. A module with no visible parts loses its hotspot
 
 ---
 
@@ -75,15 +85,14 @@ This app replaces that with a **self-service spare parts portal** tied to each p
 
 ### ✅ Fully Working
 
+- Machine registration with instant QR sticker; duplicate serial numbers are refused rather than overwritten
 - QR code generation and printing (`/admin/qr-codes`)
 - QR code scanning via camera (`/scan`) with manual serial number fallback
 - Serial number → machine type lookup from database (QR flow end-to-end)
-- Client details shown on the parts page when accessed via QR
-- Machine registration in admin panel (serial + type + optional client info)
-- Edit client details modal — for when a machine is sold or relocated
-- Order submission (no login required) with full line items
-- Order management — status updates, CSV export
-- Parts visibility toggle per machine type (admin can hide/show parts)
+- Client details for when a machine is sold or relocated (staff only)
+- Order submission (no login required) with contact details, and validation and prices enforced on the server
+- Order management — To do queue, guided status steps, search, CSV export
+- Parts visibility per machine type, applied to customer pages and to ordering
 - Admin PIN authentication with HttpOnly cookie session (8 hours)
 
 ### 🔲 In Progress / Pending
@@ -115,10 +124,10 @@ Everything else — routing, database, QR flow, admin panel, order management �
 | Route | Who | Description |
 |---|---|---|
 | `/` | Customer | Machine catalogue grid |
-| `/machine/[id]` | Customer | Parts viewer — accepts machine-type ID or serial number |
+| `/machine/[id]` | Customer | Parts viewer — accepts machine-type ID or serial number. Rendered per request, never cached |
 | `/scan` | Customer | Camera QR code scanner |
 | `/admin/login` | Staff | PIN login |
-| `/admin` | Staff | Orders, machines & parts visibility dashboard |
+| `/admin` | Staff | Orders, machines & parts dashboard (`?tab=orders\|machines\|parts`) |
 | `/admin/qr-codes` | Staff | QR sticker generator & print view |
 
 ---
@@ -131,11 +140,11 @@ Everything else — routing, database, QR flow, admin panel, order management �
 | `DELETE` | `/api/auth` | — | Logout |
 | `POST` | `/api/orders` | — | Create new order (customer-facing) |
 | `GET` | `/api/orders` | Admin | List all orders |
-| `PATCH` | `/api/orders/[id]` | Admin | Update order status |
-| `POST` | `/api/machines-db` | Admin | Register a physical machine |
+| `PATCH` | `/api/orders/[id]` | Admin | Move an order to its next status (other moves return `409`) |
+| `POST` | `/api/machines-db` | Admin | Register a physical machine (duplicate serial returns `409`) |
 | `GET` | `/api/machines-db` | Admin | List all registered machines |
 | `PATCH` | `/api/machines-db/[serial]` | Admin | Update client details for a machine |
-| `DELETE` | `/api/machines-db/[serial]` | Admin | Remove a machine record |
+| `DELETE` | `/api/machines-db/[serial]` | Admin | Remove a machine record (machines with orders return `409`) |
 | `PATCH` | `/api/parts/[id]` | Admin | Toggle part visibility |
 | `GET` | `/api/parts-by-machine` | Admin | Get parts for a machine type |
 
@@ -185,3 +194,4 @@ Deployed automatically via **Vercel** on every push to `main`.
 Required environment variables (set in Vercel dashboard):
 - `POSTGRES_URL` — provided automatically by the Neon integration
 - `ADMIN_PIN` — set manually
+- `NEXT_PUBLIC_APP_URL` — the production address printed on QR stickers, e.g. `https://gross-service-app.vercel.app`. Without it, stickers use the address of whichever deployment generated them, so a sticker made on a preview deploy or localhost would not work once printed
