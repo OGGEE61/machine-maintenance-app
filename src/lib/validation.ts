@@ -129,12 +129,13 @@ export type PartAvailability = (typeof PART_AVAILABILITY)[number];
 
 export interface PartUpdate {
   visible?: boolean;
-  price?: number;
-  availability?: PartAvailability;
+  price?: number | null;
+  availability?: PartAvailability | null;
   leadTimeDays?: number | null;
 }
 
-// Every field is optional: a request changes only the fields it includes
+// Every field is optional: a request changes only the fields it includes.
+// A null price means price on request, and a null availability isn't shown to customers.
 export function parsePartUpdate(body: unknown): Parsed<PartUpdate> {
   if (!isRecord(body)) return { ok: false, error: 'Invalid request.' };
   const { visible, price, availability, leadTimeDays } = body;
@@ -144,13 +145,17 @@ export function parsePartUpdate(body: unknown): Parsed<PartUpdate> {
     if (typeof visible !== 'boolean') return { ok: false, error: 'visible must be true or false.' };
     update.visible = visible;
   }
-  if (price !== undefined) {
+  if (price === null) {
+    update.price = null;
+  } else if (price !== undefined) {
     const validPrice = typeof price === 'number' && price >= 0 && price <= 1_000_000
       && Math.abs(price * 100 - Math.round(price * 100)) < 1e-6;
     if (!validPrice) return { ok: false, error: 'Price must be a positive amount with at most 2 decimals.' };
     update.price = price;
   }
-  if (availability !== undefined) {
+  if (availability === null) {
+    update.availability = null;
+  } else if (availability !== undefined) {
     if (!PART_AVAILABILITY.includes(availability as PartAvailability)) {
       return { ok: false, error: 'Invalid availability.' };
     }

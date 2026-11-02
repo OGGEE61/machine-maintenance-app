@@ -5,12 +5,13 @@ import { CheckCircle, X, Printer } from 'lucide-react';
 import { CartMachine } from '@/types';
 import { useEscapeKey } from '@/hooks/useEscapeKey';
 import { orderReference } from '@/lib/orders';
+import { formatPrice } from '@/lib/price';
 
 // An order the server has confirmed it saved; this dialog is only shown for those
 export interface SubmittedOrder {
   orderId: string;
   // As returned by the server, so these are the parts and prices that were actually saved
-  lines: Array<{ partNumber: string; partName: string; quantity: number; unitPrice: number }>;
+  lines: Array<{ partId: string; partNumber: string | null; partName: string; quantity: number; unitPrice: number | null }>;
   total: number;
   machine: CartMachine;
   customerEmail: string;
@@ -79,13 +80,13 @@ export default function OrderConfirmation({ order, onClose }: OrderConfirmationP
 
               <div className="space-y-2">
                 {order.lines.map((line) => (
-                  <div key={line.partNumber} className="flex items-center justify-between py-2 border-b border-[#f1f1f1] last:border-0">
+                  <div key={line.partId} className="flex items-center justify-between py-2 border-b border-[#f1f1f1] last:border-0">
                     <div className="flex-1 min-w-0 mr-4">
                       <p className="text-sm text-[#282828] font-medium truncate">{line.partName}</p>
-                      <p className="text-[11px] text-[#929292] font-mono">{line.partNumber} × {line.quantity}</p>
+                      <p className="text-[11px] text-[#929292] font-mono">{line.partNumber && `${line.partNumber} `}× {line.quantity}</p>
                     </div>
                     <span className="text-sm font-bold text-[#282828] whitespace-nowrap">
-                      €{(line.unitPrice * line.quantity).toFixed(2)}
+                      {formatPrice(line.unitPrice, line.quantity)}
                     </span>
                   </div>
                 ))}
@@ -93,7 +94,9 @@ export default function OrderConfirmation({ order, onClose }: OrderConfirmationP
 
               <div className="flex items-center justify-between pt-3 border-t-2 border-[#282828]">
                 <span className="font-bold text-[#282828]">Total (excl. VAT)</span>
-                <span className="font-bold text-xl text-[#282828]">€{order.total.toFixed(2)}</span>
+                <span className="font-bold text-xl text-[#282828]">
+                  {order.lines.some((line) => line.unitPrice !== null) ? `€${order.total.toFixed(2)}` : 'To be quoted'}
+                </span>
               </div>
             </div>
 

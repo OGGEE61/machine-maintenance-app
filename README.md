@@ -100,7 +100,7 @@ This app replaces that with a **self-service spare parts portal** tied to each p
 
 ### 🔲 In Progress / Pending
 
-- **Full parts catalogue** — parts data needs to be completed for all 26 machine types
+- **Individual spare parts** — GROSS doesn't publish parts lists, so each machine component is one requestable item until real part numbers and prices are supplied
 
 Everything else — routing, database, QR flow, admin panel, order management — is production-ready.
 
@@ -181,7 +181,9 @@ admin_sessions  — logged-in staff sessions, storing only a hash of each token
 rate_limits     — attempt counters per time window, storing only hashed addresses
 ```
 
-`src/data/machines.ts` defines each machine's modules and parts. Machine images, hotspot positions and module descriptions come from the product pages on gross-zerkleinerer.de, which share images between some similar models. **Price, availability, lead time and visibility come from the `parts` table**, which is what the admin panel edits.
+**GROSS's website is the source of the catalogue.** `npm run sync:gross` reads the product pages on gross-zerkleinerer.de and regenerates `src/data/gross-catalogue.ts` and `public/machines`: names, descriptions, specifications, brochures, images and hotspot positions. Review the diff before committing it. `src/data/machines.ts` turns that into the app's catalogue and holds corrections for mistakes on the site. GROSS shares images between some similar models.
+
+The website publishes no prices, stock levels or part numbers, so the app doesn't invent any. **Price, availability, lead time and visibility come from the `parts` table**, which is what the admin panel edits. A blank price shows customers "Price on request".
 
 Schema changes live in [`migrations/`](migrations/) as numbered SQL files:
 

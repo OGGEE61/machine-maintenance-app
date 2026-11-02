@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { AlertTriangle, Clock, Download, Mail, Package, Phone, Search, Truck, XCircle } from 'lucide-react';
 import { ORDER_TRANSITIONS, OrderStatus, orderReference } from '@/lib/orders';
 import { orderTotal, ordersToCsv } from '@/lib/orders-csv';
+import { formatPrice } from '@/lib/price';
 import { adminRequest, errorMessage } from './api';
 import FilterPills from './FilterPills';
 import type { MachineTypeOption, Order } from './types';
@@ -199,15 +200,17 @@ export default function OrdersTab({ orders, machineTypes, loading, initialQuery,
                         <div key={item.id} className="flex items-start justify-between gap-3 py-1.5">
                           <div className="min-w-0">
                             <p className="text-sm text-[#282828]">{item.partName} <span className="text-[#929292]">×{item.quantity}</span></p>
-                            <p className="font-mono text-[11px] text-[#929292]">{item.partNumber}</p>
+                            {item.partNumber && <p className="font-mono text-[11px] text-[#929292]">{item.partNumber}</p>}
                           </div>
-                          <span className="text-sm text-[#282828] whitespace-nowrap">€{(item.unitPrice * item.quantity).toFixed(2)}</span>
+                          <span className="text-sm text-[#282828] whitespace-nowrap">{formatPrice(item.unitPrice, item.quantity)}</span>
                         </div>
                       ))}
                     </div>
                     <div className="flex items-center justify-between pt-2 mt-1 border-t border-[#282828]">
                       <span className="text-sm font-semibold text-[#282828]">Total (excl. VAT)</span>
-                      <span className="font-bold text-[#282828]">€{orderTotal(order).toFixed(2)}</span>
+                      <span className="font-bold text-[#282828]">
+                        {order.items.some((item) => item.unitPrice !== null) ? `€${orderTotal(order).toFixed(2)}` : 'To be quoted'}
+                      </span>
                     </div>
                   </div>
                 </div>

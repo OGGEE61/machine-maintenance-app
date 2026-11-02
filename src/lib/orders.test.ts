@@ -51,6 +51,15 @@ describe('CSV export', () => {
     expect(orderTotal(order)).toBe(25);
   });
 
+  it('handles parts with no price or part number', () => {
+    const unpriced = { ...order, items: [{ partNumber: null, partName: 'Hopper', quantity: 2, unitPrice: null, currency: 'EUR' }] };
+    expect(orderTotal(unpriced)).toBe(0);
+    const csv = ordersToCsv([unpriced], () => 'GP 80');
+    expect(csv).toContain('"Hopper x2 @ on request"');
+    expect(csv).not.toContain('null');
+    expect(csv).not.toContain('0.00');
+  });
+
   it('escapes quotes, guards free text and keeps phone numbers readable', () => {
     const csv = ordersToCsv([order], () => 'GP 80');
     expect(csv).toContain(`"'=HYPERLINK(""http://evil"")"`);

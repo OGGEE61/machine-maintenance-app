@@ -16,7 +16,7 @@ export interface Order {
   notes: string | null;
   registered_client: string | null;
   created_at: string;
-  items: Array<{ id: string; partNumber: string; partName: string; quantity: number; unitPrice: number; currency: string }>;
+  items: Array<{ id: string; partNumber: string | null; partName: string; quantity: number; unitPrice: number | null; currency: string }>;
 }
 
 export interface RegisteredMachine {

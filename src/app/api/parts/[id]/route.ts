@@ -18,8 +18,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const rows = await sql`
     UPDATE parts SET
       visible = COALESCE(${visible ?? null}::boolean, visible),
-      price = COALESCE(${price ?? null}::numeric, price),
-      availability = COALESCE(${availability ?? null}::text, availability),
+      price = CASE WHEN ${price !== undefined}::boolean THEN ${price ?? null}::numeric ELSE price END,
+      availability = CASE WHEN ${availability !== undefined}::boolean THEN ${availability ?? null}::text ELSE availability END,
       lead_time_days = CASE WHEN ${leadTimeDays !== undefined}::boolean THEN ${leadTimeDays ?? null}::int ELSE lead_time_days END
     WHERE id = ${id}
     RETURNING id

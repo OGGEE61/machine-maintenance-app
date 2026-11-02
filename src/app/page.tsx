@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { QrCode, Wrench, Package } from 'lucide-react';
 import { machines } from '@/data/machines';
 import MachineCatalogue from '@/components/MachineCatalogue';
+import GrossContact from '@/components/GrossContact';
 
 export default function Home() {
   return (
@@ -62,6 +63,7 @@ export default function Home() {
           machines={machines.map(({ id, name, model, type, image, description }) => ({ id, name, model, type, image, description }))}
         />
       </main>
+      <GrossContact />
     </div>
   );
 }

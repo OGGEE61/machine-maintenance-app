@@ -21,7 +21,7 @@ async function withManagedValues(machine: Machine): Promise<Array<Omit<Module, '
       if (!row) return { ...part, visible: true };
       return {
         ...part,
-        price: Number(row.price),
+        price: row.price === null ? null : Number(row.price),
         availability: row.availability as Part['availability'],
         leadTimeDays: (row.lead_time_days as number | null) ?? undefined,
         visible: row.visible as boolean,
@@ -49,7 +49,6 @@ export async function getAdminModules(machine: Machine) {
     parts: mod.parts.map((part) => ({
       id: part.id,
       name: part.name,
-      partNumber: part.partNumber,
       price: part.price,
       currency: part.currency,
       availability: part.availability,

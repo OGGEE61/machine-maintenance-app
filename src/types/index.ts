@@ -1,11 +1,26 @@
-export interface Machine {
+// A machine as published on gross-zerkleinerer.de (see scripts/sync-gross-site.mjs)
+export interface GrossMachine {
   id: string;
-  name: string;
-  model: string;
   type: 'shredder' | 'briquetting';
-  serialNumber: string;
+  sourceUrl: string;
+  name: string;
+  category: string;
+  label: string;
+  summary: string;
+  audience: string;
+  intro: string;
+  howItWorks: string;
+  specs: Array<{ label: string; value: string }>;
+  specsNote: string;
+  brochureUrl: string | null;
   image: string;
   xrayImage: string;
+  modules: Array<{ name: string; description: string; x: number; y: number }>;
+}
+
+export interface Machine extends Omit<GrossMachine, 'modules' | 'summary'> {
+  model: string;
+  serialNumber: string;
   description: string;
   modules: Module[];
 }
@@ -20,12 +35,15 @@ export interface Module {
 
 export interface Part {
   id: string;
+  // Empty until GROSS supplies real part numbers
   partNumber: string;
   name: string;
   description: string;
-  price: number;
+  // Null means price on request: GROSS doesn't publish prices, so staff enter them in admin
+  price: number | null;
   currency: string;
-  availability: 'in-stock' | 'low-stock' | 'on-order';
+  // Null means not shown to customers
+  availability: 'in-stock' | 'low-stock' | 'on-order' | null;
   leadTimeDays?: number;
   category: string;
 }

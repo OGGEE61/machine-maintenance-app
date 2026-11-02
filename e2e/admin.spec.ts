@@ -129,9 +129,9 @@ test.describe.serial('admin workflows', () => {
   test('price and stock edits reach customers and new orders, not old ones', async ({ request }) => {
     await page.goto('/admin?tab=parts');
     await page.selectOption('select[aria-label="Machine type"]', 'gaz-600');
-    const name = 'Hopper Replacement Kit';
+    const name = 'Hopper';
     const row = page.locator('div.p-3', { hasText: name });
-    const originalPrice = await row.getByRole('spinbutton', { name: `Price of ${name}` }).inputValue();
+    await expect(row.getByRole('spinbutton', { name: `Price of ${name}` })).toHaveValue('');
 
     const oldOrder = await (await postOrder(request, orderBody({ machineTypeId: 'gaz-600', items: [{ partId: 'gaz-600-hopper-kit', quantity: 1 }] }))).json();
 
@@ -147,9 +147,9 @@ test.describe.serial('admin workflows', () => {
 
     const newOrder = await (await postOrder(request, orderBody({ machineTypeId: 'gaz-600', items: [{ partId: 'gaz-600-hopper-kit', quantity: 2 }] }))).json();
     expect(newOrder.total).toBeCloseTo(246.9);
-    const price = async (id: string) => Number((await db('SELECT unit_price FROM order_items WHERE order_id = $1', [id]))[0][0]);
-    expect(await price(newOrder.orderId)).toBe(123.45);
-    expect(await price(oldOrder.orderId)).toBe(Number(originalPrice));
+    const price = async (id: string) => (await db('SELECT unit_price FROM order_items WHERE order_id = $1', [id]))[0][0];
+    expect(Number(await price(newOrder.orderId))).toBe(123.45);
+    expect(await price(oldOrder.orderId)).toBeNull();
 
     await page.reload();
     await page.selectOption('select[aria-label="Machine type"]', 'gaz-600');
@@ -158,23 +158,30 @@ test.describe.serial('admin workflows', () => {
     await row.getByRole('spinbutton', { name: `Price of ${name}` }).fill('1.999');
     await row.getByRole('button', { name: 'Save' }).click();
     await expect(row.getByRole('alert')).toContainText('2 decimals');
+
+    await row.getByRole('spinbutton', { name: `Price of ${name}` }).fill('');
+    await row.getByRole('combobox', { name: `Availability of ${name}` }).selectOption('');
+    await row.getByRole('button', { name: 'Save' }).click();
+    await expect(row.getByRole('button', { name: 'Save' })).toHaveCount(0);
+    const cleared = await (await postOrder(request, orderBody({ machineTypeId: 'gaz-600', items: [{ partId: 'gaz-600-hopper-kit', quantity: 1 }] }))).json();
+    expect(await price(cleared.orderId)).toBeNull();
   });
 
   test('hiding a part removes it for customers and blocks ordering it', async ({ request }) => {
-    const name = 'Hydraulic tank Replacement Kit';
+    const name = 'Hydraulic tank';
     await page.goto('/admin?tab=parts');
     await page.selectOption('select[aria-label="Machine type"]', 'gp-80');
     await page.getByRole('button', { name: `Hide ${name}` }).click();
     await expect(page.getByRole('button', { name: `Show ${name}` })).toBeVisible();
 
-    expect(await (await request.get('/machine/gp-80')).text()).not.toContain('GRS-GP80-HYDRAULI-001');
+    expect(await (await request.get('/machine/gp-80')).text()).not.toContain('gp-80-hydrauli-kit');
     const blocked = await postOrder(request, orderBody());
     expect(blocked.status()).toBe(400);
     expect((await blocked.json()).error).toContain(name);
 
     await page.getByRole('button', { name: `Show ${name}` }).click();
     await expect(page.getByRole('button', { name: `Hide ${name}` })).toBeVisible();
-    expect(await (await request.get('/machine/gp-80')).text()).toContain('GRS-GP80-HYDRAULI-001');
+    expect(await (await request.get('/machine/gp-80')).text()).toContain('gp-80-hydrauli-kit');
   });
 
   test('machines with orders are kept; mistaken ones can be deleted', async ({ request }) => {

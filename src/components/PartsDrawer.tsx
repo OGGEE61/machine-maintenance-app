@@ -15,6 +15,8 @@ interface PartsDrawerProps {
 
 function AvailabilityBadge({ availability, leadTimeDays }: { availability: Part['availability']; leadTimeDays?: number }) {
   switch (availability) {
+    case null:
+      return null;
     case 'in-stock':
       return (
         <span className="inline-flex items-center gap-1 text-[11px] font-medium text-green-700 bg-green-50 px-2 py-0.5 rounded-full">
@@ -36,7 +38,7 @@ function AvailabilityBadge({ availability, leadTimeDays }: { availability: Part[
   }
 }
 
-function PartCard({ part, moduleName, machine }: { part: Part; moduleName: string; machine: CartMachine }) {
+function PartCard({ part, moduleName, moduleDescription, machine }: { part: Part; moduleName: string; moduleDescription: string; machine: CartMachine }) {
   const { addItem, clearCart, items, machine: cartMachine } = useCart();
   const [justAdded, setJustAdded] = useState(false);
   const [confirmReplace, setConfirmReplace] = useState(false);
@@ -72,9 +74,11 @@ function PartCard({ part, moduleName, machine }: { part: Part; moduleName: strin
     >
       <div className="flex items-start justify-between gap-3 mb-2">
         <div className="flex-1 min-w-0">
-          <p className="font-mono text-[10px] text-[#929292] uppercase tracking-wide mb-0.5">
-            {part.partNumber}
-          </p>
+          {part.partNumber && (
+            <p className="font-mono text-[10px] text-[#929292] uppercase tracking-wide mb-0.5">
+              {part.partNumber}
+            </p>
+          )}
           <h4 className="text-[#282828] font-medium text-sm leading-tight">
             {part.name}
           </h4>
@@ -82,16 +86,24 @@ function PartCard({ part, moduleName, machine }: { part: Part; moduleName: strin
         <AvailabilityBadge availability={part.availability} leadTimeDays={part.leadTimeDays} />
       </div>
 
-      <p className="text-[#6b6969] text-xs leading-relaxed mb-3">
-        {part.description}
-      </p>
+      {part.description && part.description !== moduleDescription && (
+        <p className="text-[#6b6969] text-xs leading-relaxed mb-3">
+          {part.description}
+        </p>
+      )}
 
       <div className="flex items-center justify-between">
         <div>
-          <span className="text-[#282828] font-bold text-lg">
-            €{part.price.toFixed(2)}
-          </span>
-          <span className="text-[#929292] text-xs ml-1">excl. VAT</span>
+          {part.price === null ? (
+            <span className="text-[#282828] font-medium text-sm">Price on request</span>
+          ) : (
+            <>
+              <span className="text-[#282828] font-bold text-lg">
+                €{part.price.toFixed(2)}
+              </span>
+              <span className="text-[#929292] text-xs ml-1">excl. VAT</span>
+            </>
+          )}
         </div>
 
         <button
@@ -187,7 +199,7 @@ export default function PartsDrawer({ module, machine, onClose }: PartsDrawerPro
                 {module.parts.length} part{module.parts.length !== 1 ? 's' : ''} available
               </p>
               {module.parts.map((part) => (
-                <PartCard key={part.id} part={part} moduleName={module.name} machine={machine} />
+                <PartCard key={part.id} part={part} moduleName={module.name} moduleDescription={module.description} machine={machine} />
               ))}
             </div>
           </motion.aside>

@@ -23,6 +23,28 @@ describe('machine catalogue', () => {
     expect(new Set(spots).size, 'two hotspots share a position').toBe(spots.length);
   });
 
+  it.each(machines.map((m) => [m.id, m] as const))('%s has the details GROSS publishes', (_id, machine) => {
+    expect(machine.description).not.toBe('');
+    expect(machine.intro).not.toBe('');
+    expect(machine.howItWorks).not.toBe('');
+    expect(machine.specs.length).toBeGreaterThan(0);
+    expect(machine.brochureUrl).toMatch(/^https:\/\/gross-zerkleinerer\.de\/.+\.pdf$/);
+  });
+
+  it('invents no prices, stock levels or part numbers', () => {
+    for (const part of machines.flatMap((m) => m.modules.flatMap((mod) => mod.parts))) {
+      expect(part.price).toBeNull();
+      expect(part.availability).toBeNull();
+      expect(part.partNumber).toBe('');
+    }
+  });
+
+  it('shows no German text from the page GROSS has not translated', () => {
+    const genius = machines.find((m) => m.id === 'genius-2-60');
+    expect(JSON.stringify(genius)).not.toMatch(/Brikett|Behälter|Rührwerk|Presszylinder/);
+    expect(genius?.modules.map((mod) => mod.id)).toContain('genius-2-60-hopper');
+  });
+
   it('keeps ids unique, since the database and existing orders refer to them', () => {
     const partIds = machines.flatMap((m) => m.modules.flatMap((mod) => mod.parts.map((part) => part.id)));
     expect(new Set(partIds).size).toBe(partIds.length);
