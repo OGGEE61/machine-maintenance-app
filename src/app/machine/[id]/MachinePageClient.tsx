@@ -1,6 +1,8 @@
 'use client';
 
 import Header from '@/components/Header';
+import GrossContact from '@/components/GrossContact';
+import MachineDetails from '@/components/MachineDetails';
 import MachineViewer from '@/components/MachineViewer';
 import { Machine } from '@/types';
 import { motion } from 'framer-motion';
@@ -40,7 +42,10 @@ export default function MachinePageClient({ machine }: MachinePageClientProps) {
         <div className="max-w-[2100px] mx-auto">
           <MachineViewer machine={machine} />
         </div>
+
+        <MachineDetails machine={machine} />
       </main>
+      <GrossContact />
     </div>
   );
 }

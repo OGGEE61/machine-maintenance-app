@@ -8,7 +8,7 @@ export interface OrderEmailDetails {
   customerEmail: string;
   customerPhone: string | null;
   notes: string | null;
-  lines: Array<{ partNumber: string; partName: string; quantity: number; unitPrice: number; currency: string }>;
+  lines: Array<{ partId: string; partNumber: string | null; partName: string; quantity: number; unitPrice: number | null; currency: string }>;
   total: number;
   currency: string;
 }
@@ -39,7 +39,11 @@ async function send(apiKey: string, from: string, message: EmailMessage): Promis
 
 function partLines(order: OrderEmailDetails): string {
   return order.lines
-    .map((line) => `- ${line.partName} (${line.partNumber}) x${line.quantity}: ${(line.unitPrice * line.quantity).toFixed(2)} ${line.currency}`)
+    .map((line) => {
+      const name = line.partNumber ? `${line.partName} (${line.partNumber})` : line.partName;
+      const price = line.unitPrice === null ? 'price on request' : `${(line.unitPrice * line.quantity).toFixed(2)} ${line.currency}`;
+      return `- ${name} x${line.quantity}: ${price}`;
+    })
     .join('\n');
 }
 
@@ -52,7 +56,10 @@ export async function sendOrderEmails(order: OrderEmailDetails): Promise<void> {
 
   const reference = orderReference(order.orderId);
   const machine = order.serialNumber ? `${order.machineName} (S/N ${order.serialNumber})` : order.machineName;
-  const total = `${order.total.toFixed(2)} ${order.currency} excl. VAT`;
+  const unpriced = order.lines.some((line) => line.unitPrice === null);
+  const total = unpriced
+    ? order.total > 0 ? `${order.total.toFixed(2)} ${order.currency} excl. VAT, plus parts on request` : 'to be quoted'
+    : `${order.total.toFixed(2)} ${order.currency} excl. VAT`;
   const messages: EmailMessage[] = [];
 
   const staffEmail = process.env.ORDER_NOTIFY_EMAIL;

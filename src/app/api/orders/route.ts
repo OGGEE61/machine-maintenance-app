@@ -6,6 +6,7 @@ import { getCustomerMachine } from '@/lib/catalog';
 import { OrderEmailDetails, sendOrderEmails } from '@/lib/email';
 import { readJson } from '@/lib/http';
 import { clientKey, consumeRateLimit } from '@/lib/rate-limit';
+import { linesTotal } from '@/lib/price';
 import { parseOrderRequest } from '@/lib/validation';
 
 const MAX_ORDERS_PER_HOUR = 20;
@@ -70,7 +71,8 @@ export async function POST(req: NextRequest) {
         );
       }
       lines.push({
-        partNumber: part.partNumber,
+        partId: part.id,
+        partNumber: part.partNumber || null,
         partName: part.name,
         quantity: item.quantity,
         unitPrice: part.price,
@@ -79,7 +81,7 @@ export async function POST(req: NextRequest) {
       queries.push(
         sql`
           INSERT INTO order_items (order_id, part_id, part_number, part_name, quantity, unit_price, currency)
-          VALUES (${orderId}, ${part.id}, ${part.partNumber}, ${part.name}, ${item.quantity}, ${part.price}, ${part.currency})
+          VALUES (${orderId}, ${part.id}, ${part.partNumber || null}, ${part.name}, ${item.quantity}, ${part.price}, ${part.currency})
         `
       );
     }
@@ -87,7 +89,7 @@ export async function POST(req: NextRequest) {
     // Execute all queries in a single transaction (batch)
     await sql.transaction(queries);
 
-    const total = lines.reduce((sum, line) => sum + line.unitPrice * line.quantity, 0);
+    const total = linesTotal(lines);
     after(() => sendOrderEmails({
       orderId,
       machineName: machine.name,

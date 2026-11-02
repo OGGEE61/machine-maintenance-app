@@ -9,7 +9,7 @@ const order: OrderEmailDetails = {
   customerEmail: 'buyer@acme.example',
   customerPhone: null,
   notes: 'Visit spam.example now',
-  lines: [{ partNumber: 'P1', partName: 'Bearing', quantity: 2, unitPrice: 10, currency: 'EUR' }],
+  lines: [{ partId: 'p1', partNumber: 'P1', partName: 'Bearing', quantity: 2, unitPrice: 10, currency: 'EUR' }],
   total: 20,
   currency: 'EUR',
 };
@@ -54,6 +54,20 @@ describe('sendOrderEmails', () => {
     expect(customer.to).toEqual(['buyer@acme.example']);
     expect(customer.text).not.toContain('spam.example');
     expect(customer.subject).not.toContain('spam.example');
+  });
+
+  it('says parts are to be quoted when they have no price', async () => {
+    vi.stubEnv('RESEND_API_KEY', 'key');
+    vi.stubEnv('ORDER_FROM_EMAIL', 'orders@gross.example');
+    await sendOrderEmails({
+      ...order,
+      lines: [{ partId: 'p1', partNumber: null, partName: 'Hopper', quantity: 1, unitPrice: null, currency: 'EUR' }],
+      total: 0,
+    });
+    const [customer] = sent();
+    expect(customer.text).toContain('Hopper x1: price on request');
+    expect(customer.text).toContain('Total: to be quoted');
+    expect(customer.text).not.toContain('null');
   });
 
   it('logs a provider failure instead of throwing', async () => {

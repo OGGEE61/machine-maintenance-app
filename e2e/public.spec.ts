@@ -22,7 +22,23 @@ test('the catalogue links to machines and does not ship the parts catalogue', as
   await page.waitForURL('**/machine/gaz-600');
 
   const home = await (await request.get('/')).text();
-  expect(home).not.toContain('Replacement Kit');
+  expect(home).not.toContain('gp-80-hydrauli-kit');
+});
+
+test('machine pages show what GROSS publishes, and no invented prices', async ({ page }) => {
+  await page.goto('/machine/gp-80');
+  await expect(page.getByRole('heading', { name: 'Technical specifications' })).toBeVisible();
+  await expect(page.getByText('Briquette diameter (mm)')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'How it works' })).toBeVisible();
+  await expect(page.getByRole('link', { name: /Download brochure/ })).toHaveAttribute('href', /One-Pager_GP80.*\.pdf$/);
+  await expect(page.getByRole('link', { name: 'info@gross-zerkleinerer.de' })).toBeVisible();
+
+  await page.getByRole('button', { name: 'View parts for Hydraulic tank' }).click();
+  await expect(page.getByText('Price on request')).toBeVisible();
+  await expect(page.getByText('Contains oil for lubricating the cylinders')).toBeVisible();
+  await expect(page.getByText('In Stock')).toHaveCount(0);
+  await expect(page.getByText(/GRS-/)).toHaveCount(0);
+  await expect(page.getByText(/€/)).toHaveCount(0);
 });
 
 test('hotspot pins are centred on their position', async ({ page }) => {

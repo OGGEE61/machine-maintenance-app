@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Loader2, X, Minus, Plus, Trash2, Send, ShoppingCart } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { useEscapeKey } from '@/hooks/useEscapeKey';
+import { formatPrice } from '@/lib/price';
+import type { CartItem } from '@/types';
 import { useState } from 'react';
 import OrderConfirmation, { SubmittedOrder } from './OrderConfirmation';
 
@@ -11,6 +13,21 @@ const emptyContact = { name: '', email: '', phone: '', notes: '', website: '' };
 
 const inputClass = 'w-full border border-[#dadada] rounded-xl px-4 py-2.5 text-sm text-[#282828] focus:outline-none focus:border-[#0063ff] transition-colors bg-white';
 const labelClass = 'text-xs font-medium text-[#6b6969] block mb-1';
+
+function CartTotal({ items, totalPrice }: { items: CartItem[]; totalPrice: number }) {
+  const unpriced = items.filter((item) => item.part.price === null).length;
+  if (unpriced === items.length) {
+    return <p className="text-[#6b6969] text-sm">The GROSS sales team will send you a quote for these parts.</p>;
+  }
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-[#6b6969] text-sm">
+        Subtotal (excl. VAT){unpriced > 0 && `, plus ${unpriced} on request`}
+      </span>
+      <span className="text-[#282828] font-bold text-xl">€{totalPrice.toFixed(2)}</span>
+    </div>
+  );
+}
 
 export default function CartDrawer() {
   const {
@@ -202,10 +219,7 @@ export default function CartDrawer() {
                         {error}
                       </p>
                     )}
-                    <div className="flex items-center justify-between">
-                      <span className="text-[#6b6969] text-sm">Subtotal (excl. VAT)</span>
-                      <span className="text-[#282828] font-bold text-xl">€{totalPrice.toFixed(2)}</span>
-                    </div>
+                    <CartTotal items={items} totalPrice={totalPrice} />
                     <button
                       type="submit"
                       disabled={submitting}
@@ -243,15 +257,19 @@ export default function CartDrawer() {
                           >
                             <div className="flex items-start justify-between mb-2">
                               <div className="flex-1 min-w-0 mr-3">
-                                <p className="font-mono text-[10px] text-[#929292] uppercase tracking-wide">
-                                  {item.part.partNumber}
-                                </p>
+                                {item.part.partNumber && (
+                                  <p className="font-mono text-[10px] text-[#929292] uppercase tracking-wide">
+                                    {item.part.partNumber}
+                                  </p>
+                                )}
                                 <h4 className="text-[#282828] font-medium text-sm">
                                   {item.part.name}
                                 </h4>
-                                <p className="text-[#929292] text-[11px] mt-0.5">
-                                  Module: {item.moduleName}
-                                </p>
+                                {item.moduleName !== item.part.name && (
+                                  <p className="text-[#929292] text-[11px] mt-0.5">
+                                    Module: {item.moduleName}
+                                  </p>
+                                )}
                               </div>
                               <button
                                 onClick={() => removeItem(item.part.id)}
@@ -283,7 +301,7 @@ export default function CartDrawer() {
                                 </button>
                               </div>
                               <span className="text-[#282828] font-bold">
-                                €{(item.part.price * item.quantity).toFixed(2)}
+                                {formatPrice(item.part.price, item.quantity)}
                               </span>
                             </div>
                           </motion.div>
@@ -295,12 +313,7 @@ export default function CartDrawer() {
                   {/* Cart footer */}
                   {items.length > 0 && (
                     <div className="border-t border-[#f1f1f1] p-5 space-y-4">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[#6b6969] text-sm">Subtotal (excl. VAT)</span>
-                        <span className="text-[#282828] font-bold text-xl">
-                          €{totalPrice.toFixed(2)}
-                        </span>
-                      </div>
+                      <CartTotal items={items} totalPrice={totalPrice} />
 
                       <button
                         onClick={() => { setError(''); setStep('details'); }}

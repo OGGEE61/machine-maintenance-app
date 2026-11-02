@@ -77,6 +77,10 @@ describe('parsePartUpdate', () => {
     expect(parsePartUpdate({ price: 19.99, leadTimeDays: null })).toEqual({ ok: true, value: { price: 19.99, leadTimeDays: null } });
   });
 
+  it('accepts clearing a price and stock level', () => {
+    expect(parsePartUpdate({ price: null, availability: null })).toEqual({ ok: true, value: { price: null, availability: null } });
+  });
+
   it.each([
     ['nothing', {}],
     ['a non-boolean visible', { visible: 'no' }],

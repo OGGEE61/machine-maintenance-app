@@ -10,10 +10,9 @@ type Availability = 'in-stock' | 'low-stock' | 'on-order';
 interface ManagedPart {
   id: string;
   name: string;
-  partNumber: string;
-  price: number;
+  price: number | null;
   currency: string;
-  availability: Availability;
+  availability: Availability | null;
   leadTimeDays: number | null;
   visible: boolean;
 }
@@ -27,14 +26,16 @@ interface ManagedModule {
 const fieldClass = 'border border-[#dadada] rounded-lg px-2.5 py-1.5 text-sm focus:outline-none focus:border-[#0063ff] transition-colors bg-white';
 
 function PartRow({ part, onSaved }: { part: ManagedPart; onSaved: (changes: Partial<ManagedPart>) => void }) {
-  const [price, setPrice] = useState(part.price.toFixed(2));
-  const [availability, setAvailability] = useState(part.availability);
+  const [price, setPrice] = useState(part.price?.toFixed(2) ?? '');
+  const [availability, setAvailability] = useState<Availability | ''>(part.availability ?? '');
   const [leadTime, setLeadTime] = useState(part.leadTimeDays?.toString() ?? '');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
 
   const parsedLeadTime = leadTime.trim() === '' ? null : Number(leadTime);
-  const dirty = Number(price) !== part.price || availability !== part.availability
+  const parsedPrice = price.trim() === '' ? null : Number(price);
+  const parsedAvailability = availability === '' ? null : availability;
+  const dirty = parsedPrice !== part.price || parsedAvailability !== part.availability
     || (availability === 'on-order' && parsedLeadTime !== part.leadTimeDays);
 
   const save = async (changes: Partial<ManagedPart>) => {
@@ -55,7 +56,6 @@ function PartRow({ part, onSaved }: { part: ManagedPart; onSaved: (changes: Part
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div className="flex-1 min-w-[200px]">
           <p className={`font-medium text-sm ${part.visible ? 'text-[#282828]' : 'text-[#929292]'}`}>{part.name}</p>
-          <p className="font-mono text-[11px] text-[#929292]">{part.partNumber}</p>
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
@@ -66,17 +66,19 @@ function PartRow({ part, onSaved }: { part: ManagedPart; onSaved: (changes: Part
               min="0"
               step="0.01"
               value={price}
+              placeholder="On request"
               onChange={(e) => setPrice(e.target.value)}
               aria-label={`Price of ${part.name}`}
-              className={`${fieldClass} w-24`}
+              className={`${fieldClass} w-28`}
             />
           </label>
           <select
             value={availability}
-            onChange={(e) => setAvailability(e.target.value as Availability)}
+            onChange={(e) => setAvailability(e.target.value as Availability | '')}
             aria-label={`Availability of ${part.name}`}
             className={fieldClass}
           >
+            <option value="">Stock not shown</option>
             <option value="in-stock">In stock</option>
             <option value="low-stock">Low stock</option>
             <option value="on-order">On order</option>
@@ -98,8 +100,8 @@ function PartRow({ part, onSaved }: { part: ManagedPart; onSaved: (changes: Part
           {dirty && (
             <button
               onClick={() => save({
-                price: Number(price),
-                availability,
+                price: parsedPrice,
+                availability: parsedAvailability,
                 leadTimeDays: availability === 'on-order' ? parsedLeadTime : part.leadTimeDays,
               })}
               disabled={busy}
@@ -163,7 +165,7 @@ export default function PartsTab({ machineTypes }: { machineTypes: MachineTypeOp
   const visibleModules = modules
     ?.map((mod) => ({
       ...mod,
-      parts: mod.parts.filter((part) => !q || [part.name, part.partNumber, mod.name].some((f) => f.toLowerCase().includes(q))),
+      parts: mod.parts.filter((part) => !q || [part.name, mod.name].some((f) => f.toLowerCase().includes(q))),
     }))
     .filter((mod) => mod.parts.length > 0);
 
@@ -172,7 +174,7 @@ export default function PartsTab({ machineTypes }: { machineTypes: MachineTypeOp
       <div className="p-5 border-b border-[#dadada]/50 space-y-3">
         <div>
           <h2 className="font-bold text-[#282828]">Parts, Prices &amp; Stock</h2>
-          <p className="text-sm text-[#929292] mt-0.5">Changes apply to the machine&apos;s parts page immediately. Hidden parts can&apos;t be ordered, and existing orders keep their original prices.</p>
+          <p className="text-sm text-[#929292] mt-0.5">Changes apply to the machine&apos;s parts page immediately. A blank price shows customers &quot;Price on request&quot;. Hidden parts can&apos;t be ordered, and existing orders keep their original prices.</p>
         </div>
         <div className="flex items-center gap-3 flex-wrap">
           <select
