@@ -45,6 +45,15 @@ describe('machine catalogue', () => {
     expect(genius?.modules.map((mod) => mod.id)).toContain('genius-2-60-hopper');
   });
 
+  it.each([
+    ['ghz-b4', 'Rubber feet', { x: 37, y: 71 }],
+    ['ghz-b4', 'Drive', { x: 51, y: 62 }],
+    ['ghz-3-6', 'Vibrating conveyor', { x: 18, y: 22 }],
+  ])('%s places %s on the component rather than where the site does', (id, name, position) => {
+    const machine = machines.find((m) => m.id === id);
+    expect(machine?.modules.find((mod) => mod.name === name)?.position).toEqual(position);
+  });
+
   it('keeps ids unique, since the database and existing orders refer to them', () => {
     const partIds = machines.flatMap((m) => m.modules.flatMap((mod) => mod.parts.map((part) => part.id)));
     expect(new Set(partIds).size).toBe(partIds.length);
