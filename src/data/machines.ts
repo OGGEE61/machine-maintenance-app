@@ -1,6 +1,10 @@
 import type { GrossMachine, Machine } from '@/types';
 import { grossCatalogue } from './gross-catalogue.ts';
 
+function modulesWithMoved(id: string, moved: Record<string, { x: number; y: number }>) {
+  return grossCatalogue.find((m) => m.id === id)?.modules.map((mod) => ({ ...mod, ...moved[mod.name] }));
+}
+
 // Corrections to what the website currently publishes. Remove an entry once GROSS fixes its page.
 const CORRECTIONS: Record<string, Partial<GrossMachine>> = {
   // The English page's summary says 80 mm; its specifications and introduction say 50 mm
@@ -15,6 +19,10 @@ const CORRECTIONS: Record<string, Partial<GrossMachine>> = {
     howItWorks: 'The material is fed in via a large hopper and moved by an agitator to the briquette press’s conveyor screw. The screw transports a set quantity into the pre-compactor. A hydraulic feed gate then pushes the material into the press clamp, where it is compressed under high pressure into a solid briquette. With each pressing cycle, the finished briquette is pushed a little further out of the machine.',
     modules: grossCatalogue.find((m) => m.id === 'genius-2-50')?.modules,
   },
+  // The page puts Rubber feet in empty space and Drive on the foot, instead of on the V-belt drive
+  'ghz-b4': { modules: modulesWithMoved('ghz-b4', { 'Rubber feet': { x: 37, y: 71 }, Drive: { x: 51, y: 62 } }) },
+  // The page puts this just past the faded end of the conveyor, on empty background
+  'ghz-3-6': { modules: modulesWithMoved('ghz-3-6', { 'Vibrating conveyor': { x: 18, y: 22 } }) },
 };
 
 function seriesOf(id: string): string {
