@@ -8,6 +8,7 @@ const preload = path.resolve('e2e/harness/preload.mjs');
 const testEnv = {
   POSTGRES_URL: 'postgresql://test:test@e2e.invalid/test',
   ADMIN_PIN: 'e2e-pin',
+  SITE_PASSWORD: 'e2e-site',
   NEXT_PUBLIC_APP_URL: `http://localhost:${PORT}`,
   RESEND_API_KEY: 'test-key',
   ORDER_FROM_EMAIL: 'orders@gross.example',
@@ -26,6 +27,7 @@ export default defineConfig({
     baseURL: `http://localhost:${PORT}`,
     ...devices['Desktop Chrome'],
     viewport: { width: 1360, height: 900 },
+    httpCredentials: { username: 'e2e', password: 'e2e-site', send: 'always' },
   },
   webServer: [
     {

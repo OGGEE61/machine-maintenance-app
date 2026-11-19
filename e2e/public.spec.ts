@@ -1,5 +1,16 @@
 import { expect, test } from '@playwright/test';
 
+// Plain fetch: Playwright's own request contexts add the configured site password.
+test('asks for the site password before showing anything', async ({ baseURL }) => {
+  for (const headers of [{}, { authorization: `Basic ${btoa('x:nope')}` }] as Record<string, string>[]) {
+    for (const path of ['/', '/scan', '/admin/login', '/api/parts']) {
+      const res = await fetch(`${baseURL}${path}`, { headers });
+      expect(res.status).toBe(401);
+      expect(res.headers.get('www-authenticate')).toContain('Basic');
+    }
+  }
+});
+
 test('sends security headers and hides the framework', async ({ request }) => {
   const headers = (await request.get('/')).headers();
   expect(headers['x-frame-options']).toBe('DENY');
