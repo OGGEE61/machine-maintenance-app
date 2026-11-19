@@ -1,14 +1,41 @@
 import { expect, test } from '@playwright/test';
 
 // Plain fetch: Playwright's own request contexts add the configured site password.
+// Each test uses its own addresses, since 4 wrong passwords lock an address out.
+const basic = (password: string) => `Basic ${btoa(`anyone:${password}`)}`;
+const visit = (baseURL: string | undefined, path: string, from: string, password?: string) =>
+  fetch(`${baseURL}${path}`, { headers: { 'x-forwarded-for': from, ...(password ? { authorization: basic(password) } : {}) } });
+
 test('asks for the site password before showing anything', async ({ baseURL }) => {
-  for (const headers of [{}, { authorization: `Basic ${btoa('x:nope')}` }] as Record<string, string>[]) {
-    for (const path of ['/', '/scan', '/admin/login', '/api/parts']) {
-      const res = await fetch(`${baseURL}${path}`, { headers });
-      expect(res.status).toBe(401);
-      expect(res.headers.get('www-authenticate')).toContain('Basic');
-    }
+  for (const path of ['/', '/scan', '/admin/login', '/api/parts']) {
+    const res = await visit(baseURL, path, '2001:db8:a::1');
+    expect(res.status).toBe(401);
+    expect(res.headers.get('www-authenticate')).toContain('Basic');
   }
+  const wrong = await visit(baseURL, '/', '2001:db8:a::1', 'nope');
+  expect(wrong.status).toBe(401);
+  expect((await visit(baseURL, '/', '2001:db8:a::1', 'e2e-site')).status).toBe(200);
+});
+
+test('locks a network out for a day after 4 wrong passwords, even with the right one', async ({ baseURL }) => {
+  const from = '2001:db8:b::1';
+  // 3 wrong passwords do not lock, and the right one then clears the count
+  for (let i = 0; i < 3; i++) expect((await visit(baseURL, '/', from, 'nope')).status).toBe(401);
+  expect((await visit(baseURL, '/', from, 'e2e-site')).status).toBe(200);
+
+  for (let i = 0; i < 3; i++) expect((await visit(baseURL, '/', from, 'nope')).status).toBe(401);
+  const fourth = await visit(baseURL, '/', from, 'nope');
+  expect(fourth.status).toBe(429);
+  expect(Number(fourth.headers.get('retry-after'))).toBeGreaterThan(23 * 3600);
+  expect(await fourth.text()).toContain('Try again after');
+
+  // The right password and other addresses in the same /64 stay blocked
+  expect((await visit(baseURL, '/', from, 'e2e-site')).status).toBe(429);
+  expect((await visit(baseURL, '/scan', '2001:db8:b:0:ffff::9', 'e2e-site')).status).toBe(429);
+
+  // Other networks are not affected
+  expect((await visit(baseURL, '/', '2001:db8:c::1', 'e2e-site')).status).toBe(200);
+  expect((await visit(baseURL, '/', '198.51.100.7', 'e2e-site')).status).toBe(200);
 });
 
 test('sends security headers and hides the framework', async ({ request }) => {
